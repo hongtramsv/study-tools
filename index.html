@@ -61,7 +61,6 @@
         min-height: 560px;
       }
 
-      /* Home: topic grid */
       .topics {
         display: grid;
         grid-template-columns: 1fr;
@@ -99,7 +98,6 @@
         color: #315e7a;
       }
 
-      /* Quiz screen */
       .quiz-header {
         display: flex;
         justify-content: space-between;
@@ -123,6 +121,17 @@
         align-items: center;
         justify-content: center;
         font-size: 88px;
+      }
+
+      .sound-icon {
+        font-size: 48px;
+        cursor: pointer;
+        margin: 20px auto;
+        display: inline-block;
+        transition: transform 0.2s;
+      }
+      .sound-icon:hover {
+        transform: scale(1.1);
       }
 
       .options {
@@ -176,7 +185,6 @@
         color: #1f5c84;
       }
 
-      /* Result */
       .result {
         padding: 26px;
         border-radius: 14px;
@@ -192,7 +200,6 @@
         font-size: 18px;
       }
 
-      /* Buttons */
       .btn {
         display: inline-flex;
         align-items: center;
@@ -222,7 +229,6 @@
         color: #6b8aa0;
       }
 
-      /* small helpers */
       .hidden {
         display: none;
       }
@@ -231,7 +237,6 @@
         font-size: 14px;
       }
 
-      /* responsive small */
       @media (max-width: 420px) {
         .app {
           margin: 6px;
@@ -247,12 +252,8 @@
       </header>
 
       <main>
-        <!-- HOME -->
         <section id="home" class="screen">
-          <div class="topics">
-            <!-- topics injected by JS -->
-          </div>
-
+          <div class="topics"></div>
           <div class="home-footer">
             <div class="muted">
               Progress: <span id="progress-text">0/0 units</span>
@@ -264,7 +265,6 @@
           </div>
         </section>
 
-        <!-- QUIZ -->
         <section id="quiz" class="screen hidden">
           <div class="quiz-header">
             <div id="unit-title" style="font-weight: 700; color: #184f70">
@@ -276,11 +276,10 @@
           </div>
 
           <div class="question-card">
-            <h2 id="question-text">What color is this?</h2>
+            <h2 id="question-text">Question prompt</h2>
             <div class="image-area" id="question-image">🍎</div>
-
+            <div id="sound-icon" class="sound-icon hidden">🔊</div>
             <div class="options" id="options"></div>
-
             <div class="quiz-controls">
               <div>
                 <button id="play-audio" class="btn">🔊 Play again</button>
@@ -288,33 +287,28 @@
               <div class="muted">Time: <span id="timer">--</span>s</div>
             </div>
           </div>
-
           <div style="margin-top: 12px; display: flex; gap: 10px">
             <button class="btn" id="skip-btn">⏭ Skip</button>
             <button class="btn primary" id="next-btn">Next</button>
           </div>
         </section>
 
-        <!-- RESULT -->
         <section id="result" class="screen hidden">
           <div class="result">
             <h2>Great job!</h2>
             <div class="star">⭐️</div>
             <p id="score-text">You got 0/10 stars</p>
             <p id="rank-text">Rank: -</p>
-
             <button class="btn block" id="try-again">↺ Try again</button>
             <button class="btn block" id="next-unit">▶ Next Unit</button>
             <button class="btn block" id="back-home">🏠 Back to Home</button>
           </div>
         </section>
       </main>
-
       <footer>Demo wireframe — interactive prototype</footer>
     </div>
 
     <script>
-      // --- Sample data set ---
       const topics = [
         {
           id: "colors",
@@ -329,134 +323,45 @@
               answer: "red",
             },
             {
-              type: "image-choice",
-              prompt: "What color is this?",
-              image: "🍌",
-              options: ["red", "green", "yellow", "purple"],
-              answer: "yellow",
-            },
-            {
-              type: "image-choice",
-              prompt: "What color is this?",
-              image: "🍏",
-              options: ["red", "green", "blue", "brown"],
-              answer: "green",
-            },
-            {
-              type: "image-choice",
-              prompt: "What color is this?",
-              image: "💙",
-              options: ["red", "blue", "green", "black"],
-              answer: "blue",
-            },
-            {
-              type: "image-choice",
-              prompt: "What color is this?",
-              image: "🌷",
-              options: ["pink", "yellow", "blue", "gray"],
-              answer: "pink",
-            },
-          ],
-        },
-        {
-          id: "fruits",
-          label: "Fruits",
-          icon: "🍎",
-          questions: [
-            {
-              type: "image-choice",
-              prompt: "What is this?",
-              image: "🍎",
+              type: "sound-choice",
+              prompt: "apple",
               options: ["apple", "banana", "orange", "grape"],
               answer: "apple",
-            },
-            {
-              type: "image-choice",
-              prompt: "What is this?",
-              image: "🍌",
-              options: ["apple", "banana", "pear", "grape"],
-              answer: "banana",
-            },
-          ],
-        },
-        {
-          id: "animals",
-          label: "Animals",
-          icon: "🐶",
-          questions: [
-            {
-              type: "image-choice",
-              prompt: "Which animal is this?",
-              image: "🐶",
-              options: ["cat", "dog", "cow", "sheep"],
-              answer: "dog",
-            },
-          ],
-        },
-        {
-          id: "family",
-          label: "Family",
-          icon: "🏠",
-          questions: [
-            {
-              type: "image-choice",
-              prompt: "Who is this?",
-              image: "👨‍👩‍👧",
-              options: ["mother", "father", "family", "sister"],
-              answer: "family",
-            },
-          ],
-        },
-        {
-          id: "clothes",
-          label: "Clothes",
-          icon: "👕",
-          questions: [
-            {
-              type: "image-choice",
-              prompt: "What is this?",
-              image: "👕",
-              options: ["shirt", "shoes", "hat", "dress"],
-              answer: "shirt",
             },
           ],
         },
       ];
 
-      // App state
-      let currentTopic = null;
-      let currentQuestions = [];
-      let qIndex = 0;
-      let score = 0;
-      let timerInterval = null;
-      let timeStart = null;
+      let currentTopic = null,
+        currentQuestions = [],
+        qIndex = 0,
+        score = 0,
+        timerInterval = null,
+        timeStart = null;
+      const topicsContainer = document.querySelector(".topics"),
+        progressText = document.getElementById("progress-text"),
+        homeScreen = document.getElementById("home"),
+        quizScreen = document.getElementById("quiz"),
+        resultScreen = document.getElementById("result"),
+        unitTitle = document.getElementById("unit-title"),
+        qIndexText = document.getElementById("q-index"),
+        qTotalText = document.getElementById("q-total"),
+        questionText = document.getElementById("question-text"),
+        questionImage = document.getElementById("question-image"),
+        soundIcon = document.getElementById("sound-icon"),
+        optionsEl = document.getElementById("options"),
+        timerText = document.getElementById("timer"),
+        playAudioBtn = document.getElementById("play-audio"),
+        nextBtn = document.getElementById("next-btn"),
+        skipBtn = document.getElementById("skip-btn"),
+        scoreText = document.getElementById("score-text"),
+        rankText = document.getElementById("rank-text");
 
-      // DOM refs
-      const topicsContainer = document.querySelector(".topics");
-      const progressText = document.getElementById("progress-text");
-      const homeScreen = document.getElementById("home");
-      const quizScreen = document.getElementById("quiz");
-      const resultScreen = document.getElementById("result");
-      const unitTitle = document.getElementById("unit-title");
-      const qIndexText = document.getElementById("q-index");
-      const qTotalText = document.getElementById("q-total");
-      const questionText = document.getElementById("question-text");
-      const questionImage = document.getElementById("question-image");
-      const optionsEl = document.getElementById("options");
-      const timerText = document.getElementById("timer");
-      const playAudioBtn = document.getElementById("play-audio");
-      const nextBtn = document.getElementById("next-btn");
-      const skipBtn = document.getElementById("skip-btn");
-      const scoreText = document.getElementById("score-text");
-      const rankText = document.getElementById("rank-text");
-
-      // initialize
       function init() {
         renderTopics();
         updateProgress();
         attachHandlers();
       }
-
       function renderTopics() {
         topicsContainer.innerHTML = "";
         topics.forEach((t) => {
@@ -467,18 +372,12 @@
           topicsContainer.appendChild(el);
         });
       }
-
       function updateProgress() {
-        const done = 0; // sample static, could store in localStorage
-        progressText.textContent = `${done}/${topics.length} units`;
+        progressText.textContent = `0/${topics.length} units`;
       }
-
       function startTopic(topic) {
         currentTopic = topic;
-        currentQuestions = shuffle(Array.from(topic.questions)).slice(
-          0,
-          Math.min(10, topic.questions.length)
-        );
+        currentQuestions = [...topic.questions];
         qIndex = 0;
         score = 0;
         showScreen("quiz");
@@ -486,12 +385,6 @@
         qTotalText.textContent = currentQuestions.length;
         renderQuestion();
       }
-
-      function renderQuestion() {
-        clearTimer();
-        n;
-      }
-
       function showScreen(name) {
         homeScreen.classList.add("hidden");
         quizScreen.classList.add("hidden");
@@ -500,24 +393,34 @@
         if (name === "quiz") quizScreen.classList.remove("hidden");
         if (name === "result") resultScreen.classList.remove("hidden");
       }
-
       function renderQuestion() {
         const q = currentQuestions[qIndex];
         qIndexText.textContent = qIndex + 1;
-        questionText.textContent = q.prompt;
-        questionImage.textContent = q.image || "";
+        questionText.classList.remove("hidden");
+        questionImage.classList.add("hidden");
+        soundIcon.classList.add("hidden");
+        if (q.type === "image-choice") {
+          questionText.textContent = q.prompt;
+          questionImage.textContent = q.image || "";
+          questionImage.classList.remove("hidden");
+        }
+        if (q.type === "sound-choice") {
+          questionText.classList.add("hidden");
+          soundIcon.classList.remove("hidden");
+          soundIcon.onclick = () => {
+            playSoundPrompt(q.prompt);
+          };
+        }
         optionsEl.innerHTML = "";
         q.options.forEach((opt) => {
           const b = document.createElement("div");
           b.className = "option";
-          b.tabIndex = 0;
           b.textContent = opt;
           b.addEventListener("click", () => selectOption(b, opt, q));
           optionsEl.appendChild(b);
         });
         startTimer();
       }
-
       function selectOption(el, opt, q) {
         disableOptions();
         clearTimer();
@@ -527,7 +430,6 @@
           score++;
         } else {
           el.classList.add("wrong");
-          // show correct
           const correctEl = Array.from(optionsEl.children).find(
             (c) => c.textContent === q.answer
           );
@@ -535,31 +437,26 @@
           playFeedback(false);
         }
       }
-
       function disableOptions() {
         Array.from(optionsEl.children).forEach(
           (c) => (c.style.pointerEvents = "none")
         );
       }
-
       function enableOptions() {
         Array.from(optionsEl.children).forEach((c) => {
           c.style.pointerEvents = "auto";
           c.classList.remove("correct", "wrong");
         });
       }
-
       function nextQuestion() {
         if (qIndex < currentQuestions.length - 1) {
           qIndex++;
           enableOptions();
           renderQuestion();
         } else {
-          // show result
           showResult();
         }
       }
-
       function showResult() {
         showScreen("result");
         scoreText.textContent = `You got ${score}/${currentQuestions.length} stars`;
@@ -569,7 +466,6 @@
         else if (pct > 0.5) rank = "Silver";
         rankText.textContent = `Rank: ${rank}`;
       }
-
       function attachHandlers() {
         playAudioBtn.addEventListener("click", () => {
           playQuestionAudio();
@@ -578,17 +474,14 @@
           nextQuestion();
         });
         skipBtn.addEventListener("click", () => {
-          // skip counts as wrong
           clearTimer();
           disableOptions();
-          // reveal correct
           const q = currentQuestions[qIndex];
           const correctEl = Array.from(optionsEl.children).find(
             (c) => c.textContent === q.answer
           );
           if (correctEl) correctEl.classList.add("correct");
         });
-
         document.getElementById("back-home").addEventListener("click", () => {
           showScreen("home");
         });
@@ -596,25 +489,17 @@
           startTopic(currentTopic);
         });
         document.getElementById("next-unit").addEventListener("click", () => {
-          // pick next topic (simple rotation)
           const idx = topics.findIndex((t) => t.id === currentTopic.id);
           const next = topics[(idx + 1) % topics.length];
           startTopic(next);
         });
         document
           .getElementById("settings-btn")
-          .addEventListener("click", () =>
-            alert(
-              "Settings demo: adjust volume or language (not implemented in prototype)."
-            )
-          );
+          .addEventListener("click", () => alert("Settings demo"));
         document
           .getElementById("profile-btn")
-          .addEventListener("click", () =>
-            alert("Ranking/Profile demo (not implemented).")
-          );
+          .addEventListener("click", () => alert("Ranking demo"));
       }
-
       function startTimer() {
         timeStart = Date.now();
         timerText.textContent = "0";
@@ -623,7 +508,6 @@
           const s = Math.floor((Date.now() - timeStart) / 1000);
           timerText.textContent = s;
           if (s >= 18) {
-            // auto end question
             clearTimer();
             disableOptions();
             const q = currentQuestions[qIndex];
@@ -640,41 +524,27 @@
           timerInterval = null;
         }
       }
-
       function playQuestionAudio() {
-        // simple TTS for demo: speak prompt + answer choices
         if (!currentQuestions.length) return;
         const q = currentQuestions[qIndex];
-        const utter = new SpeechSynthesisUtterance();
-        utter.text = q.prompt + ". Options: " + q.options.join(", ");
+        const utter = new SpeechSynthesisUtterance(
+          q.prompt + ". Options: " + q.options.join(", ")
+        );
         utter.lang = "en-US";
         speechSynthesis.cancel();
         speechSynthesis.speak(utter);
       }
-
+      function playSoundPrompt(text) {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = "en-US";
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utter);
+      }
       function playFeedback(ok) {
-        try {
-          if (ok) {
-            const u = new SpeechSynthesisUtterance("Correct");
-            u.lang = "en-US";
-            speechSynthesis.speak(u);
-          } else {
-            const u = new SpeechSynthesisUtterance("Try again");
-            u.lang = "en-US";
-            speechSynthesis.speak(u);
-          }
-        } catch (e) {}
+        const u = new SpeechSynthesisUtterance(ok ? "Correct" : "Try again");
+        u.lang = "en-US";
+        speechSynthesis.speak(u);
       }
-
-      function shuffle(a) {
-        for (let i = a.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
-      }
-
-      // initialize app
       init();
     </script>
   </body>

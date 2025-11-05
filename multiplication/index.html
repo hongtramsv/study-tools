@@ -251,27 +251,32 @@
       }
 
       .game-card {
-        background: #fff7db;
-        border: 2px solid #f0c66d;
-        border-radius: 12px;
-        font-size: 26px;
-        padding: 20px;
+        background: #fffce6;
+        border: 2px solid #ffd777;
+        border-radius: 14px;
+        padding: 14px 8px; /* giảm chiều cao */
+        font-size: 24px;
         text-align: center;
         cursor: pointer;
-        transition: 0.3s;
+        transition: 0.25s;
         user-select: none;
-      }
 
-      .game-card.matched {
-        background: #baffc4;
-        border-color: #57b86a;
-        cursor: default;
-        transform: scale(1.05);
+        /* Thay đổi hình dạng từ dọc → ngang */
+        height: 70px;           
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       .game-card:hover:not(.matched) {
-        background: #ffe9a7;
-        transform: scale(1.08);
+        background: #ffefb7;
+        transform: scale(1.06);
+      }
+
+      .game-card.matched {
+        background: #bbffcd;
+        border-color: #39b55a;
+        transform: scale(1.1);
       }
 
       #newGameBtn {
@@ -353,35 +358,6 @@
   gap: 12px;
   margin-top: 20px;
 }
-.game-card {
-  background: #fffce6;
-  border: 2px solid #ffd777;
-  border-radius: 14px;
-  padding: 14px 8px; /* giảm chiều cao */
-  font-size: 24px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.25s;
-  user-select: none;
-
-  /* Thay đổi hình dạng từ dọc → ngang */
-  height: 70px;           
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.game-card:hover:not(.matched) {
-  background: #ffefb7;
-  transform: scale(1.06);
-}
-
-.game-card.matched {
-  background: #bbffcd;
-  border-color: #39b55a;
-  transform: scale(1.1);
-}
 
     </style>
   </head>
@@ -433,7 +409,7 @@
           <div class="canvas card" id="canvas" style="flex:1;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <div style="font-weight:800; font-size:24px">Nhóm và vật</div>
+                <div style="font-weight:800; font-size:22px">Nhóm và vật</div>
               </div>
               <div style="font-size:12px; color:#888">Chạm vào đồ để đếm</div>
             </div>
@@ -467,10 +443,10 @@
 
           <aside class="right">
             <div class="card">
-              <div style="font-weight:800">Bài tập nhỏ</div>
+              <div style="font-weight:800; font-size: 22px;"">Bài tập nhỏ</div>
               <div class="quiz" id="quizArea">
                 <div style="margin-top:8px">Số đề: <span id="quizStep">1</span>/5</div>
-                <div id="quizQuestion" style="margin-top:10px; font-size:24px; font-weight:700">Mấy nhóm? Mấy vật mỗi nhóm?</div>
+                <div id="quizQuestion" style="margin-top:10px; font-size:22px; font-weight:700">Mấy nhóm? Mấy vật mỗi nhóm?</div>
                 <button class="btn" id="speakQuizBtn">🔊</button>
 
                 <div style="margin-top:10px; display:flex; gap:8px;">
@@ -491,7 +467,7 @@
         <div class="visual">
                     <div style="flex:1;">
                     <div class="card" style="margin-top:12px;"">
-                <div style="font-weight:800; margin-bottom:6px">📚 Chọn bảng nhân</div>
+                <div style="font-size:22px;font-weight:800; margin-bottom:6px">📚 Chọn bảng nhân</div>
 
                 <div id="multiplicationButtons" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;"></div>
 
@@ -501,13 +477,13 @@
                     </div>
                     </div>
             <aside class="right" style="flex-shrink:0;">
-                <h2 style="margin-top: 16px;">🎮 Trò chơi: Lật thẻ tìm cặp đúng</h2>
+                <h2 style="margin-top: 16px; font-size: 22px;">🎮 Trò chơi: Lật thẻ tìm cặp đúng</h2>
                 <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
                     <div id="timerDisplay" style="font-size:22px; font-weight:700; color:#ff5e5e;">⏱️ 30s</div>
                     <div id="stickerDisplay" style="font-size:26px;">🎁 Sticker: <span id="stickerCount">0</span> ⭐</div>
                 </div>
                 <div id="gameArea"></div>
-                <button id="newGameBtn" class="btn secondary" style="margin-top:12px;">Chơi Ván Mới</button>
+                <button id="newGameBtn" class="btn secondary" style="margin-top:12px;">Chơi ván mới</button>
 
                 
             </aside>
@@ -786,7 +762,7 @@
 
       readTableBtn.addEventListener("click", () => {
         let text = "";
-        for (let i = 1; i <= 9; i++) text += `${currentTable} nhân ${i} bằng ${currentTable * i}. `;
+        for (let i = 1; i <= 10; i++) text += `${currentTable} nhân ${i} bằng ${currentTable * i}. `;
         speak(text);
       });
 

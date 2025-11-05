@@ -1,9 +1,3 @@
-<!--
-Single-file HTML: "Vui học phép nhân" — Phiên bản nâng cấp
-Mục tiêu: Theo đúng gợi ý — giao diện dễ thương, chữ to, âm thanh hoạt động (Web Speech API), hình minh họa phù hợp với ví dụ, tên app "Vui học phép nhân", bảng cửu chương dễ thương và phần luyện tập. 
-Hướng dẫn: Lưu file dưới tên vui-hoc-phep-nhan.html và mở bằng trình duyệt hiện đại (Chrome/Edge/Safari). Nếu nút nghe chưa nói, nhấn 1 lần vào trang để cho phép âm thanh (một số trình duyệt yêu cầu tương tác người dùng).
--->
-
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -12,622 +6,611 @@ Hướng dẫn: Lưu file dưới tên vui-hoc-phep-nhan.html và mở bằng tr
     <title>Vui học phép nhân</title>
     <style>
       :root {
-        --bg1: linear-gradient(180deg, #fffaf0, #fff7fb);
-        --card: #ffffff;
-        --accent: #8ad7c9; /* mint */
-        --accent2: #ffd6a5; /* peach */
-        --cute: #ffd1e0;
-        --text: #2b2b2b;
-        --muted: #6b6b6b;
-        --round: 18px;
-        font-family: "Nunito", "Segoe UI", Roboto, "Noto Sans", Arial,
-          sans-serif;
-      }
-      * {
-        box-sizing: border-box;
+        --bg: #fff9f2;
+        --card: #fff;
+        --accent: #ff8c94;
+        --accent2: #ffd166;
+        --text: #3b3b3b;
+        --shadow: 0 8px 20px rgba(38, 38, 38, 0.08);
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
       }
       html,
       body {
         height: 100%;
-      }
-      body {
         margin: 0;
-        padding: 22px;
-        background: var(--bg1);
+        background: linear-gradient(180deg, var(--bg), #fff5f0);
         color: var(--text);
       }
-
       .app {
-        max-width: 1100px;
-        margin: 0 auto;
+        max-width: 980px;
+        margin: 20px auto;
+        padding: 20px;
       }
       header {
         display: flex;
-        gap: 16px;
         align-items: center;
+        gap: 16px;
       }
       .logo {
-        width: 96px;
-        height: 96px;
+        width: 84px;
+        height: 84px;
         border-radius: 18px;
         background: linear-gradient(135deg, var(--accent), var(--accent2));
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 42px;
-        box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+        box-shadow: var(--shadow);
+      }
+      .logo svg {
+        width: 60px;
+        height: 60px;
       }
       h1 {
-        font-size: 30px;
+        font-size: 28px;
         margin: 0;
       }
       p.lead {
-        margin: 6px 0 20px;
-        color: var(--muted);
-        font-size: 15px;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: 360px 1fr;
-        gap: 18px;
-        margin-top: 12px;
-      }
-
-      .panel {
-        background: var(--card);
-        border-radius: var(--round);
-        padding: 16px;
-        box-shadow: 0 8px 30px rgba(17, 24, 39, 0.06);
-      }
-      .nav {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .nav button {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px;
-        border-radius: 12px;
-        border: none;
-        background: transparent;
-        font-size: 16px;
-        cursor: pointer;
-      }
-      .nav button.active {
-        background: linear-gradient(90deg, var(--accent), #c7f0e4);
-        font-weight: 800;
-      }
-
-      .small-muted {
-        font-size: 13px;
-        color: var(--muted);
-      }
-      select {
-        padding: 8px;
-        border-radius: 10px;
-        border: 1px solid #eee;
-      }
-
-      main .stage {
-        background: var(--card);
-        border-radius: var(--round);
-        padding: 18px;
-        min-height: 520px;
-      }
-
-      .concept {
-        display: flex;
-        gap: 20px;
-        align-items: flex-start;
-      }
-      .visual {
-        width: 280px;
-        border-radius: 14px;
-        background: linear-gradient(180deg, #fff, #fff8ec);
-        padding: 14px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
-        justify-content: center;
-      }
-      .visual .group {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .visual .group .card {
-        background: linear-gradient(180deg, #fff, #fffbe6);
-        padding: 8px;
-        border-radius: 12px;
-        min-width: 46px;
-        text-align: center;
-        font-size: 28px;
-      }
-
-      .big {
-        font-size: 36px;
-        font-weight: 900;
-      }
-      .explain {
-        font-size: 18px;
-        margin-top: 10px;
-        color: var(--muted);
+        margin: 4px 0 16px;
+        color: #5b5b5b;
       }
 
       .controls {
         display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+      }
+      .card {
+        background: var(--card);
+        border-radius: 14px;
+        padding: 12px;
+        box-shadow: var(--shadow);
+      }
+
+      .control-item {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      label {
+        font-weight: 600;
+      }
+      input[type="range"] {
+        width: 220px;
+      }
+      .big {
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .visual {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .canvas {
+        flex: 1;
+        background: linear-gradient(180deg, #fff, #fffcf9);
+        border-radius: 12px;
+        padding: 14px;
+        min-height: 220px;
+      }
+
+      .groups {
+        display: flex;
         gap: 10px;
+        flex-wrap: wrap;
+      }
+      .group {
+        background: #fff5f6;
+        border-radius: 10px;
+        padding: 8px;
+        min-width: 78px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
+      }
+      .items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+      }
+      .item {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: linear-gradient(180deg, #fff, #ffecec);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+
+      .right {
+        width: 320px;
+      }
+      .equation {
+        font-size: 22px;
+        font-weight: 800;
+        margin: 8px 0;
+      }
+      .result {
+        font-size: 34px;
+        color: var(--accent);
+        font-weight: 900;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: var(--accent);
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+      }
+      .btn.secondary {
+        background: #ffd166;
+        color: #4b3621;
+      }
+      .quiz {
         margin-top: 14px;
       }
-      .btn {
-        padding: 12px 14px;
-        border-radius: 12px;
-        border: none;
-        cursor: pointer;
-        font-weight: 800;
-      }
-      .btn-voice {
-        background: var(--accent);
-        color: #fff;
-      }
-      .btn-next {
-        background: var(--accent2);
-      }
 
-      /* cute animal avatar */
-      .mascot {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .mascot img {
-        width: 56px;
-        height: 56px;
-      }
-
-      /* table */
-      .mul-grid {
+      .table {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 10px;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
         margin-top: 12px;
       }
-      .mul-card {
-        background: linear-gradient(180deg, #fff, #fffbf7);
-        padding: 12px;
-        border-radius: 12px;
-        text-align: center;
-        font-weight: 800;
-      }
-      .mul-card .small {
-        font-size: 13px;
-        color: var(--muted);
-      }
-      .mul-card .bigval {
-        font-size: 20px;
-        margin-top: 6px;
-      }
-
-      /* practice */
-      .question {
-        font-size: 26px;
-        font-weight: 900;
-        margin-bottom: 12px;
-      }
-      .choices {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-      }
-      .choice {
-        padding: 14px;
-        border-radius: 12px;
+      .table .cell {
         background: #fff;
-        font-size: 20px;
-        cursor: pointer;
-        border: 3px solid transparent;
-      }
-      .choice:hover {
-        transform: translateY(-3px);
-      }
-      .choice.correct {
-        border-color: #63c77a;
-      }
-      .choice.wrong {
-        border-color: #ff7b7b;
-      }
-
-      .scorebar {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-top: 12px;
+        border-radius: 8px;
+        padding: 8px;
+        text-align: center;
       }
 
       footer {
         margin-top: 18px;
         font-size: 13px;
-        color: var(--muted);
+        color: #666;
       }
 
-      @media (max-width: 960px) {
-        .grid {
-          grid-template-columns: 1fr;
-        }
+      /* mobile tweaks */
+      @media (max-width: 900px) {
         .visual {
-          width: 220px;
+          flex-direction: column;
         }
-        .mul-grid {
-          grid-template-columns: repeat(2, 1fr);
+        .right {
+          width: 100%;
         }
       }
     </style>
   </head>
   <body>
-    <div class="app" role="application">
+    <div class="app">
       <header>
-        <div class="logo" aria-hidden>🧸</div>
+        <div class="logo" aria-hidden>
+          <!-- cute cat SVG -->
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd">
+              <circle cx="32" cy="32" r="30" fill="#FFF" opacity="0.18" />
+              <path
+                d="M18 28c0-6 6-12 14-12s14 6 14 12v8c0 6-6 12-14 12S18 42 18 36v-8z"
+                fill="#FFF"
+              />
+              <path
+                d="M20 26c1-4 6-8 12-8s11 4 12 8"
+                stroke="#4b3621"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <circle cx="24" cy="30" r="2.6" fill="#4b3621" />
+              <circle cx="40" cy="30" r="2.6" fill="#4b3621" />
+              <path
+                d="M28 36c1.5 2 6 2 7.5 0"
+                stroke="#4b3621"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+          </svg>
+        </div>
         <div>
           <h1>Vui học phép nhân</h1>
           <p class="lead">
-            Học bằng hình ảnh, âm thanh và trò chơi — Dành cho học sinh lớp 1
+            Cho bé thấy phép nhân như <strong>các nhóm đồ giống nhau</strong> —
+            chạm, đếm, nghe và làm bài tập nhỏ.
           </p>
         </div>
       </header>
 
-      <div class="grid">
-        <aside class="panel" aria-label="Thanh điều hướng">
-          <div class="nav">
-            <button class="active" data-panel="concept">
-              1. Làm quen với nhân
+      <section class="controls" aria-label="Điều khiển">
+        <div class="card control-item">
+          <label for="groupsCount"
+            >Số nhóm (những ô): <span id="gVal" class="big">3</span></label
+          >
+          <input id="groupsCount" type="range" min="1" max="8" value="3" />
+        </div>
+
+        <div class="card control-item">
+          <label for="itemsPerGroup"
+            >Số vật trong mỗi nhóm: <span id="iVal" class="big">4</span></label
+          >
+          <input id="itemsPerGroup" type="range" min="1" max="8" value="4" />
+        </div>
+
+        <div
+          class="card control-item"
+          style="padding: 10px 12px; justify-content: center"
+        >
+          <label style="opacity: 0.8">Sự vật:</label>
+          <div style="display: flex; gap: 8px; align-items: center">
+            <button class="btn secondary" id="prevIcon" aria-label="trước">
+              ◀
             </button>
-            <button data-panel="table">2. Bảng cửu chương</button>
-            <button data-panel="practice">3. Luyện tập</button>
+            <div
+              id="iconPreview"
+              style="
+                width: 58px;
+                height: 58px;
+                border-radius: 10px;
+                background: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+              "
+            >
+              🍎
+            </div>
+            <button class="btn secondary" id="nextIcon" aria-label="sau">
+              ▶
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="card control-item"
+          style="padding: 10px; align-items: flex-end"
+        >
+          <button class="btn" id="speakBtn">🔊 đọc phép nhân</button>
+        </div>
+      </section>
+
+      <div class="visual">
+        <div class="canvas card" id="canvas">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <div>
+              <div style="font-size: 16px; color: #666">Minh hoạ</div>
+              <div style="font-weight: 800; font-size: 18px">Nhóm và vật</div>
+            </div>
+            <div style="font-size: 12px; color: #888">Chạm vào đồ để đếm</div>
           </div>
 
-          <div style="margin-top: 12px" class="small-muted">Chọn bảng:</div>
-          <div style="margin-top: 6px">
-            <select id="select-times" aria-label="Chọn nhân">
-              <option value="2">Nhân 2</option>
-              <option value="3">Nhân 3</option>
-              <option value="4">Nhân 4</option>
-              <option value="5">Nhân 5</option>
-              <option value="6">Nhân 6</option>
-              <option value="7">Nhân 7</option>
-              <option value="8">Nhân 8</option>
-              <option value="9">Nhân 9</option>
-            </select>
+          <div class="groups" id="groupsArea" style="margin-top: 12px"></div>
+
+          <div
+            style="
+              margin-top: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div>
+              <div class="equation" id="equation">3 × 4</div>
+              <div>
+                Đọc:
+                <span id="spoken" style="font-weight: 700">Ba nhân bốn</span>
+              </div>
+            </div>
+            <div style="text-align: right">
+              <div style="font-size: 13px; color: #666">Tổng số</div>
+              <div class="result" id="totalCount">12</div>
+            </div>
           </div>
 
-          <div style="margin-top: 12px" class="small-muted">Tổng điểm:</div>
-          <div style="font-size: 20px; font-weight: 800; margin-top: 6px">
-            <span id="score">0</span> ⭐
+          <hr
+            style="margin: 12px 0; border: none; border-top: 1px dashed #eee"
+          />
+          <div
+            style="
+              display: flex;
+              gap: 8px;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div style="display: flex; gap: 8px">
+              <button class="btn secondary" id="resetBtn">Đặt lại</button>
+              <button class="btn" id="shuffleBtn">Thực hành nhanh</button>
+            </div>
+            <div style="font-size: 13px; color: #666">
+              Kết quả hiện tại cho bé nhìn, nghe và đếm.
+            </div>
+          </div>
+        </div>
+
+        <aside class="right">
+          <div class="card">
+            <div style="font-weight: 800">Bài tập nhỏ</div>
+            <div class="quiz" id="quizArea">
+              <div style="margin-top: 8px">
+                Số đề: <span id="quizStep">1</span>/5
+              </div>
+              <div
+                id="quizQuestion"
+                style="margin-top: 10px; font-size: 18px; font-weight: 700"
+              >
+                Mấy nhóm? Mấy vật mỗi nhóm?
+              </div>
+              <div style="margin-top: 10px; display: flex; gap: 8px">
+                <button class="btn" id="answerA">A</button>
+                <button class="btn secondary" id="answerB">B</button>
+              </div>
+              <div
+                id="quizFeedback"
+                style="margin-top: 8px; height: 22px"
+              ></div>
+            </div>
           </div>
 
-          <div style="margin-top: 18px; font-size: 13px; color: var(--muted)">
-            Lưu ý: Nhấn vào nút phát âm thanh (🔊). Nếu chưa nghe, tương tác với
-            trang (click) để cho phép âm thanh trên một số trình duyệt.
+          <div class="card" style="margin-top: 12px">
+            <div style="font-weight: 800">Bảng nhân nhỏ</div>
+            <div class="table" id="tableArea"></div>
+            <div style="margin-top: 8px; font-size: 12px; color: #666">
+              Chạm vào 1 ô để nghe.
+            </div>
           </div>
         </aside>
-
-        <main>
-          <section class="stage" id="stage" aria-live="polite">
-            <!-- JS sẽ render nội dung ở đây -->
-          </section>
-        </main>
       </div>
 
       <footer>
-        Thiết kế: chữ lớn, màu pastel, nhân vật dễ thương. Giọng đọc dùng Web
-        Speech API (tiếng Việt nếu có).
+        Gợi ý: bắt đầu bằng đồ thật (kẹo, bút). Sau bé hiểu, dùng ứng dụng này
+        để luyện nhận biết nhanh.
       </footer>
     </div>
 
     <script>
-      // --- TTS helper (Web Speech API) ---
+      // App logic
+      const icons = ["🍎", "🍪", "🐶", "🐱", "🍓", "🍌", "🌟", "🍩"];
+      let iconIndex = 0;
+      const groupsCountEl = document.getElementById("groupsCount");
+      const itemsPerGroupEl = document.getElementById("itemsPerGroup");
+      const groupsArea = document.getElementById("groupsArea");
+      const gVal = document.getElementById("gVal");
+      const iVal = document.getElementById("iVal");
+      const equation = document.getElementById("equation");
+      const totalCount = document.getElementById("totalCount");
+      const spoken = document.getElementById("spoken");
+      const iconPreview = document.getElementById("iconPreview");
+      const prevIcon = document.getElementById("prevIcon");
+      const nextIcon = document.getElementById("nextIcon");
+      const speakBtn = document.getElementById("speakBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const shuffleBtn = document.getElementById("shuffleBtn");
+
+      const quizArea = document.getElementById("quizArea");
+      const quizStep = document.getElementById("quizStep");
+      const quizQuestion = document.getElementById("quizQuestion");
+      const answerA = document.getElementById("answerA");
+      const answerB = document.getElementById("answerB");
+      const quizFeedback = document.getElementById("quizFeedback");
+
+      const tableArea = document.getElementById("tableArea");
+
+      function updatePreview() {
+        iconPreview.textContent = icons[iconIndex];
+      }
       function speak(text) {
         if (!("speechSynthesis" in window)) return;
-        const u = new SpeechSynthesisUtterance(text);
-        // try to pick a Vietnamese voice if available
-        const voices = speechSynthesis.getVoices();
-        if (voices && voices.length) {
-          const vi = voices.find((v) =>
-            /vi|vietnam|vietnamese/i.test(v.lang || v.name)
-          );
-          if (vi) u.voice = vi;
-        }
-        u.rate = 0.95;
-        u.pitch = 1.05;
-        u.volume = 1;
-        speechSynthesis.cancel();
-        speechSynthesis.speak(u);
+        const ut = new SpeechSynthesisUtterance(text);
+        ut.lang = "vi-VN";
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(ut);
       }
 
-      // --- state ---
-      const state = { panel: "concept", times: 2, score: 0, current: null };
-
-      // --- renderers ---
-      function renderConcept() {
-        return `
-        <div class="concept">
-          <div class="visual" id="visual">
-            <div style="font-size:14px;color:var(--muted)">Ví dụ trực quan</div>
-            <div class="group" id="group-area" aria-hidden style="margin-top:6px"></div>
-            <div class="explain" id="example-text"></div>
-            <div class="controls">
-              <button class="btn btn-voice" id="play-example">🔊 Nghe ví dụ</button>
-              <button class="btn btn-next" id="next-example">🔁 Ví dụ khác</button>
-            </div>
-          </div>
-
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <div style="font-size:20px;font-weight:800">Minigame: Kéo-thả hoàn thành phép nhân</div>
-                <div class="small-muted">Kéo số vào ô để trả lời</div>
-              </div>
-              <div class="mascot"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 100 100'><g><circle cx='50' cy='50' r='46' fill='%23ffdede'/><circle cx='35' cy='38' r='8' fill='%23fff'/><circle cx='65' cy='38' r='8' fill='%23fff'/><circle cx='35' cy='38' r='4' fill='%23000'/><circle cx='65' cy='38' r='4' fill='%23000'/><path d='M30 62 q20 18 40 0' stroke='%23000' stroke-width='4' fill='none' stroke-linecap='round'/></g></svg>" alt="Gấu dễ thương"></div>
-            </div>
-
-            <div style="margin-top:14px;background:linear-gradient(180deg,#fff,#f8fff8);padding:12px;border-radius:12px">
-              <div id="drop-area" style="min-height:56px;padding:12px;border-radius:10px;border:2px dashed #f0f0f0;display:flex;align-items:center;justify-content:center">Kéo số vào đây</div>
-              <div style="margin-top:12px">Số để kéo:</div>
-              <div id="drags" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
-            </div>
-
-            <div style="margin-top:12px;color:var(--muted);font-size:14px">Mẹo: chọn bảng nhân ở bên trái trước khi luyện ví dụ.</div>
-          </div>
-        </div>
-      `;
-      }
-
-      function renderTable() {
-        // build small cards for 1..10
-        let cards = "";
-        for (let i = 1; i <= 10; i++) {
-          cards += `<div class="mul-card" role="listitem"><div class="small">${
-            state.times
-          } × ${i}</div><div class="bigval">${state.times * i}</div></div>`;
-        }
-        return `
-        <div>
-          <div style="display:flex;align-items:center;justify-content:space-between"><h2 style="margin:0">Bảng cửu chương: Nhân ${state.times}</h2><div><button class="btn btn-voice" id="play-table">🔊 Nghe toàn bộ</button></div></div>
-          <p class="small-muted" style="margin-top:6px">Mỗi ô có giá trị lớn, chữ to để bé dễ đọc.</p>
-          <div class="mul-grid" style="margin-top:12px">${cards}</div>
-        </div>
-      `;
-      }
-
-      function renderPractice() {
-        return `
-        <div>
-          <h2 style="margin:0 0 8px 0">Luyện tập: Nhân ${state.times}</h2>
-          <div class="question" id="question-text">--</div>
-          <div class="choices" id="choices"></div>
-          <div class="scorebar"><div>Điểm: <strong id="local-score">0</strong></div><div style="margin-left:auto"> <button class="btn btn-voice" id="read-q">🔊 Đọc câu</button> <button class="btn btn-next" id="new-q">Câu khác</button></div></div>
-        </div>
-      `;
-      }
-
-      // --- main render ---
       function render() {
-        const stage = document.getElementById("stage");
-        if (!stage) return;
-        if (state.panel === "concept") stage.innerHTML = renderConcept();
-        if (state.panel === "table") stage.innerHTML = renderTable();
-        if (state.panel === "practice") stage.innerHTML = renderPractice();
+        const g = Number(groupsCountEl.value);
+        const i = Number(itemsPerGroupEl.value);
+        gVal.textContent = g;
+        iVal.textContent = i;
+        equation.textContent = `${g} × ${i}`;
+        spoken.textContent = toVietnamese(g) + " nhân " + toVietnamese(i);
+        totalCount.textContent = g * i;
 
-        document
-          .querySelectorAll(".nav button")
-          .forEach((b) =>
-            b.classList.toggle("active", b.dataset.panel === state.panel)
-          );
-
-        // setup after render
-        if (state.panel === "concept") setupConcept();
-        if (state.panel === "table") setupTable();
-        if (state.panel === "practice") setupPractice();
-      }
-
-      // --- concept setup ---
-      function setupConcept() {
-        const group = document.getElementById("group-area");
-        const exampleText = document.getElementById("example-text");
-        const drags = document.getElementById("drags");
-        const drop = document.getElementById("drop-area");
-        const play = document.getElementById("play-example");
-        const next = document.getElementById("next-example");
-
-        function makeExample() {
-          const a = Math.floor(Math.random() * 3) + 1; // 1..3 groups
-          const b = Math.floor(Math.random() * 3) + 1; // 1..3 per group
-          const emojiSet = ["🍎", "🐻", "🐶", "🐱", "🦊", "🍌", "🍓"];
-          const emoji = emojiSet[Math.floor(Math.random() * emojiSet.length)];
-          group.innerHTML = "";
-          for (let i = 0; i < a; i++) {
-            const card = document.createElement("div");
-            card.className = "card";
-            for (let j = 0; j < b; j++) card.innerHTML += emoji;
-            card.style.fontSize = "28px";
-            card.style.padding = "8px";
-            card.style.display = "inline-block";
-            card.style.margin = "6px";
-            card.style.borderRadius = "10px";
-            group.appendChild(card);
-          }
-          exampleText.textContent = `${a} nhóm, mỗi nhóm ${b} cái → ${a} × ${b} = ${
-            a * b
-          }`;
-
-          // draggables (1..12)
-          drags.innerHTML = "";
-          for (let n = 1; n <= 12; n++) {
-            const d = document.createElement("div");
-            d.textContent = n;
-            d.draggable = true;
-            d.className = "drag-item";
-            d.style.padding = "8px 10px";
-            d.style.background = "#fff";
-            d.style.borderRadius = "10px";
-            d.style.cursor = "grab";
-            d.style.fontWeight = "700";
-            d.style.border = "1px solid #f0f0f0";
-            drags.appendChild(d);
-            d.addEventListener("dragstart", (e) =>
-              e.dataTransfer.setData("text/plain", n)
-            );
-          }
-
-          drop.innerHTML = `<div style="min-height:42px;display:flex;align-items:center;justify-content:center">Kéo số tương ứng (${
-            a * b
-          }) vào đây</div>`;
-          drop.ondragover = (e) => e.preventDefault();
-          drop.ondrop = (e) => {
-            e.preventDefault();
-            const val = +e.dataTransfer.getData("text/plain");
-            if (val === a * b) {
-              drop.innerHTML =
-                '<div style="padding:8px;background:#eaffef;border-radius:8px">Chính xác! ' +
-                val +
-                " 🎉</div>";
-              speak("Chính xác! " + a + " nhân " + b + " bằng " + a * b);
-              state.score += 1;
-              updateScore();
-            } else {
-              drop.innerHTML =
-                '<div style="padding:8px;background:#ffecec;border-radius:8px">Chưa đúng, thử lại nhé</div>';
-              speak("Chưa đúng, thử lại nhé");
-            }
-          };
-
-          state.current = { type: "example", a, b };
-        }
-
-        makeExample();
-        play.onclick = () => {
-          if (state.current)
-            speak(
-              `${state.current.a} nhóm, mỗi nhóm ${state.current.b} cái. ${
-                state.current.a
-              } nhân ${state.current.b} bằng ${
-                state.current.a * state.current.b
-              }`
-            );
-        };
-        next.onclick = () => makeExample();
-      }
-
-      // --- table setup ---
-      function setupTable() {
-        document.getElementById("play-table").onclick = () => {
-          let text = `Bảng nhân ${state.times}: `;
-          for (let i = 1; i <= 10; i++) {
-            text += `${state.times} nhân ${i} bằng ${state.times * i}. `;
-          }
-          speak(text);
-        };
-      }
-
-      // --- practice setup ---
-      function setupPractice() {
-        const qText = document.getElementById("question-text");
-        const choicesWrap = document.getElementById("choices");
-        const localScoreEl = document.getElementById("local-score");
-
-        function newQ() {
-          const a = state.times;
-          const b = Math.floor(Math.random() * 9) + 1; // 1..9
-          const correct = a * b;
-          state.current = { type: "practice", a, b, correct };
-          qText.textContent = `${a} × ${b} = ?`;
-
-          const opts = new Set([correct]);
-          while (opts.size < 4) {
-            let cand = correct + (Math.floor(Math.random() * 11) - 5);
-            if (cand < 1) cand = Math.abs(cand) + 1;
-            opts.add(cand);
-          }
-          const arr = Array.from(opts).sort(() => Math.random() - 0.5);
-          choicesWrap.innerHTML = "";
-          arr.forEach((val) => {
-            const d = document.createElement("div");
-            d.className = "choice";
-            d.textContent = val;
-            d.tabIndex = 0;
-            d.addEventListener("click", () => select(d, val));
-            d.addEventListener("keydown", (e) => {
-              if (e.key === "Enter") select(d, val);
+        // render groups
+        groupsArea.innerHTML = "";
+        for (let x = 0; x < g; x++) {
+          const gEl = document.createElement("div");
+          gEl.className = "group";
+          const title = document.createElement("div");
+          title.style.fontWeight = "700";
+          title.textContent = `Nhóm ${x + 1}`;
+          const itemsWrap = document.createElement("div");
+          itemsWrap.className = "items";
+          for (let y = 0; y < i; y++) {
+            const it = document.createElement("div");
+            it.className = "item";
+            it.textContent = icons[iconIndex];
+            it.setAttribute("role", "button");
+            it.tabIndex = 0;
+            it.addEventListener("click", () => {
+              animateCount(it);
             });
-            choicesWrap.appendChild(d);
-          });
-          localScoreEl.textContent = 0;
-        }
-
-        function select(el, val) {
-          const correct = state.current.correct;
-          if (+val === correct) {
-            el.classList.add("correct");
-            speak("Chính xác!");
-            state.score += 1;
-            updateScore();
-            const cur = +localScoreEl.textContent;
-            localScoreEl.textContent = cur + 1;
-          } else {
-            el.classList.add("wrong");
-            speak("Chưa đúng. Cố gắng nhé");
+            itemsWrap.appendChild(it);
           }
-          // disable
-          document
-            .querySelectorAll(".choice")
-            .forEach((c) => (c.onclick = null));
+          gEl.appendChild(title);
+          gEl.appendChild(itemsWrap);
+          groupsArea.appendChild(gEl);
         }
-
-        document.getElementById("new-q").onclick = () => newQ();
-        document.getElementById("read-q").onclick = () => {
-          const q = state.current;
-          if (q) speak(`${q.a} nhân ${q.b} bằng bao nhiêu?`);
-        };
-        newQ();
       }
 
-      // update score display
-      function updateScore() {
-        document.getElementById("score").textContent = state.score;
+      function animateCount(el) {
+        el.animate(
+          [
+            { transform: "scale(1)" },
+            { transform: "scale(1.15)" },
+            { transform: "scale(1)" },
+          ],
+          { duration: 280 }
+        );
+        // speak the item and update total
+        speak("1");
       }
 
-      // nav handlers
-      document.querySelectorAll(".nav button").forEach((b) =>
-        b.addEventListener("click", () => {
-          state.panel = b.dataset.panel;
-          render();
+      function toVietnamese(n) {
+        const map = [
+          "không",
+          "một",
+          "hai",
+          "ba",
+          "bốn",
+          "năm",
+          "sáu",
+          "bảy",
+          "tám",
+          "chín",
+        ];
+        if (n < 10) return map[n] || n;
+        return String(n);
+      }
+
+      groupsCountEl.addEventListener("input", render);
+      itemsPerGroupEl.addEventListener("input", render);
+
+      prevIcon.addEventListener("click", () => {
+        iconIndex = (iconIndex - 1 + icons.length) % icons.length;
+        updatePreview();
+        render();
+      });
+      nextIcon.addEventListener("click", () => {
+        iconIndex = (iconIndex + 1) % icons.length;
+        updatePreview();
+        render();
+      });
+
+      speakBtn.addEventListener("click", () => {
+        const text = equation.textContent + ", bằng " + totalCount.textContent;
+        speak(text);
+      });
+
+      resetBtn.addEventListener("click", () => {
+        groupsCountEl.value = 3;
+        itemsPerGroupEl.value = 4;
+        iconIndex = 0;
+        updatePreview();
+        render();
+      });
+      shuffleBtn.addEventListener("click", () => {
+        groupsCountEl.value = Math.floor(Math.random() * 7) + 1;
+        itemsPerGroupEl.value = Math.floor(Math.random() * 7) + 1;
+        iconIndex = Math.floor(Math.random() * icons.length);
+        updatePreview();
+        render();
+      });
+
+      // quiz logic
+      let quizQ = [];
+      function makeQuiz() {
+        quizQ = [];
+        for (let i = 0; i < 5; i++) {
+          const g = Math.floor(Math.random() * 6) + 1;
+          const it = Math.floor(Math.random() * 6) + 1;
+          quizQ.push({ g, it });
+        }
+        current = 0;
+        showQuiz();
+      }
+      let current = 0;
+      function showQuiz() {
+        const q = quizQ[current];
+        quizStep.textContent = current + 1;
+        quizQuestion.textContent = `Có ${q.g} nhóm, mỗi nhóm ${q.it} đồ. Hỏi tổng bao nhiêu?`;
+        // two options
+        const correct = q.g * q.it;
+        const wrong =
+          correct +
+          (Math.random() < 0.5
+            ? -(Math.floor(Math.random() * 3) + 1)
+            : Math.floor(Math.random() * 3) + 1);
+        if (Math.random() < 0.5) {
+          answerA.textContent = correct;
+          answerB.textContent = wrong;
+          answerA.dataset.correct = "1";
+          answerB.dataset.correct = "";
+        } else {
+          answerB.textContent = correct;
+          answerA.textContent = wrong;
+          answerB.dataset.correct = "1";
+          answerA.dataset.correct = "";
+        }
+        quizFeedback.textContent = "";
+      }
+
+      [answerA, answerB].forEach((btn) =>
+        btn.addEventListener("click", () => {
+          if (btn.dataset.correct) {
+            quizFeedback.textContent = "Chính xác! 🎉";
+            quizFeedback.style.color = "green";
+          } else {
+            quizFeedback.textContent = "Chưa đúng, thử lần sau nhé 😊";
+            quizFeedback.style.color = "#cc4b4b";
+          }
+          setTimeout(() => {
+            current++;
+            if (current < quizQ.length) showQuiz();
+            else {
+              quizFeedback.textContent =
+                'Bạn đã hoàn thành! Chạm "Thực hành nhanh" để chơi lại.';
+            }
+          }, 900);
         })
       );
-      document
-        .getElementById("select-times")
-        .addEventListener("change", (e) => {
-          state.times = +e.target.value;
-          render();
-        });
 
-      // initial render
+      // table
+      function renderTable() {
+        tableArea.innerHTML = "";
+        for (let a = 1; a <= 6; a++) {
+          for (let b = 1; b <= 6; b++) {
+            const c = document.createElement("div");
+            c.className = "cell";
+            c.textContent = `${a}×${b} = ${a * b}`;
+            c.tabIndex = 0;
+            c.addEventListener("click", () => {
+              speak(`${a} nhân ${b} bằng ${a * b}`);
+            });
+            tableArea.appendChild(c);
+          }
+        }
+      }
+
+      // init
+      updatePreview();
       render();
+      makeQuiz();
+      renderTable();
 
-      // ensure voices loaded for some browsers
-      if (speechSynthesis && speechSynthesis.onvoiceschanged !== undefined)
-        speechSynthesis.onvoiceschanged = () => {};
-
-      // small accessibility: allow first user click to enable audio on some mobile browsers
-      document.body.addEventListener(
-        "click",
-        () => {
-          if (speechSynthesis) speechSynthesis.getVoices();
-        },
-        { once: true }
-      );
+      // accessibility: keyboard support for items
+      document.addEventListener("keydown", (e) => {
+        if (e.key === " ") {
+          e.preventDefault();
+          speakBtn.click();
+        }
+      });
     </script>
   </body>
 </html>

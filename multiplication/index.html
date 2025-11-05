@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Vui học phép nhân</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
       :root {
         --bg: #fff9f2;
@@ -12,7 +14,8 @@
         --accent2: #ffd166;
         --text: #3b3b3b;
         --shadow: 0 8px 20px rgba(38, 38, 38, 0.08);
-        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        font-family: "Baloo 2", sans-serif;
+
       }
       html,
       body {
@@ -40,10 +43,6 @@
         align-items: center;
         justify-content: center;
         box-shadow: var(--shadow);
-      }
-      .logo svg {
-        width: 60px;
-        height: 60px;
       }
       h1 {
         font-size: 28px;
@@ -133,12 +132,12 @@
         width: 320px;
       }
       .equation {
-        font-size: 34px;
+        font-size: 40px;
         font-weight: 800;
         margin: 8px 0;
       }
       .result {
-        font-size: 34px;
+        font-size: 40px;
         color: var(--accent);
         font-weight: 900;
       }
@@ -161,19 +160,6 @@
         margin-top: 14px;
       }
 
-      .table {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 8px;
-        margin-top: 12px;
-      }
-      .table .cell {
-        background: #fff;
-        border-radius: 8px;
-        padding: 8px;
-        text-align: center;
-      }
-
       footer {
         margin-top: 18px;
         font-size: 13px;
@@ -189,166 +175,344 @@
           width: 100%;
         }
       }
+
+      /* --- Multiplication Table Cute Style --- */
+      #multiplicationButtons button {
+        background: #ffd8e4;
+        border: none;
+        padding: 10px 14px;
+        margin: 5px;
+        font-size: 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.25s;
+      }
+
+      #multiplicationButtons button.active {
+        background: #ff5fa2;
+        color: white;
+        transform: scale(1.15);
+      }
+
+      #multiplicationButtons button:hover {
+        background: #ff9bc4;
+      }
+
+      #multiplicationDisplay {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      /* Mỗi dòng bảng nhân */
+     #multiplicationDisplay div {
+        font-size: 24px;   /* nhỏ lại vừa đủ cho bé nhìn */
+        font-weight: 600;
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.7);
+        transition: transform .2s, background .2s;
+        }
+
+    #multiplicationDisplay div:hover {
+        transform: scale(1.05);
+        background: rgba(255,255,255,0.95);
+        }
+
+
+      #multiplicationDisplay div:active {
+        transform: scale(1.12);
+      }
+
+      /* Nút đọc bảng */
+      #readTableBtn {
+        margin-top: 15px;
+        background: #ff5fa2;
+        color: white;
+        font-size: 20px;
+        padding: 12px 18px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        transition: 0.25s;
+      }
+
+      #readTableBtn:hover {
+        background: #ff3f87;
+      }
+
+      /* Game Cards */
+      #gameArea {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .game-card {
+        background: #fff7db;
+        border: 2px solid #f0c66d;
+        border-radius: 12px;
+        font-size: 26px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.3s;
+        user-select: none;
+      }
+
+      .game-card.matched {
+        background: #baffc4;
+        border-color: #57b86a;
+        cursor: default;
+        transform: scale(1.05);
+      }
+
+      .game-card:hover:not(.matched) {
+        background: #ffe9a7;
+        transform: scale(1.08);
+      }
+
+      #newGameBtn {
+        margin-top: 15px;
+        background: #ffb100;
+        color: #fff;
+        font-size: 20px;
+        padding: 10px 18px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+      }
+
+      #newGameBtn:hover {
+        background: #ff9a00;
+      }
+
+      #timerDisplay.blink {
+        animation: blink 0.6s infinite;
+      }
+
+      @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: .3; }
+        100% { opacity: 1; }
+      }
+
+      .sticker-earned {
+        font-size: 60px;
+        animation: pop 0.7s ease-out;
+      }
+
+      @keyframes pop {
+        0% { transform: scale(0.3); opacity: 0; }
+        70% { transform: scale(1.4); opacity: 1; }
+        100% { transform: scale(1); }
+      }
+
+      #tablesSection {
+        display: none;
+      }
+
+      /* small helper for fade */
+      .fade {
+        transition: opacity 220ms ease, transform 220ms ease;
+      }
+
+      body, button, input {
+        font-size: 18px;
+    }
+
+    /* --- Bảng cửu chương dạng thẻ đẹp --- */
+#multiplicationDisplay {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+#multiplicationDisplay div {
+  background: #fff7fb;
+  border: 2px solid #ffbad8;
+  border-radius: 14px;
+  padding: 14px 8px;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  transition: transform .2s, background .2s;
+}
+
+#multiplicationDisplay div:hover {
+  transform: scale(1.08);
+  background: #ffe6f1;
+}
+
+/* --- Game vùng 4 cột đều & đẹp --- */
+#gameArea {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.game-card {
+  background: #fffce6;
+  border: 2px solid #ffd777;
+  border-radius: 14px;
+  padding: 14px 8px; /* giảm chiều cao */
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.25s;
+  user-select: none;
+
+  /* Thay đổi hình dạng từ dọc → ngang */
+  height: 70px;           
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.game-card:hover:not(.matched) {
+  background: #ffefb7;
+  transform: scale(1.06);
+}
+
+.game-card.matched {
+  background: #bbffcd;
+  border-color: #39b55a;
+  transform: scale(1.1);
+}
+
     </style>
   </head>
+
   <body>
     <div class="app">
       <header>
         <div class="logo" aria-hidden>
-          <!-- cute cat SVG -->
           <span style="font-size: 60px">🦁</span>
         </div>
-        <div>
+        <div style="flex:1;">
           <h1>Vui học phép nhân</h1>
           <p class="lead">
             Phép nhân là một cách tính gọn khi chúng ta cộng nhiều lần một số
             giống nhau.
           </p>
+
+          <div style="margin-top:12px; display:flex; gap:12px;">
+            <button id="modeLearning" class="btn">Làm quen phép nhân</button>
+            <button id="modeTables" class="btn secondary">Học bảng cửu chương</button>
+          </div>
         </div>
       </header>
 
-      <section class="controls" aria-label="Điều khiển">
-        <div class="card control-item">
-          <label for="groupsCount"
-            >Số nhóm: <span id="gVal" class="big">3</span></label
-          >
-          <input id="groupsCount" type="range" min="1" max="8" value="3" />
-        </div>
-
-        <div class="card control-item">
-          <label for="itemsPerGroup"
-            >Số vật trong mỗi nhóm: <span id="iVal" class="big">4</span></label
-          >
-          <input id="itemsPerGroup" type="range" min="1" max="8" value="4" />
-        </div>
-
-        <div
-          class="card control-item"
-          style="padding: 10px 12px; justify-content: center"
-        >
-          <label style="opacity: 0.8">Sự vật:</label>
-          <div style="display: flex; gap: 8px; align-items: center">
-            <button class="btn secondary" id="prevIcon" aria-label="trước">
-              ◀
-            </button>
-            <div
-              id="iconPreview"
-              style="
-                width: 58px;
-                height: 58px;
-                border-radius: 10px;
-                background: #fff;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 28px;
-              "
-            >
-              🍎
-            </div>
-            <button class="btn secondary" id="nextIcon" aria-label="sau">
-              ▶
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <div class="visual">
-        <div class="canvas card" id="canvas">
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            "
-          >
-            <div>
-              <div style="font-size: 16px; color: #666">Ví dụ</div>
-              <div style="font-weight: 800; font-size: 24px">Nhóm và vật</div>
-            </div>
-            <div style="font-size: 12px; color: #888">Chạm vào đồ để đếm</div>
+      <!-- LEARN SECTION -->
+      <div id="learnSection" class="fade" style="margin-top:16px;">
+        <section class="controls" aria-label="Điều khiển">
+          <div class="card control-item">
+            <label for="groupsCount">Số nhóm: <span id="gVal" class="big">3</span></label>
+            <input id="groupsCount" type="range" min="1" max="8" value="3" />
           </div>
 
-          <div class="groups" id="groupsArea" style="margin-top: 12px"></div>
+          <div class="card control-item">
+            <label for="itemsPerGroup">Số vật trong mỗi nhóm: <span id="iVal" class="big">4</span></label>
+            <input id="itemsPerGroup" type="range" min="1" max="8" value="4" />
+          </div>
 
-          <div
-            style="
-              margin-top: 12px;
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-            "
-          >
-            <div>
-              <div style="display: flex; align-items: center; gap: 8px">
-                <div class="equation" id="equation">$1</div>
-                <button class="btn" id="speakBtn">🔊</button>
-              </div>
+          <div class="card control-item" style="padding: 10px 12px; justify-content: center">
+            <label style="opacity: 0.8">Sự vật:</label>
+            <div style="display: flex; gap: 8px; align-items: center">
+              <button class="btn secondary" id="prevIcon" aria-label="trước">◀</button>
+              <div id="iconPreview" style="width:58px;height:58px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;">🍎</div>
+              <button class="btn secondary" id="nextIcon" aria-label="sau">▶</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="visual" style="margin-top:12px;">
+          <div class="canvas card" id="canvas" style="flex:1;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
               <div>
-                Đọc:
-                <span id="spoken" style="font-weight: 700">Ba nhân bốn</span>
+                <div style="font-weight:800; font-size:24px">Nhóm và vật</div>
+              </div>
+              <div style="font-size:12px; color:#888">Chạm vào đồ để đếm</div>
+            </div>
+
+            <div class="groups" id="groupsArea" style="margin-top: 12px"></div>
+
+            <div style="margin-top:12px; display:flex; align-items:center; justify-content:space-between;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <div class="equation" id="equation">$1</div>
+                  <button class="btn" id="speakBtn">🔊</button>
+                </div>
+                <div>Đọc: <span id="spoken" style="font-weight:700">Ba nhân bốn</span></div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:13px; color:#666">Tổng số</div>
+                <div class="result" id="totalCount">12</div>
               </div>
             </div>
-            <div style="text-align: right">
-              <div style="font-size: 13px; color: #666">Tổng số</div>
-              <div class="result" id="totalCount">12</div>
+
+            <hr style="margin:12px 0; border:none; border-top:1px dashed #eee" />
+
+            <div style="display:flex; gap:8px; align-items:center; justify-content:space-between;">
+              <div style="display:flex; gap:8px;">
+                <button class="btn secondary" id="resetBtn">Đặt lại</button>
+                <button class="btn" id="shuffleBtn">Ví dụ khác</button>
+              </div>
+              <div style="font-size:13px; color:#666">Kết quả hiện tại cho bé nhìn, nghe và đếm.</div>
             </div>
           </div>
 
-          <hr
-            style="margin: 12px 0; border: none; border-top: 1px dashed #eee"
-          />
-          <div
-            style="
-              display: flex;
-              gap: 8px;
-              align-items: center;
-              justify-content: space-between;
-            "
-          >
-            <div style="display: flex; gap: 8px">
-              <button class="btn secondary" id="resetBtn">Đặt lại</button>
-              <button class="btn" id="shuffleBtn">Ví dụ khác</button>
+          <aside class="right">
+            <div class="card">
+              <div style="font-weight:800">Bài tập nhỏ</div>
+              <div class="quiz" id="quizArea">
+                <div style="margin-top:8px">Số đề: <span id="quizStep">1</span>/5</div>
+                <div id="quizQuestion" style="margin-top:10px; font-size:24px; font-weight:700">Mấy nhóm? Mấy vật mỗi nhóm?</div>
+                <button class="btn" id="speakQuizBtn">🔊</button>
+
+                <div style="margin-top:10px; display:flex; gap:8px;">
+                  <button class="btn" id="answerA">A</button>
+                  <button class="btn secondary" id="answerB">B</button>
+                </div>
+                <div id="quizFeedback" style="margin-top:8px; height:22px"></div>
+                <button class="btn secondary" id="retryQuizBtn" style="margin-top:10px; display:none;">🔄 Thực hành lại</button>
+              </div>
             </div>
-            <div style="font-size: 13px; color: #666">
-              Kết quả hiện tại cho bé nhìn, nghe và đếm.
-            </div>
-          </div>
+          </aside>
         </div>
-
-        <aside class="right">
-          <div class="card">
-            <div style="font-weight: 800">Bài tập nhỏ</div>
-            <div class="quiz" id="quizArea">
-              <div style="margin-top: 8px">
-                Số đề: <span id="quizStep">1</span>/5
-              </div>
-              <div
-                id="quizQuestion"
-                style="margin-top: 10px; font-size: 24px; font-weight: 700"
-              >
-                Mấy nhóm? Mấy vật mỗi nhóm?
-              </div>
-              <div style="margin-top: 10px; display: flex; gap: 8px">
-                <button class="btn" id="answerA">A</button>
-                <button class="btn secondary" id="answerB">B</button>
-              </div>
-              <div
-                id="quizFeedback"
-                style="margin-top: 8px; height: 22px"
-              ></div>
-            </div>
-          </div>
-
-          <div class="card" style="margin-top: 12px">
-            <div style="font-weight: 800">Bảng nhân nhỏ</div>
-            <div class="table" id="tableArea"></div>
-            <div style="margin-top: 8px; font-size: 12px; color: #666">
-              Chạm vào 1 ô để nghe.
-            </div>
-          </div>
-        </aside>
       </div>
+
+      <!-- TABLES & GAME SECTION -->
+     
+      <div id="tablesSection" class="fade" style="margin-top:16px;">
+        <div class="visual">
+                    <div style="flex:1;">
+                    <div class="card" style="margin-top:12px;"">
+                <div style="font-weight:800; margin-bottom:6px">📚 Chọn bảng nhân</div>
+
+                <div id="multiplicationButtons" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;"></div>
+
+                <div id="multiplicationDisplay" style="padding:10px; background:#fffdf7; border-radius:10px;"></div>
+
+                <button class="btn" id="readTableBtn" style="margin-top:12px; width:100%;">🔊 Đọc tất cả bảng</button>
+                    </div>
+                    </div>
+            <aside class="right" style="flex-shrink:0;">
+                <h2 style="margin-top: 16px;">🎮 Trò chơi: Lật thẻ tìm cặp đúng</h2>
+                <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
+                    <div id="timerDisplay" style="font-size:22px; font-weight:700; color:#ff5e5e;">⏱️ 30s</div>
+                    <div id="stickerDisplay" style="font-size:26px;">🎁 Sticker: <span id="stickerCount">0</span> ⭐</div>
+                </div>
+                <div id="gameArea"></div>
+                <button id="newGameBtn" class="btn secondary" style="margin-top:12px;">Chơi Ván Mới</button>
+
+                
+            </aside>
+        </div>
+    </div>
 
       <footer>
         Gợi ý: bắt đầu bằng đồ thật (kẹo, bút). Sau bé hiểu, dùng ứng dụng này
@@ -357,7 +521,9 @@
     </div>
 
     <script>
-      // App logic
+      // --------------------------
+      // DOM refs
+      // --------------------------
       const icons = ["🍎", "🍪", "🐶", "🐱", "🍓", "🍌", "🌟", "🍩"];
       let iconIndex = 0;
       const groupsCountEl = document.getElementById("groupsCount");
@@ -375,18 +541,22 @@
       const resetBtn = document.getElementById("resetBtn");
       const shuffleBtn = document.getElementById("shuffleBtn");
 
-      const quizArea = document.getElementById("quizArea");
       const quizStep = document.getElementById("quizStep");
       const quizQuestion = document.getElementById("quizQuestion");
       const answerA = document.getElementById("answerA");
       const answerB = document.getElementById("answerB");
       const quizFeedback = document.getElementById("quizFeedback");
+      const speakQuizBtn = document.getElementById("speakQuizBtn");
+      const retryQuizBtn = document.getElementById("retryQuizBtn");
 
-      const tableArea = document.getElementById("tableArea");
+      const learnSection = document.getElementById("learnSection");
+      const tablesSection = document.getElementById("tablesSection");
+      const modeLearning = document.getElementById("modeLearning");
+      const modeTables = document.getElementById("modeTables");
 
-      function updatePreview() {
-        iconPreview.textContent = icons[iconIndex];
-      }
+      // --------------------------
+      // small helpers
+      // --------------------------
       function speak(text) {
         if (!("speechSynthesis" in window)) return;
         const ut = new SpeechSynthesisUtterance(text);
@@ -395,7 +565,40 @@
         window.speechSynthesis.speak(ut);
       }
 
-      function render() {
+      // --------------------------
+      // Mode switching
+      // --------------------------
+      function showLearn() {
+        learnSection.style.display = "block";
+        tablesSection.style.display = "none";
+        modeLearning.classList.remove("secondary");
+        modeTables.classList.add("secondary");
+      }
+      function showTables() {
+        learnSection.style.display = "none";
+        tablesSection.style.display = "block";
+        modeTables.classList.remove("secondary");
+        modeLearning.classList.add("secondary");
+        // ensure table/game inits when showing tables
+        if (!multiplicationButtonsHasChildren()) initMultiplicationButtons();
+        updateTable(currentTable);
+        createGame();
+      }
+      modeLearning.addEventListener("click", showLearn);
+      modeTables.addEventListener("click", showTables);
+
+      // --------------------------
+      // Groups render (learn)
+      // --------------------------
+      function updatePreview() {
+        iconPreview.textContent = icons[iconIndex];
+      }
+      function toVietnamese(n) {
+        const map = ["không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"];
+        if (n < 10) return map[n] || n;
+        return String(n);
+      }
+      function renderGroups() {
         const g = Number(groupsCountEl.value);
         const i = Number(itemsPerGroupEl.value);
         gVal.textContent = g;
@@ -404,7 +607,6 @@
         spoken.textContent = toVietnamese(g) + " nhân " + toVietnamese(i);
         totalCount.textContent = g * i;
 
-        // render groups
         groupsArea.innerHTML = "";
         for (let x = 0; x < g; x++) {
           const gEl = document.createElement("div");
@@ -430,160 +632,309 @@
           groupsArea.appendChild(gEl);
         }
       }
-
       function animateCount(el) {
-        el.animate(
-          [
-            { transform: "scale(1)" },
-            { transform: "scale(1.15)" },
-            { transform: "scale(1)" },
-          ],
-          { duration: 280 }
-        );
-        // speak the item and update total
+        el.animate([{ transform: "scale(1)" }, { transform: "scale(1.15)" }, { transform: "scale(1)" }], { duration: 280 });
         speak("1");
       }
 
-      function toVietnamese(n) {
-        const map = [
-          "không",
-          "một",
-          "hai",
-          "ba",
-          "bốn",
-          "năm",
-          "sáu",
-          "bảy",
-          "tám",
-          "chín",
-        ];
-        if (n < 10) return map[n] || n;
-        return String(n);
-      }
+      groupsCountEl.addEventListener("input", renderGroups);
+      itemsPerGroupEl.addEventListener("input", renderGroups);
+      prevIcon.addEventListener("click", () => { iconIndex = (iconIndex - 1 + icons.length) % icons.length; updatePreview(); renderGroups(); });
+      nextIcon.addEventListener("click", () => { iconIndex = (iconIndex + 1) % icons.length; updatePreview(); renderGroups(); });
+      speakBtn.addEventListener("click", () => { const g = Number(groupsCountEl.value); const i = Number(itemsPerGroupEl.value); speak(toVietnamese(g) + " nhân " + toVietnamese(i)); });
+      resetBtn.addEventListener("click", () => { groupsCountEl.value = 3; itemsPerGroupEl.value = 4; iconIndex = 0; updatePreview(); renderGroups(); });
+      shuffleBtn.addEventListener("click", () => { groupsCountEl.value = Math.floor(Math.random() * 7) + 1; itemsPerGroupEl.value = Math.floor(Math.random() * 7) + 1; iconIndex = Math.floor(Math.random() * icons.length); updatePreview(); renderGroups(); });
 
-      groupsCountEl.addEventListener("input", render);
-      itemsPerGroupEl.addEventListener("input", render);
-
-      prevIcon.addEventListener("click", () => {
-        iconIndex = (iconIndex - 1 + icons.length) % icons.length;
-        updatePreview();
-        render();
-      });
-      nextIcon.addEventListener("click", () => {
-        iconIndex = (iconIndex + 1) % icons.length;
-        updatePreview();
-        render();
-      });
-
-      speakBtn.addEventListener("click", () => {
-        const g = Number(groupsCountEl.value);
-        const i = Number(itemsPerGroupEl.value);
-        speak(toVietnamese(g) + " nhân " + toVietnamese(i));
-      });
-
-      resetBtn.addEventListener("click", () => {
-        groupsCountEl.value = 3;
-        itemsPerGroupEl.value = 4;
-        iconIndex = 0;
-        updatePreview();
-        render();
-      });
-      shuffleBtn.addEventListener("click", () => {
-        groupsCountEl.value = Math.floor(Math.random() * 7) + 1;
-        itemsPerGroupEl.value = Math.floor(Math.random() * 7) + 1;
-        iconIndex = Math.floor(Math.random() * icons.length);
-        updatePreview();
-        render();
-      });
-
-      // quiz logic
+      // --------------------------
+      // Quiz (learn)
+      // --------------------------
+      const quizStories = [
+        { story: "Mai có 3 giỏ táo, mỗi giỏ đều có 4 quả. Cô ấy muốn đem tất cả táo đi chia cho bạn bè. Hỏi Mai có tất cả bao nhiêu quả táo?", g: 3, it: 4 },
+        { story: "Nam có 5 túi kẹo, mỗi túi chứa 2 chiếc. Cậu ấy muốn đếm xem mình có bao nhiêu chiếc kẹo.", g: 5, it: 2 },
+        { story: "Trong vườn, bà Lan trồng 4 hàng hoa, mỗi hàng có 3 cây 🌹. Hỏi tất cả có bao nhiêu cây hoa?", g: 4, it: 3 },
+        { story: "Cửa hàng có 6 hộp chuối, mỗi hộp 5 quả. Nhân viên cần đếm tổng số quả chuối trong cửa hàng.", g: 6, it: 5 },
+        { story: "Một chuồng có 3 con chó, mỗi con đang giữ 4 chiếc xương. Hỏi trong chuồng có tổng cộng bao nhiêu chiếc xương?", g: 3, it: 4 }
+      ];
       let quizQ = [];
+      let currentQuiz = 0;
+      let score = 0;
+
       function makeQuiz() {
         quizQ = [];
-        for (let i = 0; i < 5; i++) {
-          const g = Math.floor(Math.random() * 6) + 1;
-          const it = Math.floor(Math.random() * 6) + 1;
-          quizQ.push({ g, it });
+        score = 0;
+        const used = new Set();
+        while (quizQ.length < quizStories.length) {
+          const idx = Math.floor(Math.random() * quizStories.length);
+          if (!used.has(idx)) { used.add(idx); quizQ.push(quizStories[idx]); }
         }
-        current = 0;
+        currentQuiz = 0;
         showQuiz();
       }
-      let current = 0;
       function showQuiz() {
-        const q = quizQ[current];
-        quizStep.textContent = current + 1;
-        quizQuestion.textContent = `Có ${q.g} nhóm, mỗi nhóm ${q.it} đồ. Hỏi tổng bao nhiêu?`;
-        // two options
+        if (!quizQ.length) return;
+        const q = quizQ[currentQuiz];
+        quizStep.textContent = currentQuiz + 1;
+        quizQuestion.textContent = q.story;
         const correct = q.g * q.it;
-        const wrong =
-          correct +
-          (Math.random() < 0.5
-            ? -(Math.floor(Math.random() * 3) + 1)
-            : Math.floor(Math.random() * 3) + 1);
+        const wrong = correct + (Math.random() < 0.5 ? -(Math.floor(Math.random() * 3) + 1) : (Math.floor(Math.random() * 3) + 1));
         if (Math.random() < 0.5) {
-          answerA.textContent = correct;
-          answerB.textContent = wrong;
-          answerA.dataset.correct = "1";
-          answerB.dataset.correct = "";
+          answerA.textContent = correct; answerA.dataset.correct = "1";
+          answerB.textContent = wrong; answerB.dataset.correct = "";
         } else {
-          answerB.textContent = correct;
-          answerA.textContent = wrong;
-          answerB.dataset.correct = "1";
-          answerA.dataset.correct = "";
+          answerB.textContent = correct; answerB.dataset.correct = "1";
+          answerA.textContent = wrong; answerA.dataset.correct = "";
         }
         quizFeedback.textContent = "";
       }
-
-      [answerA, answerB].forEach((btn) =>
-        btn.addEventListener("click", () => {
-          if (btn.dataset.correct) {
-            quizFeedback.textContent = "Chính xác! 🎉";
-            quizFeedback.style.color = "green";
-          } else {
-            quizFeedback.textContent = "Chưa đúng, thử lần sau nhé 😊";
-            quizFeedback.style.color = "#cc4b4b";
+      [answerA, answerB].forEach((btn) => btn.addEventListener("click", () => {
+        if (btn.dataset.correct) { score++; quizFeedback.textContent = "Chính xác! 🎉"; quizFeedback.style.color = "green"; }
+        else { quizFeedback.textContent = "Chưa đúng, thử lần sau nhé 😊"; quizFeedback.style.color = "#cc4b4b"; }
+        setTimeout(() => {
+          currentQuiz++;
+          if (currentQuiz < quizQ.length) showQuiz();
+          else {
+            quizFeedback.style.color = "#ff6f00";
+            quizFeedback.textContent = `🎉 Bạn đã hoàn thành! Bạn trả lời đúng ${score}/${quizQ.length} câu.`;
+            retryQuizBtn.style.display = "inline-block";
           }
-          setTimeout(() => {
-            current++;
-            if (current < quizQ.length) showQuiz();
-            else {
-              quizFeedback.textContent =
-                'Bạn đã hoàn thành! Chạm "Ví dụ khác" để chơi lại.';
-            }
-          }, 900);
-        })
-      );
+        }, 900);
+      }));
+      retryQuizBtn.addEventListener("click", () => { makeQuiz(); quizFeedback.textContent = ""; retryQuizBtn.style.display = "none"; });
+      speakQuizBtn.addEventListener("click", () => { if (quizQ[currentQuiz]) speak(quizQ[currentQuiz].story); });
 
-      // table
-      function renderTable() {
-        tableArea.innerHTML = "";
-        for (let a = 1; a <= 6; a++) {
-          for (let b = 1; b <= 6; b++) {
-            const c = document.createElement("div");
-            c.className = "cell";
-            c.textContent = `${a}×${b} = ${a * b}`;
-            c.tabIndex = 0;
-            c.addEventListener("click", () => {
-              speak(`${a} nhân ${b} bằng ${a * b}`);
-            });
-            tableArea.appendChild(c);
-          }
+      // --------------------------
+      // Multiplication table (1..12) + theme
+      // --------------------------
+      const multiplicationButtons = document.getElementById("multiplicationButtons");
+      const multiplicationDisplay = document.getElementById("multiplicationDisplay");
+      const readTableBtn = document.getElementById("readTableBtn");
+      let currentTable = 1;
+      let multiplicationInited = false;
+
+      function multiplicationButtonsHasChildren(){ return multiplicationButtons && multiplicationButtons.children.length > 0; }
+
+      function initMultiplicationButtons() {
+        if (multiplicationInited) return;
+        multiplicationInited = true;
+        // create buttons 1..12
+        for (let n = 1; n <= 9; n++) {
+          const btn = document.createElement("button");
+          btn.textContent = n;
+          btn.addEventListener("click", () => {
+            currentTable = n;
+            updateTable(n);
+            highlightActive(btn);
+          });
+          multiplicationButtons.appendChild(btn);
         }
       }
 
-      // init
-      updatePreview();
-      render();
-      makeQuiz();
-      renderTable();
-
-      // accessibility: keyboard support for items
-      document.addEventListener("keydown", (e) => {
-        if (e.key === " ") {
-          e.preventDefault();
-          speakBtn.click();
+      /*function updateTable(n) {
+        if (n) currentTable = n;
+        multiplicationDisplay.innerHTML = "";
+        const maxRow = 12;
+        for (let i = 1; i <= maxRow; i++) {
+          const line = document.createElement("div");
+          line.textContent = `${currentTable} × ${i} = ${currentTable * i}`;
+          line.tabIndex = 0;
+          line.addEventListener("click", () => speak(`${currentTable} nhân ${i} bằng ${currentTable * i}`));
+          multiplicationDisplay.appendChild(line);
         }
+        updateTableTheme();
+      }*/
+
+      function updateTable() {
+        multiplicationDisplay.innerHTML = "";
+        for (let i = 1; i <= 10; i++) {
+            const line = document.createElement("div");
+            line.textContent = `${currentTable} × ${i} = ${currentTable * i}`;
+            line.addEventListener("click", () => {
+            speak(`${currentTable} nhân ${i} bằng ${currentTable * i}`);
+            });
+            multiplicationDisplay.appendChild(line);
+        }
+        updateTableTheme();
+        }
+
+      /*function updateTableTheme() {
+        const pastelColors = [
+          "#ffe6f2", "#fff0da", "#e7ffda", "#daf3ff",
+          "#f4daff", "#ffedd8", "#d8fff1", "#f9d8ff",
+          "#ffe4da", "#e8f7ff", "#fff0f0", "#f3ffe8"
+        ];
+        const display = multiplicationDisplay;
+        display.style.background = pastelColors[(currentTable - 1) % pastelColors.length];
+        display.style.padding = "16px";
+        display.style.borderRadius = "16px";
+      }*/
+      function updateTableTheme() {
+        const pastelColors = [
+            "#ffeff5", "#fff3d9", "#e7ffe5", "#dff5ff",
+            "#f4e4ff", "#ffe9d6", "#d6fffa", "#ffe3fb", "#ffe9e9"
+        ];
+        multiplicationDisplay.style.background = pastelColors[currentTable - 1];
+        multiplicationDisplay.style.border = "3px solid #ffc6db";
+        multiplicationDisplay.style.borderRadius = "18px";
+        multiplicationDisplay.style.padding = "18px";
+        multiplicationDisplay.style.transition = "0.3s";
+        }
+
+      function highlightActive(activeBtn) {
+        document.querySelectorAll("#multiplicationButtons button").forEach((b) => b.classList.remove("active"));
+        if (activeBtn) activeBtn.classList.add("active");
+      }
+
+      readTableBtn.addEventListener("click", () => {
+        let text = "";
+        for (let i = 1; i <= 9; i++) text += `${currentTable} nhân ${i} bằng ${currentTable * i}. `;
+        speak(text);
       });
+
+      // --------------------------
+      // Matching game (cards)
+      // --------------------------
+      const gameArea = document.getElementById("gameArea");
+      const newGameBtn = document.getElementById("newGameBtn");
+      let firstCard = null;
+      let lockBoard = false;
+
+      function createGame() {
+        gameArea.innerHTML = "";
+        const cards = [];
+        // create 6 pairs (we show 8 cards = 4 pairs earlier; now create 6 pairs for more variety)
+        const pairsCount = 6;
+        for (let i = 1; i <= pairsCount; i++) {
+          const result = currentTable * i;
+          cards.push({ text: `${currentTable} × ${i}`, value: result, type: "exp" });
+          cards.push({ text: String(result), value: result, type: "ans" });
+        }
+        // shuffle
+        cards.sort(() => Math.random() - 0.5);
+        // create elements
+        cards.forEach((c) => {
+          const cardEl = document.createElement("div");
+          cardEl.className = "game-card";
+          cardEl.textContent = c.text;
+          cardEl.dataset.value = c.value;
+          cardEl.dataset.type = c.type;
+          gameArea.appendChild(cardEl);
+        });
+        setupCardEvents();
+      }
+
+      function setupCardEvents() {
+        document.querySelectorAll(".game-card").forEach((card) => {
+          // remove previous handlers by cloning (safe)
+          const newCard = card.cloneNode(true);
+          card.parentNode.replaceChild(newCard, card);
+        });
+        document.querySelectorAll(".game-card").forEach((card) => {
+          card.addEventListener("click", () => {
+            if (lockBoard || card.classList.contains("matched")) return;
+            card.style.background = "#fff2c2";
+            if (!firstCard) {
+              firstCard = card;
+            } else {
+              lockBoard = true;
+              if (firstCard.dataset.value === card.dataset.value && firstCard.dataset.type !== card.dataset.type) {
+                // matched
+                firstCard.classList.add("matched");
+                card.classList.add("matched");
+                speak("Chính xác!");
+                setTimeout(() => {
+                  firstCard.style.background = "";
+                  card.style.background = "";
+                }, 300);
+              } else {
+                speak("Chưa đúng rồi, thử lại nhé!");
+                setTimeout(() => {
+                  firstCard.style.background = "";
+                  card.style.background = "";
+                }, 400);
+              }
+              setTimeout(() => { firstCard = null; lockBoard = false; checkWin(); }, 500);
+            }
+          });
+        });
+      }
+
+      newGameBtn.addEventListener("click", () => { createGame(); startTimer(); });
+
+      // --------------------------
+      // Timer + stickers
+      // --------------------------
+      let timeLeft = 30;
+      let timer = null;
+      let stickers = Number(localStorage.getItem("stickers") || 0);
+      document.getElementById("stickerCount").textContent = stickers;
+
+      function startTimer() {
+        clearInterval(timer);
+        timeLeft = 30;
+        updateTimerDisplay();
+        timer = setInterval(() => {
+          timeLeft--;
+          updateTimerDisplay();
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            endGame(false);
+          }
+        }, 1000);
+      }
+      function updateTimerDisplay() {
+        const t = document.getElementById("timerDisplay");
+        t.textContent = `⏱️ ${timeLeft}s`;
+        if (timeLeft <= 10) t.classList.add("blink"); else t.classList.remove("blink");
+      }
+      function checkWin() {
+        const unmatched = document.querySelectorAll(".game-card:not(.matched)");
+        if (unmatched.length === 0) {
+          endGame(true);
+        }
+      }
+      function endGame(win) {
+        clearInterval(timer);
+        if (win) {
+          speak("Tuyệt vời! Con đã thắng!");
+          earnSticker();
+        } else {
+          speak("Hết thời gian rồi! Chơi lại nhé!");
+        }
+      }
+      function earnSticker() {
+        stickers++;
+        localStorage.setItem("stickers", stickers);
+        document.getElementById("stickerCount").textContent = stickers;
+        const earned = document.createElement("div");
+        earned.textContent = "⭐";
+        earned.className = "sticker-earned";
+        earned.style.position = "fixed";
+        earned.style.left = "50%";
+        earned.style.top = "40%";
+        earned.style.transform = "translate(-50%, -50%)";
+        earned.style.zIndex = "9999";
+        document.body.appendChild(earned);
+        setTimeout(() => earned.remove(), 900);
+      }
+
+      // --------------------------
+      // Initialization
+      // --------------------------
+      updatePreview();
+      renderGroups();
+      makeQuiz();
+      // default: show learn
+      showLearn();
+
+      // when user switches to tables, initialize buttons if necessary
+      initMultiplicationButtons();
+      highlightActive(document.querySelectorAll("#multiplicationButtons button")[0]);
+      updateTable(1);
+      createGame();
+
+      // accessibility
+      document.addEventListener("keydown", (e) => { if (e.key === " ") { e.preventDefault(); speakBtn.click(); } });
+
     </script>
   </body>
 </html>

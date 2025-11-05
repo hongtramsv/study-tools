@@ -1,107 +1,222 @@
+<!--
+Single-file HTML: "Vui học phép nhân" — Phiên bản nâng cấp
+Mục tiêu: Theo đúng gợi ý — giao diện dễ thương, chữ to, âm thanh hoạt động (Web Speech API), hình minh họa phù hợp với ví dụ, tên app "Vui học phép nhân", bảng cửu chương dễ thương và phần luyện tập. 
+Hướng dẫn: Lưu file dưới tên vui-hoc-phep-nhan.html và mở bằng trình duyệt hiện đại (Chrome/Edge/Safari). Nếu nút nghe chưa nói, nhấn 1 lần vào trang để cho phép âm thanh (một số trình duyệt yêu cầu tương tác người dùng).
+-->
+
 <!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Bảng cửu chương vui học</title>
+    <title>Vui học phép nhân</title>
     <style>
+      :root {
+        --bg1: linear-gradient(180deg, #fffaf0, #fff7fb);
+        --card: #ffffff;
+        --accent: #8ad7c9; /* mint */
+        --accent2: #ffd6a5; /* peach */
+        --cute: #ffd1e0;
+        --text: #2b2b2b;
+        --muted: #6b6b6b;
+        --round: 18px;
+        font-family: "Nunito", "Segoe UI", Roboto, "Noto Sans", Arial,
+          sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
       body {
         margin: 0;
-        font-family: "Fredoka", sans-serif;
-        background: #fde9b3;
+        padding: 22px;
+        background: var(--bg1);
+        color: var(--text);
       }
-      .container {
-        max-width: 460px;
+
+      .app {
+        max-width: 1100px;
         margin: 0 auto;
-        background: #fff9ec;
-        border-radius: 24px;
-        padding: 24px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
       }
-      h1 {
-        text-align: center;
-        color: #d94b1a;
-        font-size: 28px;
-        margin: 0;
-      }
-      .menu {
+      header {
         display: flex;
-        flex-direction: column;
         gap: 16px;
-        margin-top: 18px;
+        align-items: center;
       }
-      .menu button {
-        background: #62b25a;
-        color: #fff;
-        border: none;
-        padding: 14px;
-        border-radius: 12px;
-        font-size: 18px;
-        font-weight: 600;
-        cursor: pointer;
-      }
-      .menu button:hover {
-        opacity: 0.9;
-      }
-      .section {
-        display: none;
-        background: #fff;
-        border-radius: 16px;
-        padding: 20px;
-        margin-top: 16px;
-      }
-      .section.active {
-        display: block;
-      }
-      .lesson-title {
-        background: #4caf50;
-        color: #fff;
-        text-align: center;
-        border-radius: 10px;
-        padding: 8px;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-      .equation {
+      .logo {
+        width: 96px;
+        height: 96px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        font-size: 18px;
-        margin: 8px 0;
+        justify-content: center;
+        font-size: 42px;
+        box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
       }
-      .equation button {
+      h1 {
+        font-size: 30px;
+        margin: 0;
+      }
+      p.lead {
+        margin: 6px 0 20px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 18px;
+        margin-top: 12px;
+      }
+
+      .panel {
+        background: var(--card);
+        border-radius: var(--round);
+        padding: 16px;
+        box-shadow: 0 8px 30px rgba(17, 24, 39, 0.06);
+      }
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .nav button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+        border-radius: 12px;
         border: none;
-        background: #fff2cc;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
+        background: transparent;
+        font-size: 16px;
         cursor: pointer;
+      }
+      .nav button.active {
+        background: linear-gradient(90deg, var(--accent), #c7f0e4);
+        font-weight: 800;
+      }
+
+      .small-muted {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      select {
+        padding: 8px;
+        border-radius: 10px;
+        border: 1px solid #eee;
+      }
+
+      main .stage {
+        background: var(--card);
+        border-radius: var(--round);
+        padding: 18px;
+        min-height: 520px;
+      }
+
+      .concept {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+      }
+      .visual {
+        width: 280px;
+        border-radius: 14px;
+        background: linear-gradient(180deg, #fff, #fff8ec);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+      }
+      .visual .group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .visual .group .card {
+        background: linear-gradient(180deg, #fff, #fffbe6);
+        padding: 8px;
+        border-radius: 12px;
+        min-width: 46px;
+        text-align: center;
+        font-size: 28px;
+      }
+
+      .big {
+        font-size: 36px;
+        font-weight: 900;
+      }
+      .explain {
+        font-size: 18px;
+        margin-top: 10px;
+        color: var(--muted);
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        margin-top: 14px;
       }
       .btn {
+        padding: 12px 14px;
+        border-radius: 12px;
         border: none;
-        border-radius: 10px;
-        padding: 10px 16px;
-        font-size: 16px;
-        font-weight: 600;
         cursor: pointer;
+        font-weight: 800;
       }
-      .btn-listen {
-        background: #f9b233;
-        color: white;
+      .btn-voice {
+        background: var(--accent);
+        color: #fff;
       }
-      .btn-practice {
-        background: #2196f3;
-        color: white;
+      .btn-next {
+        background: var(--accent2);
       }
-      .practice-card {
+
+      /* cute animal avatar */
+      .mascot {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .mascot img {
+        width: 56px;
+        height: 56px;
+      }
+
+      /* table */
+      .mul-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .mul-card {
+        background: linear-gradient(180deg, #fff, #fffbf7);
+        padding: 12px;
+        border-radius: 12px;
         text-align: center;
+        font-weight: 800;
       }
+      .mul-card .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .mul-card .bigval {
+        font-size: 20px;
+        margin-top: 6px;
+      }
+
+      /* practice */
       .question {
-        font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 16px;
+        font-size: 26px;
+        font-weight: 900;
+        margin-bottom: 12px;
       }
       .choices {
         display: grid;
@@ -109,275 +224,410 @@
         gap: 12px;
       }
       .choice {
-        background: #fff;
-        border: 2px solid #eee;
+        padding: 14px;
         border-radius: 12px;
-        padding: 10px;
-        font-size: 18px;
+        background: #fff;
+        font-size: 20px;
         cursor: pointer;
+        border: 3px solid transparent;
       }
-      .choice.selected {
-        background: #c8f7c5;
-        border-color: #4caf50;
+      .choice:hover {
+        transform: translateY(-3px);
       }
-      .result {
-        text-align: center;
-        padding: 20px;
+      .choice.correct {
+        border-color: #63c77a;
       }
-      .result h2 {
-        color: #4caf50;
+      .choice.wrong {
+        border-color: #ff7b7b;
       }
-      .score-board {
-        font-size: 18px;
-        margin: 12px 0;
-      }
-      .example {
+
+      .scorebar {
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 12px;
+        gap: 12px;
+        margin-top: 12px;
       }
-      .example img {
-        width: 80px;
-        border-radius: 10px;
+
+      footer {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
       }
-      select {
-        padding: 6px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 16px;
+
+      @media (max-width: 960px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .visual {
+          width: 220px;
+        }
+        .mul-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>🐰 BẢNG CỬU CHƯƠNG NHÂN VUI HỌC</h1>
-      <div class="menu" id="mainMenu">
-        <button onclick="showSection('concept')">🔎 Làm quen phép nhân</button>
-        <button onclick="showSection('lesson')">📚 Học bảng nhân</button>
-        <button onclick="showSection('practice')">🎮 Luyện tập</button>
-      </div>
+    <div class="app" role="application">
+      <header>
+        <div class="logo" aria-hidden>🧸</div>
+        <div>
+          <h1>Vui học phép nhân</h1>
+          <p class="lead">
+            Học bằng hình ảnh, âm thanh và trò chơi — Dành cho học sinh lớp 1
+          </p>
+        </div>
+      </header>
 
-      <div class="section" id="concept">
-        <h2>🔎 Làm quen phép nhân</h2>
-        <p>Bé học phép nhân qua ví dụ và hình ảnh minh hoạ nhé!</p>
-        <div class="example">
-          <img src="https://cdn-icons-png.flaticon.com/512/4151/4151022.png" />
-          <div>2 nhóm, mỗi nhóm 3 quả táo → 2 × 3 = 6</div>
-        </div>
-        <div class="example">
-          <img src="https://cdn-icons-png.flaticon.com/512/3082/3082031.png" />
-          <div>3 nhóm, mỗi nhóm 2 quả cam → 3 × 2 = 6</div>
-        </div>
-        <div class="example">
-          <img src="https://cdn-icons-png.flaticon.com/512/4151/4151009.png" />
-          <div>4 nhóm, mỗi nhóm 5 bông hoa → 4 × 5 = 20</div>
-        </div>
-        <button class="btn btn-listen" onclick="speakConcept()">
-          🔊 Nghe ví dụ
-        </button>
-        <button class="btn btn-practice" onclick="showSection('lesson')">
-          Tiếp tục học
-        </button>
-      </div>
-
-      <div class="section" id="lesson">
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <div class="lesson-title">BẢNG NHÂN</div>
-          <select id="tableSelect" onchange="renderLesson()">
-            <option value="1">×1</option>
-            <option value="2">×2</option>
-            <option value="3" selected>×3</option>
-            <option value="4">×4</option>
-            <option value="5">×5</option>
-            <option value="6">×6</option>
-            <option value="7">×7</option>
-            <option value="8">×8</option>
-            <option value="9">×9</option>
-          </select>
-        </div>
-        <div id="equations"></div>
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            margin-top: 14px;
-          "
-        >
-          <button class="btn btn-listen" id="btnListenAll">
-            🔊 Nghe tất cả
-          </button>
-          <button class="btn btn-practice" onclick="showSection('practice')">
-            🧠 Luyện tập
-          </button>
-        </div>
-      </div>
-
-      <div class="section" id="practice">
-        <div class="practice-card">
-          <div class="question" id="question"></div>
-          <div class="choices" id="choices"></div>
-          <button class="btn btn-listen" onclick="checkAnswer()">
-            Kiểm tra
-          </button>
-          <button class="btn btn-practice" onclick="nextQuestion()">
-            Câu tiếp
-          </button>
-        </div>
-      </div>
-
-      <div class="section" id="result">
-        <div class="result">
-          <h2>🎉 Hoàn thành luyện tập!</h2>
-          <div class="score-board">
-            Điểm của bé: <span id="scoreValue">0</span>
+      <div class="grid">
+        <aside class="panel" aria-label="Thanh điều hướng">
+          <div class="nav">
+            <button class="active" data-panel="concept">
+              1. Làm quen với nhân
+            </button>
+            <button data-panel="table">2. Bảng cửu chương</button>
+            <button data-panel="practice">3. Luyện tập</button>
           </div>
-          <button class="btn btn-practice" onclick="restart()">
-            🔁 Học lại
-          </button>
-          <button class="btn btn-listen" onclick="showSection('mainMenu')">
-            🏠 Trang chủ
-          </button>
-        </div>
+
+          <div style="margin-top: 12px" class="small-muted">Chọn bảng:</div>
+          <div style="margin-top: 6px">
+            <select id="select-times" aria-label="Chọn nhân">
+              <option value="2">Nhân 2</option>
+              <option value="3">Nhân 3</option>
+              <option value="4">Nhân 4</option>
+              <option value="5">Nhân 5</option>
+              <option value="6">Nhân 6</option>
+              <option value="7">Nhân 7</option>
+              <option value="8">Nhân 8</option>
+              <option value="9">Nhân 9</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 12px" class="small-muted">Tổng điểm:</div>
+          <div style="font-size: 20px; font-weight: 800; margin-top: 6px">
+            <span id="score">0</span> ⭐
+          </div>
+
+          <div style="margin-top: 18px; font-size: 13px; color: var(--muted)">
+            Lưu ý: Nhấn vào nút phát âm thanh (🔊). Nếu chưa nghe, tương tác với
+            trang (click) để cho phép âm thanh trên một số trình duyệt.
+          </div>
+        </aside>
+
+        <main>
+          <section class="stage" id="stage" aria-live="polite">
+            <!-- JS sẽ render nội dung ở đây -->
+          </section>
+        </main>
       </div>
+
+      <footer>
+        Thiết kế: chữ lớn, màu pastel, nhân vật dễ thương. Giọng đọc dùng Web
+        Speech API (tiếng Việt nếu có).
+      </footer>
     </div>
 
     <script>
-      function showSection(id) {
-        document
-          .querySelectorAll(".section")
-          .forEach((s) => s.classList.remove("active"));
-        document.getElementById(id).classList.add("active");
-        if (id === "lesson") renderLesson();
-        if (id === "practice") nextQuestion();
-      }
-
+      // --- TTS helper (Web Speech API) ---
       function speak(text) {
-        try {
-          const synth = window.speechSynthesis;
-          const msg = new SpeechSynthesisUtterance(text);
-          msg.lang = "vi-VN";
-          synth.cancel();
-          synth.speak(msg);
-        } catch (e) {
-          alert("Thiết bị không hỗ trợ đọc âm thanh");
-        }
-      }
-
-      function speakConcept() {
-        const sentences = [
-          "Hai nhóm, mỗi nhóm ba quả táo. Hai nhân ba bằng sáu.",
-          "Ba nhóm, mỗi nhóm hai quả cam. Ba nhân hai bằng sáu.",
-          "Bốn nhóm, mỗi nhóm năm bông hoa. Bốn nhân năm bằng hai mươi.",
-        ];
-        let i = 0;
-        function next() {
-          if (i >= sentences.length) return;
-          speak(sentences[i]);
-          i++;
-          setTimeout(next, 2000);
-        }
-        next();
-      }
-
-      function renderLesson() {
-        const table = parseInt(document.getElementById("tableSelect").value);
-        const eq = document.getElementById("equations");
-        eq.innerHTML = "";
-        for (let i = 1; i <= 10; i++) {
-          const div = document.createElement("div");
-          div.className = "equation";
-          div.innerHTML = `<span>${table} × ${i} = ${
-            table * i
-          }</span><button>🔊</button>`;
-          const btn = div.querySelector("button");
-          btn.addEventListener("click", () =>
-            speak(`${table} nhân ${i} bằng ${table * i}`)
+        if (!("speechSynthesis" in window)) return;
+        const u = new SpeechSynthesisUtterance(text);
+        // try to pick a Vietnamese voice if available
+        const voices = speechSynthesis.getVoices();
+        if (voices && voices.length) {
+          const vi = voices.find((v) =>
+            /vi|vietnam|vietnamese/i.test(v.lang || v.name)
           );
-          eq.appendChild(div);
+          if (vi) u.voice = vi;
         }
+        u.rate = 0.95;
+        u.pitch = 1.05;
+        u.volume = 1;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(u);
       }
 
-      document.getElementById("btnListenAll").addEventListener("click", () => {
-        const table = parseInt(document.getElementById("tableSelect").value);
-        let i = 1;
-        function next() {
-          if (i > 10) return;
-          speak(`${table} nhân ${i} bằng ${table * i}`);
-          i++;
-          setTimeout(next, 1600);
-        }
-        next();
-      });
+      // --- state ---
+      const state = { panel: "concept", times: 2, score: 0, current: null };
 
-      // luyện tập
-      let current,
-        score = 0,
-        count = 0;
-      function nextQuestion() {
-        if (count >= 5) {
-          showResult();
-          return;
+      // --- renderers ---
+      function renderConcept() {
+        return `
+        <div class="concept">
+          <div class="visual" id="visual">
+            <div style="font-size:14px;color:var(--muted)">Ví dụ trực quan</div>
+            <div class="group" id="group-area" aria-hidden style="margin-top:6px"></div>
+            <div class="explain" id="example-text"></div>
+            <div class="controls">
+              <button class="btn btn-voice" id="play-example">🔊 Nghe ví dụ</button>
+              <button class="btn btn-next" id="next-example">🔁 Ví dụ khác</button>
+            </div>
+          </div>
+
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:20px;font-weight:800">Minigame: Kéo-thả hoàn thành phép nhân</div>
+                <div class="small-muted">Kéo số vào ô để trả lời</div>
+              </div>
+              <div class="mascot"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 100 100'><g><circle cx='50' cy='50' r='46' fill='%23ffdede'/><circle cx='35' cy='38' r='8' fill='%23fff'/><circle cx='65' cy='38' r='8' fill='%23fff'/><circle cx='35' cy='38' r='4' fill='%23000'/><circle cx='65' cy='38' r='4' fill='%23000'/><path d='M30 62 q20 18 40 0' stroke='%23000' stroke-width='4' fill='none' stroke-linecap='round'/></g></svg>" alt="Gấu dễ thương"></div>
+            </div>
+
+            <div style="margin-top:14px;background:linear-gradient(180deg,#fff,#f8fff8);padding:12px;border-radius:12px">
+              <div id="drop-area" style="min-height:56px;padding:12px;border-radius:10px;border:2px dashed #f0f0f0;display:flex;align-items:center;justify-content:center">Kéo số vào đây</div>
+              <div style="margin-top:12px">Số để kéo:</div>
+              <div id="drags" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
+            </div>
+
+            <div style="margin-top:12px;color:var(--muted);font-size:14px">Mẹo: chọn bảng nhân ở bên trái trước khi luyện ví dụ.</div>
+          </div>
+        </div>
+      `;
+      }
+
+      function renderTable() {
+        // build small cards for 1..10
+        let cards = "";
+        for (let i = 1; i <= 10; i++) {
+          cards += `<div class="mul-card" role="listitem"><div class="small">${
+            state.times
+          } × ${i}</div><div class="bigval">${state.times * i}</div></div>`;
         }
-        count++;
-        const a = Math.ceil(Math.random() * 9),
-          b = Math.ceil(Math.random() * 9);
-        current = { a, b, ans: a * b };
-        document.getElementById("question").textContent = `${a} × ${b} = ?`;
-        const ch = document.getElementById("choices");
-        ch.innerHTML = "";
-        const options = new Set([current.ans]);
-        while (options.size < 4) options.add(Math.ceil(Math.random() * 81));
-        Array.from(options)
-          .sort(() => Math.random() - 0.5)
-          .forEach((v) => {
+        return `
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between"><h2 style="margin:0">Bảng cửu chương: Nhân ${state.times}</h2><div><button class="btn btn-voice" id="play-table">🔊 Nghe toàn bộ</button></div></div>
+          <p class="small-muted" style="margin-top:6px">Mỗi ô có giá trị lớn, chữ to để bé dễ đọc.</p>
+          <div class="mul-grid" style="margin-top:12px">${cards}</div>
+        </div>
+      `;
+      }
+
+      function renderPractice() {
+        return `
+        <div>
+          <h2 style="margin:0 0 8px 0">Luyện tập: Nhân ${state.times}</h2>
+          <div class="question" id="question-text">--</div>
+          <div class="choices" id="choices"></div>
+          <div class="scorebar"><div>Điểm: <strong id="local-score">0</strong></div><div style="margin-left:auto"> <button class="btn btn-voice" id="read-q">🔊 Đọc câu</button> <button class="btn btn-next" id="new-q">Câu khác</button></div></div>
+        </div>
+      `;
+      }
+
+      // --- main render ---
+      function render() {
+        const stage = document.getElementById("stage");
+        if (!stage) return;
+        if (state.panel === "concept") stage.innerHTML = renderConcept();
+        if (state.panel === "table") stage.innerHTML = renderTable();
+        if (state.panel === "practice") stage.innerHTML = renderPractice();
+
+        document
+          .querySelectorAll(".nav button")
+          .forEach((b) =>
+            b.classList.toggle("active", b.dataset.panel === state.panel)
+          );
+
+        // setup after render
+        if (state.panel === "concept") setupConcept();
+        if (state.panel === "table") setupTable();
+        if (state.panel === "practice") setupPractice();
+      }
+
+      // --- concept setup ---
+      function setupConcept() {
+        const group = document.getElementById("group-area");
+        const exampleText = document.getElementById("example-text");
+        const drags = document.getElementById("drags");
+        const drop = document.getElementById("drop-area");
+        const play = document.getElementById("play-example");
+        const next = document.getElementById("next-example");
+
+        function makeExample() {
+          const a = Math.floor(Math.random() * 3) + 1; // 1..3 groups
+          const b = Math.floor(Math.random() * 3) + 1; // 1..3 per group
+          const emojiSet = ["🍎", "🐻", "🐶", "🐱", "🦊", "🍌", "🍓"];
+          const emoji = emojiSet[Math.floor(Math.random() * emojiSet.length)];
+          group.innerHTML = "";
+          for (let i = 0; i < a; i++) {
+            const card = document.createElement("div");
+            card.className = "card";
+            for (let j = 0; j < b; j++) card.innerHTML += emoji;
+            card.style.fontSize = "28px";
+            card.style.padding = "8px";
+            card.style.display = "inline-block";
+            card.style.margin = "6px";
+            card.style.borderRadius = "10px";
+            group.appendChild(card);
+          }
+          exampleText.textContent = `${a} nhóm, mỗi nhóm ${b} cái → ${a} × ${b} = ${
+            a * b
+          }`;
+
+          // draggables (1..12)
+          drags.innerHTML = "";
+          for (let n = 1; n <= 12; n++) {
+            const d = document.createElement("div");
+            d.textContent = n;
+            d.draggable = true;
+            d.className = "drag-item";
+            d.style.padding = "8px 10px";
+            d.style.background = "#fff";
+            d.style.borderRadius = "10px";
+            d.style.cursor = "grab";
+            d.style.fontWeight = "700";
+            d.style.border = "1px solid #f0f0f0";
+            drags.appendChild(d);
+            d.addEventListener("dragstart", (e) =>
+              e.dataTransfer.setData("text/plain", n)
+            );
+          }
+
+          drop.innerHTML = `<div style="min-height:42px;display:flex;align-items:center;justify-content:center">Kéo số tương ứng (${
+            a * b
+          }) vào đây</div>`;
+          drop.ondragover = (e) => e.preventDefault();
+          drop.ondrop = (e) => {
+            e.preventDefault();
+            const val = +e.dataTransfer.getData("text/plain");
+            if (val === a * b) {
+              drop.innerHTML =
+                '<div style="padding:8px;background:#eaffef;border-radius:8px">Chính xác! ' +
+                val +
+                " 🎉</div>";
+              speak("Chính xác! " + a + " nhân " + b + " bằng " + a * b);
+              state.score += 1;
+              updateScore();
+            } else {
+              drop.innerHTML =
+                '<div style="padding:8px;background:#ffecec;border-radius:8px">Chưa đúng, thử lại nhé</div>';
+              speak("Chưa đúng, thử lại nhé");
+            }
+          };
+
+          state.current = { type: "example", a, b };
+        }
+
+        makeExample();
+        play.onclick = () => {
+          if (state.current)
+            speak(
+              `${state.current.a} nhóm, mỗi nhóm ${state.current.b} cái. ${
+                state.current.a
+              } nhân ${state.current.b} bằng ${
+                state.current.a * state.current.b
+              }`
+            );
+        };
+        next.onclick = () => makeExample();
+      }
+
+      // --- table setup ---
+      function setupTable() {
+        document.getElementById("play-table").onclick = () => {
+          let text = `Bảng nhân ${state.times}: `;
+          for (let i = 1; i <= 10; i++) {
+            text += `${state.times} nhân ${i} bằng ${state.times * i}. `;
+          }
+          speak(text);
+        };
+      }
+
+      // --- practice setup ---
+      function setupPractice() {
+        const qText = document.getElementById("question-text");
+        const choicesWrap = document.getElementById("choices");
+        const localScoreEl = document.getElementById("local-score");
+
+        function newQ() {
+          const a = state.times;
+          const b = Math.floor(Math.random() * 9) + 1; // 1..9
+          const correct = a * b;
+          state.current = { type: "practice", a, b, correct };
+          qText.textContent = `${a} × ${b} = ?`;
+
+          const opts = new Set([correct]);
+          while (opts.size < 4) {
+            let cand = correct + (Math.floor(Math.random() * 11) - 5);
+            if (cand < 1) cand = Math.abs(cand) + 1;
+            opts.add(cand);
+          }
+          const arr = Array.from(opts).sort(() => Math.random() - 0.5);
+          choicesWrap.innerHTML = "";
+          arr.forEach((val) => {
             const d = document.createElement("div");
             d.className = "choice";
-            d.textContent = v;
-            d.onclick = () => {
-              document
-                .querySelectorAll(".choice")
-                .forEach((c) => c.classList.remove("selected"));
-              d.classList.add("selected");
-              current.sel = v;
-            };
-            ch.appendChild(d);
+            d.textContent = val;
+            d.tabIndex = 0;
+            d.addEventListener("click", () => select(d, val));
+            d.addEventListener("keydown", (e) => {
+              if (e.key === "Enter") select(d, val);
+            });
+            choicesWrap.appendChild(d);
           });
-      }
-      function checkAnswer() {
-        if (!current.sel) {
-          alert("Hãy chọn đáp án!");
-          return;
+          localScoreEl.textContent = 0;
         }
-        if (current.sel === current.ans) {
-          score++;
-          speak("Giỏi lắm!");
-          alert("Đúng rồi!");
-        } else {
-          speak("Chưa đúng, thử lại nhé!");
-          alert("Sai rồi.");
+
+        function select(el, val) {
+          const correct = state.current.correct;
+          if (+val === correct) {
+            el.classList.add("correct");
+            speak("Chính xác!");
+            state.score += 1;
+            updateScore();
+            const cur = +localScoreEl.textContent;
+            localScoreEl.textContent = cur + 1;
+          } else {
+            el.classList.add("wrong");
+            speak("Chưa đúng. Cố gắng nhé");
+          }
+          // disable
+          document
+            .querySelectorAll(".choice")
+            .forEach((c) => (c.onclick = null));
         }
-        if (count >= 5) {
-          showResult();
-        }
+
+        document.getElementById("new-q").onclick = () => newQ();
+        document.getElementById("read-q").onclick = () => {
+          const q = state.current;
+          if (q) speak(`${q.a} nhân ${q.b} bằng bao nhiêu?`);
+        };
+        newQ();
       }
-      function showResult() {
-        document.getElementById("scoreValue").textContent = score;
-        showSection("result");
-        speak(`Bé được ${score} điểm! Rất tuyệt vời!`);
+
+      // update score display
+      function updateScore() {
+        document.getElementById("score").textContent = state.score;
       }
-      function restart() {
-        score = 0;
-        count = 0;
-        current = null;
-        showSection("practice");
-      }
+
+      // nav handlers
+      document.querySelectorAll(".nav button").forEach((b) =>
+        b.addEventListener("click", () => {
+          state.panel = b.dataset.panel;
+          render();
+        })
+      );
+      document
+        .getElementById("select-times")
+        .addEventListener("change", (e) => {
+          state.times = +e.target.value;
+          render();
+        });
+
+      // initial render
+      render();
+
+      // ensure voices loaded for some browsers
+      if (speechSynthesis && speechSynthesis.onvoiceschanged !== undefined)
+        speechSynthesis.onvoiceschanged = () => {};
+
+      // small accessibility: allow first user click to enable audio on some mobile browsers
+      document.body.addEventListener(
+        "click",
+        () => {
+          if (speechSynthesis) speechSynthesis.getVoices();
+        },
+        { once: true }
+      );
     </script>
   </body>
 </html>

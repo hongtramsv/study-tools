@@ -358,6 +358,20 @@
   gap: 12px;
   margin-top: 20px;
 }
+.avatar {
+  font-size: 38px;
+  cursor: pointer;
+  transition: 0.2s;
+  padding: 8px;
+  border-radius: 12px;
+}
+.avatar:hover {
+  background:#ffeaf2;
+  transform: scale(1.2);
+}
+.avatar.active {
+  background:#ffb6d9;
+}
 
     </style>
   </head>
@@ -378,6 +392,7 @@
           <div style="margin-top:12px; display:flex; gap:12px;">
             <button id="modeLearning" class="btn">Làm quen phép nhân</button>
             <button id="modeTables" class="btn secondary">Học bảng cửu chương</button>
+            <button id="modePractice" class="btn secondary">Luyện tập tổng hợp</button>
           </div>
         </div>
       </header>
@@ -489,6 +504,46 @@
             </aside>
         </div>
     </div>
+    <!-- PRACTICE SECTION: Luyện tập tổng hợp -->
+<div id="practiceSection" class="fade" style="display:none; margin-top:16px;">
+
+  <div class="card" style="padding:20px; text-align:center;">
+    <h2 style="font-size:26px; margin-bottom:10px;">🎮 Luyện tập tổng hợp</h2>
+
+    <div style="margin-bottom:12px;">Chọn nhân vật:</div>
+    <div id="avatarChoices" style="display:flex; gap:12px; justify-content:center; margin-bottom:14px;">
+      <div class="avatar">🐰</div>
+      <div class="avatar">🐱</div>
+      <div class="avatar">🐻</div>
+      <div class="avatar">🦊</div>
+      <div class="avatar">🐼</div>
+    </div>
+
+    <input id="playerName" placeholder="Đặt tên nhân vật..." style="padding:8px 12px; border-radius:10px; border:1px solid #ccc; font-size:18px;">
+
+    <button id="startPracticeBtn" class="btn" style="display:block; margin:20px auto 0;">
+      Bắt đầu luyện tập 🚀
+    </button>
+  </div>
+
+  <!-- Game chạy -->
+  <div id="raceGame" style="display:none; margin-top:20px;">
+    <div id="track" style="height:80px; background:#fff; border-radius:14px; box-shadow:var(--shadow); position:relative;">
+      <div id="runner" style="position:absolute; top:18px; left:10px; font-size:40px;">🐾</div>
+      <div style="position:absolute; right:12px; top:28px; font-size:16px;">🏁 Đích</div>
+    </div>
+
+    <h3 id="practiceQuestion" style="font-size:30px; text-align:center; margin:20px 0;">?</h3>
+
+    <div style="display:flex; justify-content:center; gap:10px;">
+      <button class="btn secondary answerBtn"></button>
+      <button class="btn secondary answerBtn"></button>
+      <button class="btn secondary answerBtn"></button>
+      <button class="btn secondary answerBtn"></button>
+    </div>
+  </div>
+
+</div>
 
       <footer>
         Gợi ý: bắt đầu bằng đồ thật (kẹo, bút). Sau bé hiểu, dùng ứng dụng này
@@ -563,6 +618,19 @@
       modeLearning.addEventListener("click", showLearn);
       modeTables.addEventListener("click", showTables);
 
+      const modePractice = document.getElementById("modePractice");
+      const practiceSection = document.getElementById("practiceSection");
+
+      function showPractice() {
+        learnSection.style.display = "none";
+        tablesSection.style.display = "none";
+        practiceSection.style.display = "block";
+        modeLearning.classList.add("secondary");
+        modeTables.classList.add("secondary");
+        modePractice.classList.remove("secondary");
+      }
+      modePractice.addEventListener("click", showPractice);
+
       // --------------------------
       // Groups render (learn)
       // --------------------------
@@ -629,7 +697,7 @@
         { story: "Nam có 5 túi kẹo, mỗi túi chứa 2 chiếc. Cậu ấy muốn đếm xem mình có bao nhiêu chiếc kẹo.", g: 5, it: 2 },
         { story: "Trong vườn, bà Lan trồng 4 hàng hoa, mỗi hàng có 3 cây 🌹. Hỏi tất cả có bao nhiêu cây hoa?", g: 4, it: 3 },
         { story: "Cửa hàng có 6 hộp chuối, mỗi hộp 5 quả. Nhân viên cần đếm tổng số quả chuối trong cửa hàng.", g: 6, it: 5 },
-        { story: "Một chuồng có 3 con chó, mỗi con đang giữ 4 chiếc xương. Hỏi trong chuồng có tổng cộng bao nhiêu chiếc xương?", g: 3, it: 4 }
+        { story: "Một chuồng có 3 con chó, mỗi con đang giữ 4 chiếc xương. Hỏi trong chuồng có tổng cộng bao nhiêu chiếc xương?", g: 3, it: 4 },
         { story: "Bé Thỏ chuẩn bị bánh quy để tặng bạn. Bé có 3 đĩa bánh, mỗi đĩa có 6 chiếc. Bé Thỏ có tất cả bao nhiêu chiếc bánh?", g: 3, it: 6 },
         { story: "Mèo Mimi thu gom bút màu. Mimi có 4 hộp bút, mỗi hộp có 5 cây. Mimi có tất cả bao nhiêu cây bút màu?", g: 4, it: 5 },
         { story: "Gấu Bông đang xếp ly giấy cho buổi tiệc. Có 2 chồng ly, mỗi chồng có 8 cái. Tổng cộng có bao nhiêu cái ly?", g: 2, it: 8 },
@@ -649,10 +717,7 @@
         { story: "Mèo Nhí trồng hoa tulip. Có 6 chậu, mỗi chậu 7 hoa. Mèo Nhí trồng bao nhiêu hoa tulip?", g: 6, it: 7 },
         { story: "Cô giáo phát nhãn vở. Có 5 chồng nhãn, mỗi chồng 9 tờ. Tổng cộng cô phát bao nhiêu tờ nhãn?", g: 5, it: 9 },
         { story: "Bé Na đang gấp hạc giấy. Bé gấp 4 lần, mỗi lần 8 con hạc. Bé gấp bao nhiêu con hạc tất cả?", g: 4, it: 8 },
-        { story: "Thỏ Nhỏ treo đèn lồng. Có 7 dây đèn, mỗi dây có 6 chiếc đèn nhỏ. Thỏ Nhỏ treo bao nhiêu chiếc đèn lồng tất cả?", g: 7, it: 6 }
-      ];
-
-      quizStories.push(
+        { story: "Thỏ Nhỏ treo đèn lồng. Có 7 dây đèn, mỗi dây có 6 chiếc đèn nhỏ. Thỏ Nhỏ treo bao nhiêu chiếc đèn lồng tất cả?", g: 7, it: 6 },
         { story: "Bé Cừu chuẩn bị bánh trung thu. Có 4 hộp bánh, mỗi hộp có 8 chiếc. Bé Cừu có bao nhiêu chiếc bánh?", g: 4, it: 8 },
         { story: "Trong lớp có 3 bàn trồng cây, mỗi bàn trồng 7 chậu. Cả lớp trồng bao nhiêu chậu cây?", g: 3, it: 7 },
         { story: "Bé Nai có 5 xấp giấy màu, mỗi xấp có 6 tờ. Bé Nai có bao nhiêu tờ giấy màu?", g: 5, it: 6 },
@@ -672,8 +737,8 @@
         { story: "Lớp học có 4 hộp bút chì, mỗi hộp có 8 chiếc. Có bao nhiêu bút chì trong lớp?", g: 4, it: 8 },
         { story: "Bạn Bi tô tranh hoa mai. Có 8 bông, mỗi bông 6 cánh. Bạn Bi tô bao nhiêu cánh hoa?", g: 8, it: 6 },
         { story: "Bé Gấu đi mua sticker ⭐. Bé mua 9 tờ, mỗi tờ có 4 sticker. Bé có bao nhiêu sticker?", g: 9, it: 4 },
-        { story: "Thỏ Trắng trồng cà rốt 🥕. Có 6 luống, mỗi luống 7 cây. Tất cả có bao nhiêu cây cà rốt?", g: 6, it: 7 }
-      );
+        { story: "Thỏ Trắng trồng cà rốt 🥕. Có 6 luống, mỗi luống 7 cây. Tất cả có bao nhiêu cây cà rốt?", g: 6, it: 7 },
+      ];
 
       let quizQ = [];
       let currentQuiz = 0;
@@ -749,20 +814,6 @@
         }
       }
 
-      /*function updateTable(n) {
-        if (n) currentTable = n;
-        multiplicationDisplay.innerHTML = "";
-        const maxRow = 12;
-        for (let i = 1; i <= maxRow; i++) {
-          const line = document.createElement("div");
-          line.textContent = `${currentTable} × ${i} = ${currentTable * i}`;
-          line.tabIndex = 0;
-          line.addEventListener("click", () => speak(`${currentTable} nhân ${i} bằng ${currentTable * i}`));
-          multiplicationDisplay.appendChild(line);
-        }
-        updateTableTheme();
-      }*/
-
       function updateTable() {
         multiplicationDisplay.innerHTML = "";
         for (let i = 1; i <= 10; i++) {
@@ -776,17 +827,6 @@
         updateTableTheme();
         }
 
-      /*function updateTableTheme() {
-        const pastelColors = [
-          "#ffe6f2", "#fff0da", "#e7ffda", "#daf3ff",
-          "#f4daff", "#ffedd8", "#d8fff1", "#f9d8ff",
-          "#ffe4da", "#e8f7ff", "#fff0f0", "#f3ffe8"
-        ];
-        const display = multiplicationDisplay;
-        display.style.background = pastelColors[(currentTable - 1) % pastelColors.length];
-        display.style.padding = "16px";
-        display.style.borderRadius = "16px";
-      }*/
       function updateTableTheme() {
         const pastelColors = [
             "#ffeff5", "#fff3d9", "#e7ffe5", "#dff5ff",
@@ -954,6 +994,53 @@
 
       // accessibility
       document.addEventListener("keydown", (e) => { if (e.key === " ") { e.preventDefault(); speakBtn.click(); } });
+      let avatarSelected = "🐰";
+    let usedPairs = [];
+    const runner = document.getElementById("runner");
+    const questionEl = document.getElementById("practiceQuestion");
+    const answerBtns = document.querySelectorAll(".answerBtn");
+
+    document.querySelectorAll(".avatar").forEach(a=>{
+      a.addEventListener("click", ()=>{
+        document.querySelectorAll(".avatar").forEach(x=>x.classList.remove("active"));
+        a.classList.add("active");
+        avatarSelected = a.textContent;
+        runner.textContent = avatarSelected;
+      });
+    });
+
+    function getNewQuestion() {
+      if (usedPairs.length >= 90) usedPairs = [];
+      let a,b;
+      do {
+        a = Math.floor(Math.random()*9)+1;
+        b = Math.floor(Math.random()*10)+1;
+      } while(usedPairs.some(p=>p.a===a && p.b===b));
+      usedPairs.push({a,b});
+      const correct = a*b;
+      questionEl.textContent = `${a} × ${b} = ?`;
+
+      const options = new Set([correct]);
+      while(options.size<4) options.add(correct + Math.floor(Math.random()*10) - 5);
+      const shuffled = [...options].sort(()=>Math.random()-0.5);
+
+      answerBtns.forEach((btn,i)=>{
+        btn.textContent = shuffled[i];
+        btn.onclick = ()=>{
+          if(shuffled[i]===correct){
+            speak("Giỏi quá!");
+            let pos = parseInt(runner.style.left);
+            runner.style.left = (pos+20)+"px";
+          } else speak("Thử lại nào!");
+          getNewQuestion();
+        };
+      });
+    }
+
+    document.getElementById("startPracticeBtn").onclick = ()=>{
+      document.getElementById("raceGame").style.display = "block";
+      getNewQuestion();
+    };
 
     </script>
   </body>

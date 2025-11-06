@@ -358,20 +358,6 @@
   gap: 12px;
   margin-top: 20px;
 }
-.avatar {
-  font-size: 38px;
-  cursor: pointer;
-  transition: 0.2s;
-  padding: 8px;
-  border-radius: 12px;
-}
-.avatar:hover {
-  background:#ffeaf2;
-  transform: scale(1.2);
-}
-.avatar.active {
-  background:#ffb6d9;
-}
 
     </style>
   </head>
@@ -392,7 +378,6 @@
           <div style="margin-top:12px; display:flex; gap:12px;">
             <button id="modeLearning" class="btn">Làm quen phép nhân</button>
             <button id="modeTables" class="btn secondary">Học bảng cửu chương</button>
-            <button id="modePractice" class="btn secondary">Luyện tập tổng hợp</button>
           </div>
         </div>
       </header>
@@ -504,46 +489,6 @@
             </aside>
         </div>
     </div>
-    <!-- PRACTICE SECTION: Luyện tập tổng hợp -->
-<div id="practiceSection" class="fade" style="display:none; margin-top:16px;">
-
-  <div class="card" style="padding:20px; text-align:center;">
-    <h2 style="font-size:26px; margin-bottom:10px;">🎮 Luyện tập tổng hợp</h2>
-
-    <div style="margin-bottom:12px;">Chọn nhân vật:</div>
-    <div id="avatarChoices" style="display:flex; gap:12px; justify-content:center; margin-bottom:14px;">
-      <div class="avatar">🐰</div>
-      <div class="avatar">🐱</div>
-      <div class="avatar">🐻</div>
-      <div class="avatar">🦊</div>
-      <div class="avatar">🐼</div>
-    </div>
-
-    <input id="playerName" placeholder="Đặt tên nhân vật..." style="padding:8px 12px; border-radius:10px; border:1px solid #ccc; font-size:18px;">
-
-    <button id="startPracticeBtn" class="btn" style="display:block; margin:20px auto 0;">
-      Bắt đầu luyện tập 🚀
-    </button>
-  </div>
-
-  <!-- Game chạy -->
-  <div id="raceGame" style="display:none; margin-top:20px;">
-    <div id="track" style="height:80px; background:#fff; border-radius:14px; box-shadow:var(--shadow); position:relative;">
-      <div id="runner" style="position:absolute; top:18px; left:10px; font-size:40px;">🐾</div>
-      <div style="position:absolute; right:12px; top:28px; font-size:16px;">🏁 Đích</div>
-    </div>
-
-    <h3 id="practiceQuestion" style="font-size:30px; text-align:center; margin:20px 0;">?</h3>
-
-    <div style="display:flex; justify-content:center; gap:10px;">
-      <button class="btn secondary answerBtn"></button>
-      <button class="btn secondary answerBtn"></button>
-      <button class="btn secondary answerBtn"></button>
-      <button class="btn secondary answerBtn"></button>
-    </div>
-  </div>
-
-</div>
 
       <footer>
         Gợi ý: bắt đầu bằng đồ thật (kẹo, bút). Sau bé hiểu, dùng ứng dụng này
@@ -617,19 +562,6 @@
       }
       modeLearning.addEventListener("click", showLearn);
       modeTables.addEventListener("click", showTables);
-
-      const modePractice = document.getElementById("modePractice");
-      const practiceSection = document.getElementById("practiceSection");
-
-      function showPractice() {
-        learnSection.style.display = "none";
-        tablesSection.style.display = "none";
-        practiceSection.style.display = "block";
-        modeLearning.classList.add("secondary");
-        modeTables.classList.add("secondary");
-        modePractice.classList.remove("secondary");
-      }
-      modePractice.addEventListener("click", showPractice);
 
       // --------------------------
       // Groups render (learn)
@@ -814,6 +746,20 @@
         }
       }
 
+      /*function updateTable(n) {
+        if (n) currentTable = n;
+        multiplicationDisplay.innerHTML = "";
+        const maxRow = 12;
+        for (let i = 1; i <= maxRow; i++) {
+          const line = document.createElement("div");
+          line.textContent = `${currentTable} × ${i} = ${currentTable * i}`;
+          line.tabIndex = 0;
+          line.addEventListener("click", () => speak(`${currentTable} nhân ${i} bằng ${currentTable * i}`));
+          multiplicationDisplay.appendChild(line);
+        }
+        updateTableTheme();
+      }*/
+
       function updateTable() {
         multiplicationDisplay.innerHTML = "";
         for (let i = 1; i <= 10; i++) {
@@ -827,6 +773,17 @@
         updateTableTheme();
         }
 
+      /*function updateTableTheme() {
+        const pastelColors = [
+          "#ffe6f2", "#fff0da", "#e7ffda", "#daf3ff",
+          "#f4daff", "#ffedd8", "#d8fff1", "#f9d8ff",
+          "#ffe4da", "#e8f7ff", "#fff0f0", "#f3ffe8"
+        ];
+        const display = multiplicationDisplay;
+        display.style.background = pastelColors[(currentTable - 1) % pastelColors.length];
+        display.style.padding = "16px";
+        display.style.borderRadius = "16px";
+      }*/
       function updateTableTheme() {
         const pastelColors = [
             "#ffeff5", "#fff3d9", "#e7ffe5", "#dff5ff",
@@ -994,53 +951,6 @@
 
       // accessibility
       document.addEventListener("keydown", (e) => { if (e.key === " ") { e.preventDefault(); speakBtn.click(); } });
-      let avatarSelected = "🐰";
-    let usedPairs = [];
-    const runner = document.getElementById("runner");
-    const questionEl = document.getElementById("practiceQuestion");
-    const answerBtns = document.querySelectorAll(".answerBtn");
-
-    document.querySelectorAll(".avatar").forEach(a=>{
-      a.addEventListener("click", ()=>{
-        document.querySelectorAll(".avatar").forEach(x=>x.classList.remove("active"));
-        a.classList.add("active");
-        avatarSelected = a.textContent;
-        runner.textContent = avatarSelected;
-      });
-    });
-
-    function getNewQuestion() {
-      if (usedPairs.length >= 90) usedPairs = [];
-      let a,b;
-      do {
-        a = Math.floor(Math.random()*9)+1;
-        b = Math.floor(Math.random()*10)+1;
-      } while(usedPairs.some(p=>p.a===a && p.b===b));
-      usedPairs.push({a,b});
-      const correct = a*b;
-      questionEl.textContent = `${a} × ${b} = ?`;
-
-      const options = new Set([correct]);
-      while(options.size<4) options.add(correct + Math.floor(Math.random()*10) - 5);
-      const shuffled = [...options].sort(()=>Math.random()-0.5);
-
-      answerBtns.forEach((btn,i)=>{
-        btn.textContent = shuffled[i];
-        btn.onclick = ()=>{
-          if(shuffled[i]===correct){
-            speak("Giỏi quá!");
-            let pos = parseInt(runner.style.left);
-            runner.style.left = (pos+20)+"px";
-          } else speak("Thử lại nào!");
-          getNewQuestion();
-        };
-      });
-    }
-
-    document.getElementById("startPracticeBtn").onclick = ()=>{
-      document.getElementById("raceGame").style.display = "block";
-      getNewQuestion();
-    };
 
     </script>
   </body>

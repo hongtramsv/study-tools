@@ -1150,7 +1150,12 @@
         modePractice.classList.remove("secondary");
         modeLearning.classList.add("secondary");
         modeTables.classList.add("secondary");
+
+        document.querySelectorAll(".practice-menu button").forEach((btn, index) => {
+          if (index == 0) { btn.click(); }
+        });
       };
+
       modeLearning.addEventListener("click", showLearn);
       modeTables.addEventListener("click", showTables);
       modePractice.addEventListener("click", showPractice);
@@ -1161,8 +1166,8 @@
           document
             .querySelectorAll(".practice-game")
             .forEach((g) => (g.style.display = "none"));
-          document.getElementById(btn.dataset.game + "Game").style.display =
-            "block";
+          const btnElement = document.getElementById(btn.dataset.game + "Game");
+          btnElement.style.display = "block";
         };
       });
 

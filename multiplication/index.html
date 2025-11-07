@@ -426,31 +426,6 @@
         min-width: 220px;
         text-align: center;
       }
-      /*
-  .settings {
-    display:flex;
-    gap:12px;
-    align-items:center;
-  }
-  .settings label { font-weight:700; margin-right:6px; color:var(--muted); }
-  select#ballSpeed { padding:8px 10px; border-radius:10px; border:1px solid #ffd6ea; background:#fff; font-weight:700; }
-
-  .reward-box {
-    background: linear-gradient(180deg,#fffef8,#fff3e0);
-    padding:8px 12px;
-    border-radius:12px;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-end;
-    min-width:150px;
-    gap:6px;
-  }
-  .reward-row { display:flex; gap:8px; align-items:center; font-weight:700; color:var(--candy); }
-  .reward-count { font-size:20px; color:#d96e00; font-weight:900; margin-left:6px; }
-
-  .highscore { font-size:13px; color:#7a6b7a; }8/
-
- 
   /* Balloon area */
       #balloonArea {
         margin-top: 14px;
@@ -996,37 +971,6 @@
             <div id="oddOptions" style="margin-top: 12px"></div>
           </div>
         </div>
-
-        <!-- big question 
-    <div id="shootQuestion" class="question-box" aria-live="polite">5 × 7 = ?</div>
-
-     settings 
-    <div class="settings">
-      <div class="controls-row">
-        <label for="ballSpeed">Tốc độ</label>
-        <select id="ballSpeed" aria-label="Tốc độ bóng">
-          <option value="4.6">Chậm</option>
-          <option value="3.2" selected>Vừa</option>
-          <option value="1.9">Nhanh</option>
-        </select>
-      </div>
-
-      <div class="controls-row">
-        <label>Level</label>
-        <div id="levelBadge" class="level-badge">1</div>
-      </div>
-      
-      </div>
-
-    </div>
-
-     rewards 
-    <div class="reward-box" aria-live="polite">
-      <div class="reward-row">🍬 Kẹo: <span id="shootReward" class="reward-count">0</span></div>
-      <div class="highscore">🏆 Cao nhất: <span id="shootHighScore">0</span></div>
-    </div>-->
-        <!-- big question -->
-
         <div
           id="dragDropGame"
           class="practice-game"
@@ -1163,30 +1107,42 @@
       function showLearn() {
         learnSection.style.display = "block";
         tablesSection.style.display = "none";
+        practiceSection.style.display = "none";
+
         modeLearning.classList.remove("secondary");
         modeTables.classList.add("secondary");
+        modePractice.classList.add("secondary");
       }
       function showTables() {
         learnSection.style.display = "none";
         tablesSection.style.display = "block";
+        practiceSection.style.display = "none";
+
         modeTables.classList.remove("secondary");
         modeLearning.classList.add("secondary");
+        modePractice.classList.add("secondary");
         // ensure table/game inits when showing tables
         if (!multiplicationButtonsHasChildren()) initMultiplicationButtons();
         updateTable(currentTable);
         createGame();
       }
-      modeLearning.addEventListener("click", showLearn);
-      modeTables.addEventListener("click", showTables);
-      //Game
+      
       const practiceSection = document.getElementById("practiceSection");
       const modePractice = document.getElementById("modePractice");
 
-      modePractice.onclick = () => {
+      function showPractice() {
         learnSection.style.display = "none";
         tablesSection.style.display = "none";
         practiceSection.style.display = "block";
+
+        modePractice.classList.remove("secondary");
+        modeLearning.classList.add("secondary");
+        modeTables.classList.add("secondary");
       };
+      modeLearning.addEventListener("click", showLearn);
+      modeTables.addEventListener("click", showTables);
+      modePractice.addEventListener("click", showPractice);
+      //Game
 
       document.querySelectorAll(".practice-menu button").forEach((btn) => {
         btn.onclick = () => {

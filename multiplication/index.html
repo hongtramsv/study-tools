@@ -375,6 +375,10 @@
         gap: 12px;
         margin-top: 20px;
       }
+
+      .practice-menu .btn {
+        font-size: 16px;
+      }
       /* --- Game 1 --- */
 
       /* Container */
@@ -2395,6 +2399,12 @@
       // Kích hoạt game từ menu
       document.querySelectorAll(".practice-menu button").forEach((btn) => {
         btn.onclick = () => {
+          // Cập nhật màu button: button được click có màu hồng, các button khác màu vàng
+          document.querySelectorAll(".practice-menu button").forEach((b) => {
+            b.classList.add("secondary");
+          });
+          btn.classList.remove("secondary");
+          
           document
             .querySelectorAll(".practice-game")
             .forEach((g) => (g.style.display = "none"));

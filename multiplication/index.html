@@ -1081,1303 +1081,1298 @@
     </div>
 
     <script>
-            // --------------------------
-            // DOM refs
-            // --------------------------
-            const icons = ["🍎", "🍪", "🐶", "🐱", "🍓", "🍌", "🌟", "🍩"];
-            let iconIndex = 0;
-            const groupsCountEl = document.getElementById("groupsCount");
-            const itemsPerGroupEl = document.getElementById("itemsPerGroup");
-            const groupsArea = document.getElementById("groupsArea");
-            const gVal = document.getElementById("gVal");
-            const iVal = document.getElementById("iVal");
-            const equation = document.getElementById("equation");
-            const totalCount = document.getElementById("totalCount");
-            const spoken = document.getElementById("spoken");
-            const iconPreview = document.getElementById("iconPreview");
-            const prevIcon = document.getElementById("prevIcon");
-            const nextIcon = document.getElementById("nextIcon");
-            const speakBtn = document.getElementById("speakBtn");
-            const resetBtn = document.getElementById("resetBtn");
-            const shuffleBtn = document.getElementById("shuffleBtn");
+      // --------------------------
+      // DOM refs
+      // --------------------------
+      const icons = ["🍎", "🍪", "🐶", "🐱", "🍓", "🍌", "🌟", "🍩"];
+      let iconIndex = 0;
+      const groupsCountEl = document.getElementById("groupsCount");
+      const itemsPerGroupEl = document.getElementById("itemsPerGroup");
+      const groupsArea = document.getElementById("groupsArea");
+      const gVal = document.getElementById("gVal");
+      const iVal = document.getElementById("iVal");
+      const equation = document.getElementById("equation");
+      const totalCount = document.getElementById("totalCount");
+      const spoken = document.getElementById("spoken");
+      const iconPreview = document.getElementById("iconPreview");
+      const prevIcon = document.getElementById("prevIcon");
+      const nextIcon = document.getElementById("nextIcon");
+      const speakBtn = document.getElementById("speakBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const shuffleBtn = document.getElementById("shuffleBtn");
 
-            const quizStep = document.getElementById("quizStep");
-            const quizQuestion = document.getElementById("quizQuestion");
-            const answerA = document.getElementById("answerA");
-            const answerB = document.getElementById("answerB");
-            const quizFeedback = document.getElementById("quizFeedback");
-            const speakQuizBtn = document.getElementById("speakQuizBtn");
-            const retryQuizBtn = document.getElementById("retryQuizBtn");
+      const quizStep = document.getElementById("quizStep");
+      const quizQuestion = document.getElementById("quizQuestion");
+      const answerA = document.getElementById("answerA");
+      const answerB = document.getElementById("answerB");
+      const quizFeedback = document.getElementById("quizFeedback");
+      const speakQuizBtn = document.getElementById("speakQuizBtn");
+      const retryQuizBtn = document.getElementById("retryQuizBtn");
 
-            const learnSection = document.getElementById("learnSection");
-            const tablesSection = document.getElementById("tablesSection");
-            const modeLearning = document.getElementById("modeLearning");
-            const modeTables = document.getElementById("modeTables");
+      const learnSection = document.getElementById("learnSection");
+      const tablesSection = document.getElementById("tablesSection");
+      const modeLearning = document.getElementById("modeLearning");
+      const modeTables = document.getElementById("modeTables");
 
-            // --------------------------
-            // small helpers
-            // --------------------------
-            function speak(text) {
-              if (!("speechSynthesis" in window)) return;
-              const ut = new SpeechSynthesisUtterance(text);
-              ut.lang = "vi-VN";
-              window.speechSynthesis.cancel();
-              window.speechSynthesis.speak(ut);
-            }
+      // --------------------------
+      // small helpers
+      // --------------------------
+      function speak(text) {
+        if (!("speechSynthesis" in window)) return;
+        const ut = new SpeechSynthesisUtterance(text);
+        ut.lang = "vi-VN";
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(ut);
+      }
 
-            // --------------------------
-            // Mode switching
-            // --------------------------
-            function showLearn() {
-              learnSection.style.display = "block";
-              tablesSection.style.display = "none";
-              modeLearning.classList.remove("secondary");
-              modeTables.classList.add("secondary");
-            }
-            function showTables() {
-              learnSection.style.display = "none";
-              tablesSection.style.display = "block";
-              modeTables.classList.remove("secondary");
-              modeLearning.classList.add("secondary");
-              // ensure table/game inits when showing tables
-              if (!multiplicationButtonsHasChildren()) initMultiplicationButtons();
-              updateTable(currentTable);
-              createGame();
-            }
-            modeLearning.addEventListener("click", showLearn);
-            modeTables.addEventListener("click", showTables);
-            //Game
-            const practiceSection = document.getElementById("practiceSection");
-            const modePractice = document.getElementById("modePractice");
+      // --------------------------
+      // Mode switching
+      // --------------------------
+      function showLearn() {
+        learnSection.style.display = "block";
+        tablesSection.style.display = "none";
+        modeLearning.classList.remove("secondary");
+        modeTables.classList.add("secondary");
+      }
+      function showTables() {
+        learnSection.style.display = "none";
+        tablesSection.style.display = "block";
+        modeTables.classList.remove("secondary");
+        modeLearning.classList.add("secondary");
+        // ensure table/game inits when showing tables
+        if (!multiplicationButtonsHasChildren()) initMultiplicationButtons();
+        updateTable(currentTable);
+        createGame();
+      }
+      modeLearning.addEventListener("click", showLearn);
+      modeTables.addEventListener("click", showTables);
+      //Game
+      const practiceSection = document.getElementById("practiceSection");
+      const modePractice = document.getElementById("modePractice");
 
-            modePractice.onclick = () => {
-              learnSection.style.display = "none";
-              tablesSection.style.display = "none";
-              practiceSection.style.display = "block";
-            };
+      modePractice.onclick = () => {
+        learnSection.style.display = "none";
+        tablesSection.style.display = "none";
+        practiceSection.style.display = "block";
+      };
 
-            document.querySelectorAll(".practice-menu button").forEach((btn) => {
-              btn.onclick = () => {
-                document
-                  .querySelectorAll(".practice-game")
-                  .forEach((g) => (g.style.display = "none"));
-                document.getElementById(btn.dataset.game + "Game").style.display =
-                  "block";
-              };
+      document.querySelectorAll(".practice-menu button").forEach((btn) => {
+        btn.onclick = () => {
+          document
+            .querySelectorAll(".practice-game")
+            .forEach((g) => (g.style.display = "none"));
+          document.getElementById(btn.dataset.game + "Game").style.display =
+            "block";
+        };
+      });
+
+      // --------------------------
+      // Groups render (learn)
+      // --------------------------
+      function updatePreview() {
+        iconPreview.textContent = icons[iconIndex];
+      }
+      function toVietnamese(n) {
+        const map = [
+          "không",
+          "một",
+          "hai",
+          "ba",
+          "bốn",
+          "năm",
+          "sáu",
+          "bảy",
+          "tám",
+          "chín",
+        ];
+        if (n < 10) return map[n] || n;
+        return String(n);
+      }
+      function renderGroups() {
+        const g = Number(groupsCountEl.value);
+        const i = Number(itemsPerGroupEl.value);
+        gVal.textContent = g;
+        iVal.textContent = i;
+        equation.textContent = `${g} × ${i}`;
+        spoken.textContent = toVietnamese(g) + " nhân " + toVietnamese(i);
+        totalCount.textContent = g * i;
+
+        groupsArea.innerHTML = "";
+        for (let x = 0; x < g; x++) {
+          const gEl = document.createElement("div");
+          gEl.className = "group";
+          const title = document.createElement("div");
+          title.style.fontWeight = "700";
+          title.textContent = `Nhóm ${x + 1}`;
+          const itemsWrap = document.createElement("div");
+          itemsWrap.className = "items";
+          for (let y = 0; y < i; y++) {
+            const it = document.createElement("div");
+            it.className = "item";
+            it.textContent = icons[iconIndex];
+            it.setAttribute("role", "button");
+            it.tabIndex = 0;
+            it.addEventListener("click", () => {
+              animateCount(it);
             });
+            itemsWrap.appendChild(it);
+          }
+          gEl.appendChild(title);
+          gEl.appendChild(itemsWrap);
+          groupsArea.appendChild(gEl);
+        }
+      }
+      function animateCount(el) {
+        el.animate(
+          [
+            { transform: "scale(1)" },
+            { transform: "scale(1.15)" },
+            { transform: "scale(1)" },
+          ],
+          { duration: 280 }
+        );
+        speak("1");
+      }
 
-            // --------------------------
-            // Groups render (learn)
-            // --------------------------
-            function updatePreview() {
-              iconPreview.textContent = icons[iconIndex];
+      groupsCountEl.addEventListener("input", renderGroups);
+      itemsPerGroupEl.addEventListener("input", renderGroups);
+      prevIcon.addEventListener("click", () => {
+        iconIndex = (iconIndex - 1 + icons.length) % icons.length;
+        updatePreview();
+        renderGroups();
+      });
+      nextIcon.addEventListener("click", () => {
+        iconIndex = (iconIndex + 1) % icons.length;
+        updatePreview();
+        renderGroups();
+      });
+      speakBtn.addEventListener("click", () => {
+        const g = Number(groupsCountEl.value);
+        const i = Number(itemsPerGroupEl.value);
+        speak(toVietnamese(g) + " nhân " + toVietnamese(i));
+      });
+      resetBtn.addEventListener("click", () => {
+        groupsCountEl.value = 3;
+        itemsPerGroupEl.value = 4;
+        iconIndex = 0;
+        updatePreview();
+        renderGroups();
+      });
+      shuffleBtn.addEventListener("click", () => {
+        groupsCountEl.value = Math.floor(Math.random() * 7) + 1;
+        itemsPerGroupEl.value = Math.floor(Math.random() * 7) + 1;
+        iconIndex = Math.floor(Math.random() * icons.length);
+        updatePreview();
+        renderGroups();
+      });
+
+      // --------------------------
+      // Quiz (learn)
+      // --------------------------
+      const quizStories = [
+        {
+          story:
+            "Mai có 3 giỏ táo, mỗi giỏ đều có 4 quả. Cô ấy muốn đem tất cả táo đi chia cho bạn bè. Hỏi Mai có tất cả bao nhiêu quả táo?",
+          g: 3,
+          it: 4,
+        },
+        {
+          story:
+            "Nam có 5 túi kẹo, mỗi túi chứa 2 chiếc. Cậu ấy muốn đếm xem mình có bao nhiêu chiếc kẹo.",
+          g: 5,
+          it: 2,
+        },
+        {
+          story:
+            "Trong vườn, bà Lan trồng 4 hàng hoa, mỗi hàng có 3 cây 🌹. Hỏi tất cả có bao nhiêu cây hoa?",
+          g: 4,
+          it: 3,
+        },
+        {
+          story:
+            "Cửa hàng có 6 hộp chuối, mỗi hộp 5 quả. Nhân viên cần đếm tổng số quả chuối trong cửa hàng.",
+          g: 6,
+          it: 5,
+        },
+        {
+          story:
+            "Một chuồng có 3 con chó, mỗi con đang giữ 4 chiếc xương. Hỏi trong chuồng có tổng cộng bao nhiêu chiếc xương?",
+          g: 3,
+          it: 4,
+        },
+        {
+          story:
+            "Bé Thỏ chuẩn bị bánh quy để tặng bạn. Bé có 3 đĩa bánh, mỗi đĩa có 6 chiếc. Bé Thỏ có tất cả bao nhiêu chiếc bánh?",
+          g: 3,
+          it: 6,
+        },
+        {
+          story:
+            "Mèo Mimi thu gom bút màu. Mimi có 4 hộp bút, mỗi hộp có 5 cây. Mimi có tất cả bao nhiêu cây bút màu?",
+          g: 4,
+          it: 5,
+        },
+        {
+          story:
+            "Gấu Bông đang xếp ly giấy cho buổi tiệc. Có 2 chồng ly, mỗi chồng có 8 cái. Tổng cộng có bao nhiêu cái ly?",
+          g: 2,
+          it: 8,
+        },
+        {
+          story:
+            "Chim Sâu mang hoa về làm tổ. Mỗi lần mang được 3 bông, và nó mang 7 lần. Nó mang tổng cộng bao nhiêu bông hoa?",
+          g: 7,
+          it: 3,
+        },
+        {
+          story:
+            "Lan tô tranh hoa hướng dương. Có 5 bông hoa, mỗi bông có 4 cánh. Lan cần tô bao nhiêu cánh hoa?",
+          g: 5,
+          it: 4,
+        },
+        {
+          story:
+            "Bé Na có 6 gói dán sticker, mỗi gói có 5 hình ngôi sao. Bé Na có bao nhiêu hình ngôi sao?",
+          g: 6,
+          it: 5,
+        },
+        {
+          story:
+            "Trong vườn có 4 cây táo, mỗi cây có 7 quả. Tất cả có bao nhiêu quả táo trên cây?",
+          g: 4,
+          it: 7,
+        },
+        {
+          story:
+            "Bé Hổ đang xếp sách trên kệ. Có 3 ngăn kệ, mỗi ngăn đặt được 9 quyển sách. Bé Hổ đặt tổng cộng bao nhiêu quyển?",
+          g: 3,
+          it: 9,
+        },
+        {
+          story:
+            "Mẹ mua 8 bó hoa cúc, mỗi bó có 3 bông. Mẹ mua tất cả bao nhiêu bông hoa cúc?",
+          g: 8,
+          it: 3,
+        },
+        {
+          story:
+            "Bạn Thủy xếp 5 hàng ghế cho lớp học, mỗi hàng có 6 chiếc ghế. Tổng cộng có bao nhiêu chiếc ghế?",
+          g: 5,
+          it: 6,
+        },
+        {
+          story:
+            "Bé Heo mang bánh mời bạn. Có 7 hộp bánh, mỗi hộp 4 cái. Bé Heo mang bao nhiêu cái bánh?",
+          g: 7,
+          it: 4,
+        },
+        {
+          story:
+            "Thỏ Trắng đang buộc bóng bay. Mỗi bó có 8 quả bóng, có tất cả 2 bó. Hỏi có bao nhiêu quả bóng?",
+          g: 2,
+          it: 8,
+        },
+        {
+          story:
+            "Gấu Con đang tô hoa giấy. Có 9 bông, mỗi bông 5 cánh. Gấu Con tô tất cả bao nhiêu cánh?",
+          g: 9,
+          it: 5,
+        },
+        {
+          story:
+            "Cún Đốm phát phần thưởng. Có 4 túi quà, mỗi túi có 6 kẹo. Tổng cộng có bao nhiêu viên kẹo?",
+          g: 4,
+          it: 6,
+        },
+        {
+          story:
+            "Bé Sóc trang trí cửa sổ. Có 3 dây treo, mỗi dây 10 lá trang trí. Có bao nhiêu lá trang trí tất cả?",
+          g: 3,
+          it: 10,
+        },
+        {
+          story:
+            "Trong sân có 8 nhóm trò chơi, mỗi nhóm có 2 bạn tham gia. Có tất cả bao nhiêu bạn?",
+          g: 8,
+          it: 2,
+        },
+        {
+          story:
+            "Mèo Nhí trồng hoa tulip. Có 6 chậu, mỗi chậu 7 hoa. Mèo Nhí trồng bao nhiêu hoa tulip?",
+          g: 6,
+          it: 7,
+        },
+        {
+          story:
+            "Cô giáo phát nhãn vở. Có 5 chồng nhãn, mỗi chồng 9 tờ. Tổng cộng cô phát bao nhiêu tờ nhãn?",
+          g: 5,
+          it: 9,
+        },
+        {
+          story:
+            "Bé Na đang gấp hạc giấy. Bé gấp 4 lần, mỗi lần 8 con hạc. Bé gấp bao nhiêu con hạc tất cả?",
+          g: 4,
+          it: 8,
+        },
+        {
+          story:
+            "Thỏ Nhỏ treo đèn lồng. Có 7 dây đèn, mỗi dây có 6 chiếc đèn nhỏ. Thỏ Nhỏ treo bao nhiêu chiếc đèn lồng tất cả?",
+          g: 7,
+          it: 6,
+        },
+        {
+          story:
+            "Bé Cừu chuẩn bị bánh trung thu. Có 4 hộp bánh, mỗi hộp có 8 chiếc. Bé Cừu có bao nhiêu chiếc bánh?",
+          g: 4,
+          it: 8,
+        },
+        {
+          story:
+            "Trong lớp có 3 bàn trồng cây, mỗi bàn trồng 7 chậu. Cả lớp trồng bao nhiêu chậu cây?",
+          g: 3,
+          it: 7,
+        },
+        {
+          story:
+            "Bé Nai có 5 xấp giấy màu, mỗi xấp có 6 tờ. Bé Nai có bao nhiêu tờ giấy màu?",
+          g: 5,
+          it: 6,
+        },
+        {
+          story:
+            "Bác gấu làm bánh rán 🍩. Làm 2 khay, mỗi khay có 9 cái. Bác làm tất cả bao nhiêu cái bánh?",
+          g: 2,
+          it: 9,
+        },
+        {
+          story:
+            "Sơn cất vở vào tủ. Có 7 ngăn tủ, mỗi ngăn để được 4 quyển vở. Sơn để tất cả bao nhiêu quyển vở?",
+          g: 7,
+          it: 4,
+        },
+        {
+          story:
+            "Có 6 đoàn tàu đồ chơi 🚂, mỗi đoàn có 3 toa. Tất cả có bao nhiêu toa tàu?",
+          g: 6,
+          it: 3,
+        },
+        {
+          story:
+            "Thỏ Hồng gấp giấy thành bông hoa. Bé gấp 8 lần, mỗi lần được 5 bông. Bé gấp bao nhiêu bông hoa?",
+          g: 8,
+          it: 5,
+        },
+        {
+          story:
+            "Trong rừng có 5 nhóm sóc 🎒 đi nhặt hạt, mỗi nhóm có 3 bạn. Có bao nhiêu bạn sóc tất cả?",
+          g: 5,
+          it: 3,
+        },
+        {
+          story:
+            "Gấu Con xếp gối ngủ. Có 9 giường, mỗi giường 2 chiếc gối. Có bao nhiêu chiếc gối?",
+          g: 9,
+          it: 2,
+        },
+        {
+          story:
+            "Bé Thỏ vẽ mặt trời ☀️. Bé vẽ 4 bức tranh, mỗi bức có 7 mặt trời. Bé vẽ bao nhiêu mặt trời?",
+          g: 4,
+          it: 7,
+        },
+        {
+          story:
+            "Cún Bông đang phân chia đồ chơi. Có 3 hộp xe hơi, mỗi hộp 10 chiếc. Cún có bao nhiêu xe hơi?",
+          g: 3,
+          it: 10,
+        },
+        {
+          story:
+            "Nhà Ong có 8 cụm hoa trước cửa, mỗi cụm có 4 bông. Tổng cộng có bao nhiêu bông hoa?",
+          g: 8,
+          it: 4,
+        },
+        {
+          story:
+            "Bạn Hạ treo thiệp chúc mừng. Có 2 dây treo, mỗi dây 10 thiệp 🎉. Có bao nhiêu thiệp tất cả?",
+          g: 2,
+          it: 10,
+        },
+        {
+          story:
+            "Mèo Mướp đếm dép trước cửa. Có 5 cặp dép, mỗi cặp có 2 chiếc. Có bao nhiêu chiếc dép?",
+          g: 5,
+          it: 2,
+        },
+        {
+          story:
+            "Bé Gà mang 6 rổ trứng, mỗi rổ có 5 quả. Bé Gà mang bao nhiêu quả trứng?",
+          g: 6,
+          it: 5,
+        },
+        {
+          story:
+            "Trong hồ có 7 đàn cá 🐟, mỗi đàn có 3 con. Hồ có bao nhiêu con cá?",
+          g: 7,
+          it: 3,
+        },
+        {
+          story:
+            "Lớp học có 4 hộp bút chì, mỗi hộp có 8 chiếc. Có bao nhiêu bút chì trong lớp?",
+          g: 4,
+          it: 8,
+        },
+        {
+          story:
+            "Bạn Bi tô tranh hoa mai. Có 8 bông, mỗi bông 6 cánh. Bạn Bi tô bao nhiêu cánh hoa?",
+          g: 8,
+          it: 6,
+        },
+        {
+          story:
+            "Bé Gấu đi mua sticker ⭐. Bé mua 9 tờ, mỗi tờ có 4 sticker. Bé có bao nhiêu sticker?",
+          g: 9,
+          it: 4,
+        },
+        {
+          story:
+            "Thỏ Trắng trồng cà rốt 🥕. Có 6 luống, mỗi luống 7 cây. Tất cả có bao nhiêu cây cà rốt?",
+          g: 6,
+          it: 7,
+        },
+      ];
+
+      let quizQ = [];
+      let currentQuiz = 0;
+      let score = 0;
+
+      function makeQuiz() {
+        quizQ = [];
+        score = 0;
+        const used = new Set();
+        while (quizQ.length < quizStories.length) {
+          const idx = Math.floor(Math.random() * quizStories.length);
+          if (!used.has(idx)) {
+            used.add(idx);
+            quizQ.push(quizStories[idx]);
+          }
+        }
+        currentQuiz = 0;
+        showQuiz();
+      }
+      function showQuiz() {
+        if (!quizQ.length) return;
+        const q = quizQ[currentQuiz];
+        quizStep.textContent = currentQuiz + 1;
+        quizQuestion.textContent = q.story;
+        const correct = q.g * q.it;
+        const wrong =
+          correct +
+          (Math.random() < 0.5
+            ? -(Math.floor(Math.random() * 3) + 1)
+            : Math.floor(Math.random() * 3) + 1);
+        if (Math.random() < 0.5) {
+          answerA.textContent = correct;
+          answerA.dataset.correct = "1";
+          answerB.textContent = wrong;
+          answerB.dataset.correct = "";
+        } else {
+          answerB.textContent = correct;
+          answerB.dataset.correct = "1";
+          answerA.textContent = wrong;
+          answerA.dataset.correct = "";
+        }
+        quizFeedback.textContent = "";
+      }
+
+      [answerA, answerB].forEach((btn) =>
+        btn.addEventListener("click", () => {
+          if (btn.dataset.correct) {
+            score++;
+            quizFeedback.textContent = "Chính xác! 🎉";
+            quizFeedback.style.color = "green";
+          } else {
+            quizFeedback.textContent = "Chưa đúng, thử lần sau nhé 😊";
+            quizFeedback.style.color = "#cc4b4b";
+          }
+          setTimeout(() => {
+            currentQuiz++;
+            if (currentQuiz < quizQ.length) showQuiz();
+            else {
+              quizFeedback.style.color = "#ff6f00";
+              quizFeedback.textContent = `🎉 Bạn đã hoàn thành! Bạn trả lời đúng ${score}/${quizQ.length} câu.`;
+              retryQuizBtn.style.display = "inline-block";
             }
-            function toVietnamese(n) {
-              const map = [
-                "không",
-                "một",
-                "hai",
-                "ba",
-                "bốn",
-                "năm",
-                "sáu",
-                "bảy",
-                "tám",
-                "chín",
-              ];
-              if (n < 10) return map[n] || n;
-              return String(n);
-            }
-            function renderGroups() {
-              const g = Number(groupsCountEl.value);
-              const i = Number(itemsPerGroupEl.value);
-              gVal.textContent = g;
-              iVal.textContent = i;
-              equation.textContent = `${g} × ${i}`;
-              spoken.textContent = toVietnamese(g) + " nhân " + toVietnamese(i);
-              totalCount.textContent = g * i;
+          }, 900);
+        })
+      );
+      retryQuizBtn.addEventListener("click", () => {
+        makeQuiz();
+        quizFeedback.textContent = "";
+        retryQuizBtn.style.display = "none";
+      });
+      speakQuizBtn.addEventListener("click", () => {
+        if (quizQ[currentQuiz]) speak(quizQ[currentQuiz].story);
+      });
 
-              groupsArea.innerHTML = "";
-              for (let x = 0; x < g; x++) {
-                const gEl = document.createElement("div");
-                gEl.className = "group";
-                const title = document.createElement("div");
-                title.style.fontWeight = "700";
-                title.textContent = `Nhóm ${x + 1}`;
-                const itemsWrap = document.createElement("div");
-                itemsWrap.className = "items";
-                for (let y = 0; y < i; y++) {
-                  const it = document.createElement("div");
-                  it.className = "item";
-                  it.textContent = icons[iconIndex];
-                  it.setAttribute("role", "button");
-                  it.tabIndex = 0;
-                  it.addEventListener("click", () => {
-                    animateCount(it);
-                  });
-                  itemsWrap.appendChild(it);
-                }
-                gEl.appendChild(title);
-                gEl.appendChild(itemsWrap);
-                groupsArea.appendChild(gEl);
-              }
-            }
-            function animateCount(el) {
-              el.animate(
-                [
-                  { transform: "scale(1)" },
-                  { transform: "scale(1.15)" },
-                  { transform: "scale(1)" },
-                ],
-                { duration: 280 }
-              );
-              speak("1");
-            }
+      // --------------------------
+      // Multiplication table (1..12) + theme
+      // --------------------------
+      const multiplicationButtons = document.getElementById(
+        "multiplicationButtons"
+      );
+      const multiplicationDisplay = document.getElementById(
+        "multiplicationDisplay"
+      );
+      const readTableBtn = document.getElementById("readTableBtn");
+      let currentTable = 1;
+      let multiplicationInited = false;
 
-            groupsCountEl.addEventListener("input", renderGroups);
-            itemsPerGroupEl.addEventListener("input", renderGroups);
-            prevIcon.addEventListener("click", () => {
-              iconIndex = (iconIndex - 1 + icons.length) % icons.length;
-              updatePreview();
-              renderGroups();
-            });
-            nextIcon.addEventListener("click", () => {
-              iconIndex = (iconIndex + 1) % icons.length;
-              updatePreview();
-              renderGroups();
-            });
-            speakBtn.addEventListener("click", () => {
-              const g = Number(groupsCountEl.value);
-              const i = Number(itemsPerGroupEl.value);
-              speak(toVietnamese(g) + " nhân " + toVietnamese(i));
-            });
-            resetBtn.addEventListener("click", () => {
-              groupsCountEl.value = 3;
-              itemsPerGroupEl.value = 4;
-              iconIndex = 0;
-              updatePreview();
-              renderGroups();
-            });
-            shuffleBtn.addEventListener("click", () => {
-              groupsCountEl.value = Math.floor(Math.random() * 7) + 1;
-              itemsPerGroupEl.value = Math.floor(Math.random() * 7) + 1;
-              iconIndex = Math.floor(Math.random() * icons.length);
-              updatePreview();
-              renderGroups();
-            });
+      function multiplicationButtonsHasChildren() {
+        return (
+          multiplicationButtons && multiplicationButtons.children.length > 0
+        );
+      }
 
-            // --------------------------
-            // Quiz (learn)
-            // --------------------------
-            const quizStories = [
-              {
-                story:
-                  "Mai có 3 giỏ táo, mỗi giỏ đều có 4 quả. Cô ấy muốn đem tất cả táo đi chia cho bạn bè. Hỏi Mai có tất cả bao nhiêu quả táo?",
-                g: 3,
-                it: 4,
-              },
-              {
-                story:
-                  "Nam có 5 túi kẹo, mỗi túi chứa 2 chiếc. Cậu ấy muốn đếm xem mình có bao nhiêu chiếc kẹo.",
-                g: 5,
-                it: 2,
-              },
-              {
-                story:
-                  "Trong vườn, bà Lan trồng 4 hàng hoa, mỗi hàng có 3 cây 🌹. Hỏi tất cả có bao nhiêu cây hoa?",
-                g: 4,
-                it: 3,
-              },
-              {
-                story:
-                  "Cửa hàng có 6 hộp chuối, mỗi hộp 5 quả. Nhân viên cần đếm tổng số quả chuối trong cửa hàng.",
-                g: 6,
-                it: 5,
-              },
-              {
-                story:
-                  "Một chuồng có 3 con chó, mỗi con đang giữ 4 chiếc xương. Hỏi trong chuồng có tổng cộng bao nhiêu chiếc xương?",
-                g: 3,
-                it: 4,
-              },
-              {
-                story:
-                  "Bé Thỏ chuẩn bị bánh quy để tặng bạn. Bé có 3 đĩa bánh, mỗi đĩa có 6 chiếc. Bé Thỏ có tất cả bao nhiêu chiếc bánh?",
-                g: 3,
-                it: 6,
-              },
-              {
-                story:
-                  "Mèo Mimi thu gom bút màu. Mimi có 4 hộp bút, mỗi hộp có 5 cây. Mimi có tất cả bao nhiêu cây bút màu?",
-                g: 4,
-                it: 5,
-              },
-              {
-                story:
-                  "Gấu Bông đang xếp ly giấy cho buổi tiệc. Có 2 chồng ly, mỗi chồng có 8 cái. Tổng cộng có bao nhiêu cái ly?",
-                g: 2,
-                it: 8,
-              },
-              {
-                story:
-                  "Chim Sâu mang hoa về làm tổ. Mỗi lần mang được 3 bông, và nó mang 7 lần. Nó mang tổng cộng bao nhiêu bông hoa?",
-                g: 7,
-                it: 3,
-              },
-              {
-                story:
-                  "Lan tô tranh hoa hướng dương. Có 5 bông hoa, mỗi bông có 4 cánh. Lan cần tô bao nhiêu cánh hoa?",
-                g: 5,
-                it: 4,
-              },
-              {
-                story:
-                  "Bé Na có 6 gói dán sticker, mỗi gói có 5 hình ngôi sao. Bé Na có bao nhiêu hình ngôi sao?",
-                g: 6,
-                it: 5,
-              },
-              {
-                story:
-                  "Trong vườn có 4 cây táo, mỗi cây có 7 quả. Tất cả có bao nhiêu quả táo trên cây?",
-                g: 4,
-                it: 7,
-              },
-              {
-                story:
-                  "Bé Hổ đang xếp sách trên kệ. Có 3 ngăn kệ, mỗi ngăn đặt được 9 quyển sách. Bé Hổ đặt tổng cộng bao nhiêu quyển?",
-                g: 3,
-                it: 9,
-              },
-              {
-                story:
-                  "Mẹ mua 8 bó hoa cúc, mỗi bó có 3 bông. Mẹ mua tất cả bao nhiêu bông hoa cúc?",
-                g: 8,
-                it: 3,
-              },
-              {
-                story:
-                  "Bạn Thủy xếp 5 hàng ghế cho lớp học, mỗi hàng có 6 chiếc ghế. Tổng cộng có bao nhiêu chiếc ghế?",
-                g: 5,
-                it: 6,
-              },
-              {
-                story:
-                  "Bé Heo mang bánh mời bạn. Có 7 hộp bánh, mỗi hộp 4 cái. Bé Heo mang bao nhiêu cái bánh?",
-                g: 7,
-                it: 4,
-              },
-              {
-                story:
-                  "Thỏ Trắng đang buộc bóng bay. Mỗi bó có 8 quả bóng, có tất cả 2 bó. Hỏi có bao nhiêu quả bóng?",
-                g: 2,
-                it: 8,
-              },
-              {
-                story:
-                  "Gấu Con đang tô hoa giấy. Có 9 bông, mỗi bông 5 cánh. Gấu Con tô tất cả bao nhiêu cánh?",
-                g: 9,
-                it: 5,
-              },
-              {
-                story:
-                  "Cún Đốm phát phần thưởng. Có 4 túi quà, mỗi túi có 6 kẹo. Tổng cộng có bao nhiêu viên kẹo?",
-                g: 4,
-                it: 6,
-              },
-              {
-                story:
-                  "Bé Sóc trang trí cửa sổ. Có 3 dây treo, mỗi dây 10 lá trang trí. Có bao nhiêu lá trang trí tất cả?",
-                g: 3,
-                it: 10,
-              },
-              {
-                story:
-                  "Trong sân có 8 nhóm trò chơi, mỗi nhóm có 2 bạn tham gia. Có tất cả bao nhiêu bạn?",
-                g: 8,
-                it: 2,
-              },
-              {
-                story:
-                  "Mèo Nhí trồng hoa tulip. Có 6 chậu, mỗi chậu 7 hoa. Mèo Nhí trồng bao nhiêu hoa tulip?",
-                g: 6,
-                it: 7,
-              },
-              {
-                story:
-                  "Cô giáo phát nhãn vở. Có 5 chồng nhãn, mỗi chồng 9 tờ. Tổng cộng cô phát bao nhiêu tờ nhãn?",
-                g: 5,
-                it: 9,
-              },
-              {
-                story:
-                  "Bé Na đang gấp hạc giấy. Bé gấp 4 lần, mỗi lần 8 con hạc. Bé gấp bao nhiêu con hạc tất cả?",
-                g: 4,
-                it: 8,
-              },
-              {
-                story:
-                  "Thỏ Nhỏ treo đèn lồng. Có 7 dây đèn, mỗi dây có 6 chiếc đèn nhỏ. Thỏ Nhỏ treo bao nhiêu chiếc đèn lồng tất cả?",
-                g: 7,
-                it: 6,
-              },
-              {
-                story:
-                  "Bé Cừu chuẩn bị bánh trung thu. Có 4 hộp bánh, mỗi hộp có 8 chiếc. Bé Cừu có bao nhiêu chiếc bánh?",
-                g: 4,
-                it: 8,
-              },
-              {
-                story:
-                  "Trong lớp có 3 bàn trồng cây, mỗi bàn trồng 7 chậu. Cả lớp trồng bao nhiêu chậu cây?",
-                g: 3,
-                it: 7,
-              },
-              {
-                story:
-                  "Bé Nai có 5 xấp giấy màu, mỗi xấp có 6 tờ. Bé Nai có bao nhiêu tờ giấy màu?",
-                g: 5,
-                it: 6,
-              },
-              {
-                story:
-                  "Bác gấu làm bánh rán 🍩. Làm 2 khay, mỗi khay có 9 cái. Bác làm tất cả bao nhiêu cái bánh?",
-                g: 2,
-                it: 9,
-              },
-              {
-                story:
-                  "Sơn cất vở vào tủ. Có 7 ngăn tủ, mỗi ngăn để được 4 quyển vở. Sơn để tất cả bao nhiêu quyển vở?",
-                g: 7,
-                it: 4,
-              },
-              {
-                story:
-                  "Có 6 đoàn tàu đồ chơi 🚂, mỗi đoàn có 3 toa. Tất cả có bao nhiêu toa tàu?",
-                g: 6,
-                it: 3,
-              },
-              {
-                story:
-                  "Thỏ Hồng gấp giấy thành bông hoa. Bé gấp 8 lần, mỗi lần được 5 bông. Bé gấp bao nhiêu bông hoa?",
-                g: 8,
-                it: 5,
-              },
-              {
-                story:
-                  "Trong rừng có 5 nhóm sóc 🎒 đi nhặt hạt, mỗi nhóm có 3 bạn. Có bao nhiêu bạn sóc tất cả?",
-                g: 5,
-                it: 3,
-              },
-              {
-                story:
-                  "Gấu Con xếp gối ngủ. Có 9 giường, mỗi giường 2 chiếc gối. Có bao nhiêu chiếc gối?",
-                g: 9,
-                it: 2,
-              },
-              {
-                story:
-                  "Bé Thỏ vẽ mặt trời ☀️. Bé vẽ 4 bức tranh, mỗi bức có 7 mặt trời. Bé vẽ bao nhiêu mặt trời?",
-                g: 4,
-                it: 7,
-              },
-              {
-                story:
-                  "Cún Bông đang phân chia đồ chơi. Có 3 hộp xe hơi, mỗi hộp 10 chiếc. Cún có bao nhiêu xe hơi?",
-                g: 3,
-                it: 10,
-              },
-              {
-                story:
-                  "Nhà Ong có 8 cụm hoa trước cửa, mỗi cụm có 4 bông. Tổng cộng có bao nhiêu bông hoa?",
-                g: 8,
-                it: 4,
-              },
-              {
-                story:
-                  "Bạn Hạ treo thiệp chúc mừng. Có 2 dây treo, mỗi dây 10 thiệp 🎉. Có bao nhiêu thiệp tất cả?",
-                g: 2,
-                it: 10,
-              },
-              {
-                story:
-                  "Mèo Mướp đếm dép trước cửa. Có 5 cặp dép, mỗi cặp có 2 chiếc. Có bao nhiêu chiếc dép?",
-                g: 5,
-                it: 2,
-              },
-              {
-                story:
-                  "Bé Gà mang 6 rổ trứng, mỗi rổ có 5 quả. Bé Gà mang bao nhiêu quả trứng?",
-                g: 6,
-                it: 5,
-              },
-              {
-                story:
-                  "Trong hồ có 7 đàn cá 🐟, mỗi đàn có 3 con. Hồ có bao nhiêu con cá?",
-                g: 7,
-                it: 3,
-              },
-              {
-                story:
-                  "Lớp học có 4 hộp bút chì, mỗi hộp có 8 chiếc. Có bao nhiêu bút chì trong lớp?",
-                g: 4,
-                it: 8,
-              },
-              {
-                story:
-                  "Bạn Bi tô tranh hoa mai. Có 8 bông, mỗi bông 6 cánh. Bạn Bi tô bao nhiêu cánh hoa?",
-                g: 8,
-                it: 6,
-              },
-              {
-                story:
-                  "Bé Gấu đi mua sticker ⭐. Bé mua 9 tờ, mỗi tờ có 4 sticker. Bé có bao nhiêu sticker?",
-                g: 9,
-                it: 4,
-              },
-              {
-                story:
-                  "Thỏ Trắng trồng cà rốt 🥕. Có 6 luống, mỗi luống 7 cây. Tất cả có bao nhiêu cây cà rốt?",
-                g: 6,
-                it: 7,
-              },
-            ];
+      function initMultiplicationButtons() {
+        if (multiplicationInited) return;
+        multiplicationInited = true;
+        // create buttons 1..12
+        for (let n = 1; n <= 9; n++) {
+          const btn = document.createElement("button");
+          btn.textContent = n;
+          btn.addEventListener("click", () => {
+            currentTable = n;
+            updateTable(n);
+            highlightActive(btn);
+          });
+          multiplicationButtons.appendChild(btn);
+        }
+      }
 
-            let quizQ = [];
-            let currentQuiz = 0;
-            let score = 0;
+      function updateTable() {
+        multiplicationDisplay.innerHTML = "";
+        for (let i = 1; i <= 10; i++) {
+          let line = document.createElement("div");
+          line.textContent = `${currentTable} × ${i} = ${currentTable * i}`;
+          line.addEventListener("click", () => {
+            speak(`${currentTable} nhân ${i} bằng ${currentTable * i}`);
+          });
+          multiplicationDisplay.appendChild(line);
+        }
+        updateTableTheme();
+      }
 
-            function makeQuiz() {
-              quizQ = [];
-              score = 0;
-              const used = new Set();
-              while (quizQ.length < quizStories.length) {
-                const idx = Math.floor(Math.random() * quizStories.length);
-                if (!used.has(idx)) {
-                  used.add(idx);
-                  quizQ.push(quizStories[idx]);
-                }
-              }
-              currentQuiz = 0;
-              showQuiz();
-            }
-            function showQuiz() {
-              if (!quizQ.length) return;
-              const q = quizQ[currentQuiz];
-              quizStep.textContent = currentQuiz + 1;
-              quizQuestion.textContent = q.story;
-              const correct = q.g * q.it;
-              const wrong =
-                correct +
-                (Math.random() < 0.5
-                  ? -(Math.floor(Math.random() * 3) + 1)
-                  : Math.floor(Math.random() * 3) + 1);
-              if (Math.random() < 0.5) {
-                answerA.textContent = correct;
-                answerA.dataset.correct = "1";
-                answerB.textContent = wrong;
-                answerB.dataset.correct = "";
-              } else {
-                answerB.textContent = correct;
-                answerB.dataset.correct = "1";
-                answerA.textContent = wrong;
-                answerA.dataset.correct = "";
-              }
-              quizFeedback.textContent = "";
-            }
+      function updateTableTheme() {
+        const pastelColors = [
+          "#ffeff5",
+          "#fff3d9",
+          "#e7ffe5",
+          "#dff5ff",
+          "#f4e4ff",
+          "#ffe9d6",
+          "#d6fffa",
+          "#ffe3fb",
+          "#ffe9e9",
+        ];
+        multiplicationDisplay.style.background = pastelColors[currentTable - 1];
+        multiplicationDisplay.style.border = "3px solid #ffc6db";
+        multiplicationDisplay.style.borderRadius = "18px";
+        multiplicationDisplay.style.padding = "18px";
+        multiplicationDisplay.style.transition = "0.3s";
+      }
 
-            [answerA, answerB].forEach((btn) =>
-              btn.addEventListener("click", () => {
-                if (btn.dataset.correct) {
-                  score++;
-                  quizFeedback.textContent = "Chính xác! 🎉";
-                  quizFeedback.style.color = "green";
-                } else {
-                  quizFeedback.textContent = "Chưa đúng, thử lần sau nhé 😊";
-                  quizFeedback.style.color = "#cc4b4b";
-                }
+      function highlightActive(activeBtn) {
+        document
+          .querySelectorAll("#multiplicationButtons button")
+          .forEach((b) => b.classList.remove("active"));
+        if (activeBtn) activeBtn.classList.add("active");
+      }
+
+      readTableBtn.addEventListener("click", () => {
+        let text = "";
+        for (let i = 1; i <= 10; i++)
+          text += `${currentTable} nhân ${i} bằng ${currentTable * i}. `;
+        speak(text);
+      });
+
+      // --------------------------
+      // Matching game (cards)
+      // --------------------------
+      const gameArea = document.getElementById("gameArea");
+      const newGameBtn = document.getElementById("newGameBtn");
+      let firstCard = null;
+      let lockBoard = false;
+
+      function createGame() {
+        gameArea.innerHTML = "";
+        const cards = [];
+        // create 6 pairs (we show 8 cards = 4 pairs earlier; now create 6 pairs for more variety)
+        const pairsCount = 6;
+        for (let i = 1; i <= pairsCount; i++) {
+          const result = currentTable * i;
+          cards.push({
+            text: `${currentTable} × ${i}`,
+            value: result,
+            type: "exp",
+          });
+          cards.push({ text: String(result), value: result, type: "ans" });
+        }
+        // shuffle
+        cards.sort(() => Math.random() - 0.5);
+        // create elements
+        cards.forEach((c) => {
+          const cardEl = document.createElement("div");
+          cardEl.className = "game-card";
+          cardEl.textContent = c.text;
+          cardEl.dataset.value = c.value;
+          cardEl.dataset.type = c.type;
+          gameArea.appendChild(cardEl);
+        });
+        setupCardEvents();
+      }
+
+      function setupCardEvents() {
+        document.querySelectorAll(".game-card").forEach((card) => {
+          // remove previous handlers by cloning (safe)
+          const newCard = card.cloneNode(true);
+          card.parentNode.replaceChild(newCard, card);
+        });
+        document.querySelectorAll(".game-card").forEach((card) => {
+          card.addEventListener("click", () => {
+            if (lockBoard || card.classList.contains("matched")) return;
+            card.style.background = "#fff2c2";
+            if (!firstCard) {
+              firstCard = card;
+            } else {
+              lockBoard = true;
+              if (
+                firstCard.dataset.value === card.dataset.value &&
+                firstCard.dataset.type !== card.dataset.type
+              ) {
+                // matched
+                firstCard.classList.add("matched");
+                card.classList.add("matched");
+                speak("Chính xác!");
                 setTimeout(() => {
-                  currentQuiz++;
-                  if (currentQuiz < quizQ.length) showQuiz();
-                  else {
-                    quizFeedback.style.color = "#ff6f00";
-                    quizFeedback.textContent = `🎉 Bạn đã hoàn thành! Bạn trả lời đúng ${score}/${quizQ.length} câu.`;
-                    retryQuizBtn.style.display = "inline-block";
-                  }
-                }, 900);
-              })
-            );
-            retryQuizBtn.addEventListener("click", () => {
-              makeQuiz();
-              quizFeedback.textContent = "";
-              retryQuizBtn.style.display = "none";
-            });
-            speakQuizBtn.addEventListener("click", () => {
-              if (quizQ[currentQuiz]) speak(quizQ[currentQuiz].story);
-            });
-
-            // --------------------------
-            // Multiplication table (1..12) + theme
-            // --------------------------
-            const multiplicationButtons = document.getElementById(
-              "multiplicationButtons"
-            );
-            const multiplicationDisplay = document.getElementById(
-              "multiplicationDisplay"
-            );
-            const readTableBtn = document.getElementById("readTableBtn");
-            let currentTable = 1;
-            let multiplicationInited = false;
-
-            function multiplicationButtonsHasChildren() {
-              return (
-                multiplicationButtons && multiplicationButtons.children.length > 0
-              );
-            }
-
-            function initMultiplicationButtons() {
-              if (multiplicationInited) return;
-              multiplicationInited = true;
-              // create buttons 1..12
-              for (let n = 1; n <= 9; n++) {
-                const btn = document.createElement("button");
-                btn.textContent = n;
-                btn.addEventListener("click", () => {
-                  currentTable = n;
-                  updateTable(n);
-                  highlightActive(btn);
-                });
-                multiplicationButtons.appendChild(btn);
-              }
-            }
-
-            function updateTable() {
-              multiplicationDisplay.innerHTML = "";
-              for (let i = 1; i <= 10; i++) {
-                let line = document.createElement("div");
-                line.textContent = `${currentTable} × ${i} = ${currentTable * i}`;
-                line.addEventListener("click", () => {
-                  speak(`${currentTable} nhân ${i} bằng ${currentTable * i}`);
-                });
-                multiplicationDisplay.appendChild(line);
-              }
-              updateTableTheme();
-            }
-
-            function updateTableTheme() {
-              const pastelColors = [
-                "#ffeff5",
-                "#fff3d9",
-                "#e7ffe5",
-                "#dff5ff",
-                "#f4e4ff",
-                "#ffe9d6",
-                "#d6fffa",
-                "#ffe3fb",
-                "#ffe9e9",
-              ];
-              multiplicationDisplay.style.background = pastelColors[currentTable - 1];
-              multiplicationDisplay.style.border = "3px solid #ffc6db";
-              multiplicationDisplay.style.borderRadius = "18px";
-              multiplicationDisplay.style.padding = "18px";
-              multiplicationDisplay.style.transition = "0.3s";
-            }
-
-            function highlightActive(activeBtn) {
-              document
-                .querySelectorAll("#multiplicationButtons button")
-                .forEach((b) => b.classList.remove("active"));
-              if (activeBtn) activeBtn.classList.add("active");
-            }
-
-            readTableBtn.addEventListener("click", () => {
-              let text = "";
-              for (let i = 1; i <= 10; i++)
-                text += `${currentTable} nhân ${i} bằng ${currentTable * i}. `;
-              speak(text);
-            });
-
-            // --------------------------
-            // Matching game (cards)
-            // --------------------------
-            const gameArea = document.getElementById("gameArea");
-            const newGameBtn = document.getElementById("newGameBtn");
-            let firstCard = null;
-            let lockBoard = false;
-
-            function createGame() {
-              gameArea.innerHTML = "";
-              const cards = [];
-              // create 6 pairs (we show 8 cards = 4 pairs earlier; now create 6 pairs for more variety)
-              const pairsCount = 6;
-              for (let i = 1; i <= pairsCount; i++) {
-                const result = currentTable * i;
-                cards.push({
-                  text: `${currentTable} × ${i}`,
-                  value: result,
-                  type: "exp",
-                });
-                cards.push({ text: String(result), value: result, type: "ans" });
-              }
-              // shuffle
-              cards.sort(() => Math.random() - 0.5);
-              // create elements
-              cards.forEach((c) => {
-                const cardEl = document.createElement("div");
-                cardEl.className = "game-card";
-                cardEl.textContent = c.text;
-                cardEl.dataset.value = c.value;
-                cardEl.dataset.type = c.type;
-                gameArea.appendChild(cardEl);
-              });
-              setupCardEvents();
-            }
-
-            function setupCardEvents() {
-              document.querySelectorAll(".game-card").forEach((card) => {
-                // remove previous handlers by cloning (safe)
-                const newCard = card.cloneNode(true);
-                card.parentNode.replaceChild(newCard, card);
-              });
-              document.querySelectorAll(".game-card").forEach((card) => {
-                card.addEventListener("click", () => {
-                  if (lockBoard || card.classList.contains("matched")) return;
-                  card.style.background = "#fff2c2";
-                  if (!firstCard) {
-                    firstCard = card;
-                  } else {
-                    lockBoard = true;
-                    if (
-                      firstCard.dataset.value === card.dataset.value &&
-                      firstCard.dataset.type !== card.dataset.type
-                    ) {
-                      // matched
-                      firstCard.classList.add("matched");
-                      card.classList.add("matched");
-                      speak("Chính xác!");
-                      setTimeout(() => {
-                        firstCard.style.background = "";
-                        card.style.background = "";
-                      }, 300);
-                    } else {
-                      speak("Chưa đúng rồi, thử lại nhé!");
-                      setTimeout(() => {
-                        firstCard.style.background = "";
-                        card.style.background = "";
-                      }, 400);
-                    }
-                    setTimeout(() => {
-                      firstCard = null;
-                      lockBoard = false;
-                      checkWin();
-                    }, 500);
-                  }
-                });
-              });
-            }
-
-            newGameBtn.addEventListener("click", () => {
-              createGame();
-              startTimer();
-            });
-
-            // --------------------------
-            // Timer + stickers
-            // --------------------------
-            let timeLeft = 30;
-            let timer = null;
-            let stickers = Number(localStorage.getItem("stickers") || 0);
-            document.getElementById("stickerCount").textContent = stickers;
-
-            function startTimer() {
-              clearInterval(timer);
-              timeLeft = 30;
-              updateTimerDisplay();
-              timer = setInterval(() => {
-                timeLeft--;
-                updateTimerDisplay();
-                if (timeLeft <= 0) {
-                  clearInterval(timer);
-                  endGame(false);
-                }
-              }, 1000);
-            }
-            function updateTimerDisplay() {
-              const t = document.getElementById("timerDisplay");
-              t.textContent = `⏱️ ${timeLeft}s`;
-              if (timeLeft <= 10) t.classList.add("blink");
-              else t.classList.remove("blink");
-            }
-            function checkWin() {
-              const unmatched = document.querySelectorAll(".game-card:not(.matched)");
-              if (unmatched.length === 0) {
-                endGame(true);
-              }
-            }
-            function endGame(win) {
-              clearInterval(timer);
-              if (win) {
-                speak("Tuyệt vời! Con đã thắng!");
-                earnSticker();
+                  firstCard.style.background = "";
+                  card.style.background = "";
+                }, 300);
               } else {
-                speak("Hết thời gian rồi! Chơi lại nhé!");
+                speak("Chưa đúng rồi, thử lại nhé!");
+                setTimeout(() => {
+                  firstCard.style.background = "";
+                  card.style.background = "";
+                }, 400);
               }
+              setTimeout(() => {
+                firstCard = null;
+                lockBoard = false;
+                checkWin();
+              }, 500);
             }
-            function earnSticker() {
-              stickers++;
-              localStorage.setItem("stickers", stickers);
-              document.getElementById("stickerCount").textContent = stickers;
-              const earned = document.createElement("div");
-              earned.textContent = "⭐";
-              earned.className = "sticker-earned";
-              earned.style.position = "fixed";
-              earned.style.left = "50%";
-              earned.style.top = "40%";
-              earned.style.transform = "translate(-50%, -50%)";
-              earned.style.zIndex = "9999";
-              document.body.appendChild(earned);
-              setTimeout(() => earned.remove(), 900);
-            }
+          });
+        });
+      }
 
-            // --------------------------
-            // Initialization
-            // --------------------------
-            updatePreview();
-            renderGroups();
-            makeQuiz();
-            // default: show learn
-            showLearn();
+      newGameBtn.addEventListener("click", () => {
+        createGame();
+        startTimer();
+      });
 
-            // when user switches to tables, initialize buttons if necessary
-            initMultiplicationButtons();
-            highlightActive(
-              document.querySelectorAll("#multiplicationButtons button")[0]
-            );
-            updateTable(1);
-            createGame();
+      // --------------------------
+      // Timer + stickers
+      // --------------------------
+      let timeLeft = 30;
+      let timer = null;
+      let stickers = Number(localStorage.getItem("stickers") || 0);
+      document.getElementById("stickerCount").textContent = stickers;
 
-            // accessibility
-            document.addEventListener("keydown", (e) => {
-              if (e.key === " ") {
-                e.preventDefault();
-                speakBtn.click();
-              }
-            });
+      function startTimer() {
+        clearInterval(timer);
+        timeLeft = 30;
+        updateTimerDisplay();
+        timer = setInterval(() => {
+          timeLeft--;
+          updateTimerDisplay();
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            endGame(false);
+          }
+        }, 1000);
+      }
+      function updateTimerDisplay() {
+        const t = document.getElementById("timerDisplay");
+        t.textContent = `⏱️ ${timeLeft}s`;
+        if (timeLeft <= 10) t.classList.add("blink");
+        else t.classList.remove("blink");
+      }
+      function checkWin() {
+        const unmatched = document.querySelectorAll(".game-card:not(.matched)");
+        if (unmatched.length === 0) {
+          endGame(true);
+        }
+      }
+      function endGame(win) {
+        clearInterval(timer);
+        if (win) {
+          speak("Tuyệt vời! Con đã thắng!");
+          earnSticker();
+        } else {
+          speak("Hết thời gian rồi! Chơi lại nhé!");
+        }
+      }
+      function earnSticker() {
+        stickers++;
+        localStorage.setItem("stickers", stickers);
+        document.getElementById("stickerCount").textContent = stickers;
+        const earned = document.createElement("div");
+        earned.textContent = "⭐";
+        earned.className = "sticker-earned";
+        earned.style.position = "fixed";
+        earned.style.left = "50%";
+        earned.style.top = "40%";
+        earned.style.transform = "translate(-50%, -50%)";
+        earned.style.zIndex = "9999";
+        document.body.appendChild(earned);
+        setTimeout(() => earned.remove(), 900);
+      }
 
-            /* ---------------------------
+      // --------------------------
+      // Initialization
+      // --------------------------
+      updatePreview();
+      renderGroups();
+      makeQuiz();
+      // default: show learn
+      showLearn();
+
+      // when user switches to tables, initialize buttons if necessary
+      initMultiplicationButtons();
+      highlightActive(
+        document.querySelectorAll("#multiplicationButtons button")[0]
+      );
+      updateTable(1);
+      createGame();
+
+      // accessibility
+      document.addEventListener("keydown", (e) => {
+        if (e.key === " ") {
+          e.preventDefault();
+          speakBtn.click();
+        }
+      });
+
+      /* ---------------------------
         Mini-game: Bắn Bóng Kết Quả
         - balloons fly bottom -> top
         - candy reward, pop sound, levels, highscore
       ---------------------------- */
 
-            (() => {
-              // Audio (public short sound)
-              const popSound = new Audio(
-                "https://assets.mixkit.co/sfx/preview/mixkit-pop-106.mp3"
-              );
-              popSound.volume = 0.55;
+      (() => {
+        const popSound = new Audio(
+          "https://assets.mixkit.co/sfx/preview/mixkit-pop-106.mp3"
+        );
+        popSound.volume = 0.55;
 
-              const balloonArea = document.getElementById("balloonArea");
-              const questionEl = document.getElementById("shootQuestion");
-              const shootRewardEl = document.getElementById("shootReward");
-              const shootHighEl = document.getElementById("shootHighScore");
-              const levelBadge = document.getElementById("levelBadge");
+        const balloonArea = document.getElementById("balloonArea");
+        const questionEl = document.getElementById("shootQuestion");
+        const shootRewardEl = document.getElementById("shootReward");
+        const shootHighEl = document.getElementById("shootHighScore");
+        const levelBadge = document.getElementById("levelBadge");
 
-              let shootScore = 0;
-              let shootHighScore =
-                Number(localStorage.getItem("shootHighScore")) || 0;
-              shootHighEl.textContent = shootHighScore;
+        let shootScore = 0;
+        let shootHighScore =
+          Number(localStorage.getItem("shootHighScore")) || 0;
+        shootHighEl.textContent = shootHighScore;
 
-              let shootCorrectAnswer = null;
-              let spawnIntervalId = null;
-              let active = false;
-              let currentLevel = 1;
-              let balloonIds = 0;
-              let usedRecentQuestions = new Set();
+        let shootCorrectAnswer = null;
+        let spawnIntervalId = null;
+        let active = false;
+        let currentLevel = 1;
+        let balloonIds = 0;
+        let usedRecentQuestions = new Set();
+        let baseDuration = parseInt(
+          document.querySelector(".speed-btn.active").dataset.speed
+        );
 
-              let speed = 4500;
-      document.querySelectorAll(".speed-btn").forEach((btn) => {
+        const buttons = document.querySelectorAll(".speed-btn");
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => {
+            buttons.forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
+            baseDuration = parseInt(button.getAttribute("data-speed"));
+            if (active) restartSpawnInterval();
+          });
+        });
+
+        function rand(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        function randFloat(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+        function randomFromSet(arr) {
+          return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        document
+          .getElementById("startBtn")
+          .addEventListener("click", () => startShootGame());
+        document
+          .getElementById("stopBtn")
+          .addEventListener("click", () => stopShootGame());
+        document
+          .getElementById("resetHighBtn")
+          .addEventListener("click", () => {
+            localStorage.removeItem("shootHighScore");
+            shootHighScore = 0;
+            shootHighEl.textContent = 0;
+          });
+
+        let currentAnswerPool = [];
+        let correctBalloonSpawned = false; // cờ kiểm soát bong bóng đúng
+
+        function startShootGame() {
+          stopShootGame();
+          shootScore = 0;
+          currentLevel = 1;
+          levelBadge.textContent = currentLevel;
+          shootRewardEl.textContent = shootScore;
+          nextQuestion();
+          active = true;
+        }
+
+        function stopShootGame() {
+          active = false;
+          clearInterval(spawnIntervalId);
+          spawnIntervalId = null;
+          balloonArea.innerHTML = "";
+          usedRecentQuestions.clear();
+        }
+
+        function nextQuestion() {
+          balloonArea.innerHTML = "";
+
+          // tạo câu hỏi mới
+          let a, b, key;
+          do {
+            a = rand(1, 9);
+            b = rand(1, 10);
+            key = `${a}x${b}`;
+          } while (
+            usedRecentQuestions.has(key) &&
+            usedRecentQuestions.size < 80
+          );
+          usedRecentQuestions.add(key);
+          if (usedRecentQuestions.size > 80) usedRecentQuestions.clear();
+
+          shootCorrectAnswer = a * b;
+          questionEl.textContent = `${a} × ${b} = ?`;
+
+          // tạo pool gồm đáp án đúng + 5 đáp án sai
+          const answers = new Set([shootCorrectAnswer]);
+          while (answers.size < 6) answers.add(rand(1, 90));
+          currentAnswerPool = [...answers].sort(() => Math.random() - 0.5);
+
+          // reset cờ
+          correctBalloonSpawned = false;
+
+          // spawn 1-2 bong bóng ban đầu
+          for (let i = 0; i < 2; i++) spawnNextBalloon();
+
+          // bắt đầu spawn interval
+          restartSpawnInterval();
+        }
+
+        function restartSpawnInterval() {
+          clearInterval(spawnIntervalId);
+          spawnIntervalId = setInterval(() => {
+            if (!active) return;
+
+            spawnBalloonBatch(); // spawn 1 lượt 3-5 bong bóng
+          }, Math.max(800, baseDuration)); // có thể tăng thời gian giữa các lượt
+        }
+
+        // spawn một lượt 3-5 bong bóng, không chồng lấn nhau, luôn có 1 đáp án đúng
+        function spawnBalloonBatch() {
+          const batchSize = rand(3, 5);
+          const positions = []; // lưu left % đã dùng
+          const correctIndex = rand(0, batchSize - 1);
+
+          for (let i = 0; i < batchSize; i++) {
+            let num;
+            if (i === correctIndex) num = shootCorrectAnswer;
+            else {
+              let candidate;
+              do {
+                candidate = randomFromSet(currentAnswerPool);
+              } while (candidate === shootCorrectAnswer);
+              num = candidate;
+            }
+
+            // random vị trí left không chồng lấn
+            let leftPct;
+            let attempts = 0;
+            do {
+              leftPct = rand(3, 83); // phần trăm
+              attempts++;
+              // kiểm tra khoảng cách với các positions đã dùng
+            } while (
+              positions.some((p) => Math.abs(p - leftPct) < 12) &&
+              attempts < 20
+            );
+            positions.push(leftPct);
+
+            spawnBalloon(num, leftPct);
+          }
+        }
+
+        function spawnNextBalloon() {
+          let numToSpawn;
+          if (!correctBalloonSpawned) {
+            numToSpawn = shootCorrectAnswer;
+            correctBalloonSpawned = true;
+          } else {
+            numToSpawn = randomFromSet(currentAnswerPool);
+          }
+          spawnBalloon(numToSpawn);
+        }
+
+        // sửa spawnBalloon để nhận leftPct tùy chọn
+        function spawnBalloon(num, leftPct = null) {
+          const id = ++balloonIds;
+          const b = document.createElement("div");
+          b.className = "balloon";
+          b.dataset.id = id;
+          b.textContent = String(num);
+
+          const palettes = [
+            ["#fff6fb", "#ffd7f0"],
+            ["#fff9ec", "#fff0d6"],
+            ["#f0fff7", "#d8fff0"],
+            ["#fff7ff", "#f7e9ff"],
+          ];
+          const p = palettes[Math.floor(Math.random() * palettes.length)];
+          b.style.background = `radial-gradient(circle at 28% 28%, ${p[0]}, ${p[1]})`;
+          b.style.color = "#7a2a59";
+
+          // nếu leftPct được truyền thì dùng, nếu không thì random
+          if (leftPct === null) leftPct = rand(3, 83);
+          b.style.left = leftPct + "%";
+
+          const floatDur = Math.max(
+            0.9,
+            baseDuration / 1000 - (currentLevel - 1) * 0.35
+          );
+          b.style.animation = `floatUp ${floatDur}s linear forwards`;
+          b.style.bottom = -60 - Math.random() * 30 + "px";
+
+          b.addEventListener("click", (ev) => {
+            if (!active) return;
+            const val = Number(b.textContent);
+            if (val === shootCorrectAnswer) {
+              explodeBalloon(b);
+              handleCorrect();
+            } else {
+              b.style.transform = "translateY(-6px) scale(1.06)";
+              b.style.background = "#ffd7d7";
+              setTimeout(() => (b.style.transform = ""), 180);
+            }
+            ev.stopPropagation();
+          });
+
+          b.addEventListener("animationend", () => {
+            if (b.parentNode) b.remove();
+          });
+          balloonArea.appendChild(b);
+          setTimeout(() => {
+            if (b.parentNode) b.remove();
+          }, Math.max(6000, floatDur * 1000 + 900));
+        }
+        function explodeBalloon(balloonEl) {
+          try {
+            popSound.currentTime = 0;
+            popSound.play();
+          } catch (e) {}
+
+          balloonEl.classList.add("pop");
+
+          const areaRect = balloonArea.getBoundingClientRect();
+          const balloonRect = balloonEl.getBoundingClientRect();
+          const centerX =
+            balloonRect.left + balloonRect.width / 2 - areaRect.left;
+          const centerY =
+            balloonRect.top + balloonRect.height / 2 - areaRect.top;
+
+          for (let i = 0; i < 8; i++) {
+            const c = document.createElement("div");
+            c.className = "candy-splash";
+            c.textContent = "🍬";
+            c.style.left = centerX + "px";
+            c.style.top = centerY + "px";
+            const dx = (Math.random() * 160 - 80).toFixed(0) + "px";
+            const dy = (-Math.random() * 160 - 20).toFixed(0) + "px";
+            c.style.setProperty("--dx", dx);
+            c.style.setProperty("--dy", dy);
+            c.style.animation =
+              "candyFly 0.85s cubic-bezier(.2,.8,.2,1) forwards";
+            balloonArea.appendChild(c);
+
+            setTimeout(() => {
+              if (c.parentNode) c.remove();
+            }, 1000 + Math.random() * 200);
+          }
+
+          // Remove bong bóng sau animation
+          setTimeout(() => {
+            if (balloonEl.parentNode) balloonEl.remove();
+          }, 650);
+        }
+
+        function handleCorrect() {
+          if (!active) return;
+          shootScore++;
+          shootRewardEl.textContent = shootScore;
+          if (shootScore > shootHighScore) {
+            shootHighScore = shootScore;
+            localStorage.setItem("shootHighScore", shootHighScore);
+            shootHighEl.textContent = shootHighScore;
+          }
+
+          if (shootScore % 8 === 0) {
+            currentLevel++;
+            levelBadge.textContent = currentLevel;
+            const palettes = [
+              "linear-gradient(180deg,#fff7fb,#fff0f6)",
+              "linear-gradient(180deg,#fffaf0,#fff7e6)",
+              "linear-gradient(180deg,#f0fff8,#eafff2)",
+              "linear-gradient(180deg,#f3f6ff,#eef7ff)",
+            ];
+            balloonArea.style.background =
+              palettes[currentLevel % palettes.length];
+          }
+
+          // chuyển sang câu hỏi mới
+          nextQuestion();
+        }
+
+        function initPlaceholder() {
+          questionEl.textContent = 'Chạm "Bắt đầu" để chơi';
+          balloonArea.innerHTML = "";
+        }
+        initPlaceholder();
+      })();
+
+      //Game 2
+      let dragScore = 0;
+      let previousDrag = null;
+
+      function createDragQuestion() {
+        let a, b;
+        do {
+          a = Math.floor(Math.random() * 9) + 1;
+          b = Math.floor(Math.random() * 10) + 1;
+        } while (`${a}x${b}` === previousDrag);
+        previousDrag = `${a}x${b}`;
+        const correct = a * b;
+
+        document.getElementById("dragQuestion").textContent = `${a} × ${b} = ?`;
+        const cards = new Set([correct]);
+        while (cards.size < 6) cards.add(Math.floor(Math.random() * 81) + 1);
+
+        const cardContainer = document.getElementById("dragCards");
+        cardContainer.innerHTML = "";
+        Array.from(cards)
+          .sort(() => Math.random() - 0.5)
+          .forEach((num) => {
+            const card = document.createElement("div");
+            card.className = "drag-card";
+            card.textContent = num;
+            card.draggable = true;
+
+            card.addEventListener("dragstart", (e) => {
+              e.dataTransfer.setData("text/plain", num);
+            });
+
+            cardContainer.appendChild(card);
+          });
+      }
+
+      // Đưa thẻ vào ô
+      const answerZone = document.getElementById("answerZone");
+      answerZone.addEventListener("dragover", (e) => e.preventDefault());
+      answerZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const val = Number(e.dataTransfer.getData("text/plain"));
+        const correct =
+          Number(previousDrag.split("×")[0]) *
+          Number(previousDrag.split("×")[1]);
+        if (val === correct) {
+          dragScore++;
+          document.getElementById("dragScore").textContent = dragScore;
+          answerZone.textContent = `${correct} ✔`;
+          answerZone.style.borderColor = "#39b55a";
+          setTimeout(() => {
+            answerZone.textContent = "Kéo thẻ vào đây";
+            answerZone.style.borderColor = "#ccc";
+            createDragQuestion();
+          }, 800);
+        } else {
+          answerZone.style.borderColor = "#cc4b4b";
+          setTimeout(() => (answerZone.style.borderColor = "#ccc"), 400);
+        }
+      });
+
+      // Kích hoạt game từ menu
+      document.querySelector('[data-game="drag"]').onclick = () => {
+        document
+          .querySelectorAll(".practice-game")
+          .forEach((g) => (g.style.display = "none"));
+        document.getElementById("dragDropGame").style.display = "block";
+        createDragQuestion();
+      };
+
+      //Game 3
+      let lineScore = 0;
+
+      function createMatchLineGame() {
+        const pairs = [];
+        while (pairs.length < 6) {
+          const a = Math.floor(Math.random() * 9) + 1;
+          const b = Math.floor(Math.random() * 10) + 1;
+          const key = `${a}x${b}`;
+          if (!pairs.some((p) => p.key === key))
+            pairs.push({ key: key, value: a * b });
+        }
+
+        const leftCol = document.getElementById("leftColumn");
+        const rightCol = document.getElementById("rightColumn");
+        leftCol.innerHTML = "";
+        rightCol.innerHTML = "";
+        const rightShuffled = [...pairs].sort(() => Math.random() - 0.5);
+
+        pairs.forEach((p) => {
+          const div = document.createElement("div");
+          div.className = "match-item";
+          div.textContent = p.key;
+          div.dataset.value = p.value;
+          div.addEventListener("click", () => selectLeft(div));
+          leftCol.appendChild(div);
+        });
+
+        rightShuffled.forEach((p) => {
+          const div = document.createElement("div");
+          div.className = "match-item";
+          div.textContent = p.value;
+          div.dataset.value = p.value;
+          div.addEventListener("click", () => selectRight(div));
+          rightCol.appendChild(div);
+        });
+
+        window.matchLeft = null;
+        window.matchRight = null;
+      }
+
+      function selectLeft(div) {
+        window.matchLeft = div;
+      }
+
+      function selectRight(div) {
+        window.matchRight = div;
+        if (window.matchLeft) {
+          if (window.matchLeft.dataset.value === div.dataset.value) {
+            window.matchLeft.classList.add("correct");
+            div.classList.add("correct");
+            lineScore++;
+            document.getElementById("lineScore").textContent = lineScore;
+            window.matchLeft.style.pointerEvents = "none";
+            div.style.pointerEvents = "none";
+          }
+          window.matchLeft = null;
+          window.matchRight = null;
+        }
+      }
+
+      // Kích hoạt game từ menu
+      document.querySelectorAll(".practice-menu button").forEach((btn) => {
         btn.onclick = () => {
           document
-            .querySelectorAll(".speed-btn")
-            .forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-          speed = Number(btn.getAttribute("data-speed"));
+            .querySelectorAll(".practice-game")
+            .forEach((g) => (g.style.display = "none"));
+          const gameId = btn.dataset.game;
+          document.getElementById(gameId + "Game").style.display = "block";
+
+          // Reset điểm khi chuyển game
+          if (gameId === "shoot") {
+            shootScore = 0;
+            document.getElementById("shootScore").textContent = 0;
+            createShootQuestion();
+          }
+          if (gameId === "drag") {
+            dragScore = 0;
+            document.getElementById("dragScore").textContent = 0;
+            createDragQuestion();
+          }
+          if (gameId === "memory") {
+            lineScore = 0;
+            document.getElementById("lineScore").textContent = 0;
+            createMatchLineGame();
+          }
+          if (gameId === "odd") {
+            oddScore = 0;
+            document.getElementById("oddScore").textContent = 0;
+            generateOddOneOut();
+          }
         };
       });
 
+      //Game 4
+      let oddScore = 0;
 
-              // helpers
-              function rand(min, max) {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-              }
-              function randFloat(min, max) {
-                return Math.random() * (max - min) + min;
-              }
+      function generateOddOneOut() {
+        const optionsCount = Math.floor(Math.random() * 4) + 6; // 6-9 options
+        const correctIdx = Math.floor(Math.random() * optionsCount);
+        const oddOptions = [];
 
-              // start/stop/reset
-              document
-                .getElementById("startBtn")
-                .addEventListener("click", () => startShootGame());
-              document
-                .getElementById("stopBtn")
-                .addEventListener("click", () => stopShootGame());
-              document
-                .getElementById("resetHighBtn")
-                .addEventListener("click", () => {
-                  localStorage.removeItem("shootHighScore");
-                  shootHighScore = 0;
-                  shootHighEl.textContent = 0;
-                });
+        for (let i = 0; i < optionsCount; i++) {
+          let a = Math.floor(Math.random() * 9) + 1;
+          let b = Math.floor(Math.random() * 10) + 1;
+          let ans = a * b;
+          if (i === correctIdx) {
+            // tạo sai số
+            ans += Math.floor(Math.random() * 5) + 1;
+            if (ans === a * b) ans += 1; // đảm bảo khác
+            oddOptions.push({ text: `${a} × ${b} = ${ans}`, correct: false });
+          } else {
+            oddOptions.push({ text: `${a} × ${b} = ${ans}`, correct: true });
+          }
+        }
 
-              // speed select change updates base duration and restarts spawn timing if active
-             //speed.addEventListener("change", () => {
-              //  speed
-              // if (active) {
-              //    restartSpawnInterval();
-                //}
-             // });
-
-              function startShootGame() {
-                // reset score & level
-                stopShootGame();
-                shootScore = 0;
-                currentLevel = 1;
-                levelBadge.textContent = currentLevel;
-                shootRewardEl.textContent = shootScore;
-                spawnInitialQuestion();
-                active = true;
-              }
-
-              function stopShootGame() {
-                active = false;
-                clearInterval(spawnIntervalId);
-                spawnIntervalId = null;
-                // remove balloons
-                balloonArea.innerHTML = "";
-                usedRecentQuestions.clear();
-              }
-
-              // spawn interval control
-              function restartSpawnInterval() {
-                clearInterval(spawnIntervalId);
-                const floatDur = Math.max(
-                  0.9,
-                 speed  - (currentLevel - 1) * 0.35
-                ); // faster per level
-                const spawnMs = Math.max(450, Math.round(floatDur * 550));
-                spawnIntervalId = setInterval(() => {
-                  // occasionally spawn an extra balloon (random answer)
-                  spawnBalloon(
-                    randomFromSet(currentAnswerPool || [shootCorrectAnswer])
-                  );
-                }, spawnMs);
-              }
-
-              // create question + initial balloons
-              let currentAnswerPool = null;
-              function spawnInitialQuestion() {
-                clearInterval(spawnIntervalId);
-                balloonArea.innerHTML = "";
-                // pick a new unique question (avoid immediate repeats)
-                let a, b, key;
-                do {
-                  a = rand(1, 9);
-                  b = rand(1, 10);
-                  key = `${a}x${b}`;
-                } while (
-                  usedRecentQuestions.has(key) &&
-                  usedRecentQuestions.size < 80
-                );
-                usedRecentQuestions.add(key);
-                if (usedRecentQuestions.size > 80) usedRecentQuestions.clear();
-
-                shootCorrectAnswer = a * b;
-                questionEl.textContent = `${a} × ${b} = ?`;
-
-                // create answers pool (includes correct + distractors)
-                const answers = new Set([shootCorrectAnswer]);
-                while (answers.size < 6) {
-                  answers.add(rand(1, 90));
-                }
-                currentAnswerPool = [...answers];
-
-                // spawn 6 at once
-                currentAnswerPool
-                  .sort(() => Math.random() - 0.5)
-                  .forEach((num) => spawnBalloon(num));
-                // start spawn interval
-                restartSpawnInterval();
-              }
-
-              function randomFromSet(arr) {
-                return arr[Math.floor(Math.random() * arr.length)];
-              }
-
-              function spawnBalloon(num) {
-                // create a balloon element that floats from bottom up
-                const id = ++balloonIds;
-                const b = document.createElement("div");
-                b.className = "balloon";
-                b.dataset.id = id;
-                b.textContent = String(num);
-
-                // pastel color variants
-                const palettes = [
-                  ["#fff6fb", "#ffd7f0", "#ffd7f0"],
-                  ["#fff9ec", "#fff0d6", "#fff2cc"],
-                  ["#f0fff7", "#d8fff0", "#ccfff0"],
-                  ["#fff7ff", "#f7e9ff", "#f9e0ff"],
-                ];
-                const p = palettes[Math.floor(Math.random() * palettes.length)];
-                b.style.background = `radial-gradient(circle at 28% 28%, ${p[0]}, ${p[1]})`;
-                b.style.color = "#7a2a59";
-
-                // horizontal position (avoid overflow)
-                const leftPct = Math.random() * 80 + 3; // 3% .. 83%
-                b.style.left = leftPct + "%";
-
-                // animation duration depends on float speed and level
-                const floatDur = Math.max(
-                  0.9,
-                  speed - (currentLevel - 1) * 0.35
-                ); // seconds
-                b.style.animation = `floatUp ${floatDur}s linear forwards`;
-
-                // set initial bottom offset slightly random within area height
-                const startBottom = -60 - Math.random() * 30; // start below area
-                b.style.bottom = startBottom + "px";
-
-                // click handling
-                b.addEventListener("click", (ev) => {
-                  if (!active) return;
-                  const val = Number(b.textContent);
-                  if (val === shootCorrectAnswer) {
-                    // correct
-                    explodeBalloon(b);
-                    handleCorrect();
-                  } else {
-                    // wrong: small shake + red tint
-                    b.style.transform = "translateY(-6px) scale(1.06)";
-                    b.style.background = "#ffd7d7";
-                    setTimeout(() => {
-                      try {
-                        b.style.transform = "";
-                      } catch (e) {}
-                    }, 180);
-                  }
-                  ev.stopPropagation();
-                });
-
-                // remove balloon after animation end to avoid DOM leak
-                b.addEventListener("animationend", (ev) => {
-                  // if finished floating, remove
-                  if (b.parentNode) b.remove();
-                });
-
-                balloonArea.appendChild(b);
-
-                // safety remove after a bit longer than float duration
-                setTimeout(() => {
-                  if (b.parentNode) b.remove();
-                }, Math.max(6000, floatDur * 1000 + 900));
-              }
-
-              // explode with candy pieces + sound
-              function explodeBalloon(balloonEl) {
-                // play sound
-                try {
-                  popSound.currentTime = 0;
-                  popSound.play();
-                } catch (e) {
-                  /* ignore play errors */
-                }
-
-                // add pop class (scale down)
-                balloonEl.classList.add("pop");
-
-                // create candy pieces
-                const pieces = 8;
-                for (let i = 0; i < pieces; i++) {
-                  const c = document.createElement("div");
-                  c.className = "candy-splash";
-                  c.textContent = "🍬";
-                  // position at balloon center
-                  const rect = balloonEl.getBoundingClientRect();
-                  const areaRect = balloonArea.getBoundingClientRect();
-                  const left = balloonEl.offsetLeft + 8; // approximate center
-                  const top = balloonEl.offsetTop + 8;
-                  c.style.left = left + "px";
-                  c.style.top = top + "px";
-                  // random vector
-                  const dx = (Math.random() * 160 - 80).toFixed(0) + "px";
-                  const dy = (-Math.random() * 160 - 20).toFixed(0) + "px";
-                  c.style.setProperty("--dx", dx);
-                  c.style.setProperty("--dy", dy);
-                  c.style.animation = `candyFly 0.85s cubic-bezier(.2,.8,.2,1) forwards`;
-                  balloonArea.appendChild(c);
-                  // remove piece after animation
-                  setTimeout(() => {
-                    if (c.parentNode) c.remove();
-                  }, 1000 + Math.random() * 200);
-                }
-
-                // remove the popped balloon after animation
-                setTimeout(() => {
-                  if (balloonEl.parentNode) balloonEl.remove();
-                }, 650);
-              }
-
-              // handle correct hit: increment score, update high score, level progression
-              function handleCorrect() {
-                if (!active) return;
-                shootScore++;
-                shootRewardEl.textContent = shootScore;
-                // update highscore
-                if (shootScore > shootHighScore) {
-                  shootHighScore = shootScore;
-                  localStorage.setItem("shootHighScore", shootHighScore);
-                  shootHighEl.textContent = shootHighScore;
-                }
-
-                // level up every 8 correct
-                if (shootScore % 8 === 0) {
-                  currentLevel++;
-                  levelBadge.textContent = currentLevel;
-                  // optional: small flash background
-                  balloonArea.style.transition = "background 0.6s";
-                  const palettes = [
-                    "linear-gradient(180deg,#fff7fb,#fff0f6)",
-                    "linear-gradient(180deg,#fffaf0,#fff7e6)",
-                    "linear-gradient(180deg,#f0fff8,#eafff2)",
-                    "linear-gradient(180deg,#f3f6ff,#eef7ff)",
-                  ];
-                  balloonArea.style.background =
-                    palettes[currentLevel % palettes.length];
-                  // restart spawn speed
-                  restartSpawnInterval();
-                }
-                // new question short delay so candy effect visible
-                setTimeout(() => {
-                  if (active) spawnInitialQuestion();
-                }, 320);
-              }
-
-              // initial placeholder
-              function initPlaceholder() {
-                questionEl.textContent = 'Chạm "Bắt đầu" để chơi';
-                balloonArea.innerHTML = "";
-              }
-              initPlaceholder();
-            })();
-            //Game 2
-            let dragScore = 0;
-            let previousDrag = null;
-
-            function createDragQuestion() {
-              let a, b;
-              do {
-                a = Math.floor(Math.random() * 9) + 1;
-                b = Math.floor(Math.random() * 10) + 1;
-              } while (`${a}x${b}` === previousDrag);
-              previousDrag = `${a}x${b}`;
-              const correct = a * b;
-
-              document.getElementById("dragQuestion").textContent = `${a} × ${b} = ?`;
-              const cards = new Set([correct]);
-              while (cards.size < 6) cards.add(Math.floor(Math.random() * 81) + 1);
-
-              const cardContainer = document.getElementById("dragCards");
-              cardContainer.innerHTML = "";
-              Array.from(cards)
-                .sort(() => Math.random() - 0.5)
-                .forEach((num) => {
-                  const card = document.createElement("div");
-                  card.className = "drag-card";
-                  card.textContent = num;
-                  card.draggable = true;
-
-                  card.addEventListener("dragstart", (e) => {
-                    e.dataTransfer.setData("text/plain", num);
-                  });
-
-                  cardContainer.appendChild(card);
-                });
+        const container = document.getElementById("oddOptions");
+        container.innerHTML = "";
+        oddOptions.forEach((opt) => {
+          const card = document.createElement("div");
+          card.className = "odd-card";
+          card.textContent = opt.text;
+          card.addEventListener("click", () => {
+            if (opt.correct) {
+              card.classList.add("wrong");
+              alert("Chọn chưa đúng! Hãy tìm kẻ xâm nhập!");
+            } else {
+              card.classList.add("correct");
+              oddScore++;
+              document.getElementById("oddScore").textContent = oddScore;
+              setTimeout(generateOddOneOut, 500); // chuyển bộ mới
             }
+          });
+          container.appendChild(card);
+        });
+      }
 
-            // Đưa thẻ vào ô
-            const answerZone = document.getElementById("answerZone");
-            answerZone.addEventListener("dragover", (e) => e.preventDefault());
-            answerZone.addEventListener("drop", (e) => {
-              e.preventDefault();
-              const val = Number(e.dataTransfer.getData("text/plain"));
-              const correct =
-                Number(previousDrag.split("×")[0]) *
-                Number(previousDrag.split("×")[1]);
-              if (val === correct) {
-                dragScore++;
-                document.getElementById("dragScore").textContent = dragScore;
-                answerZone.textContent = `${correct} ✔`;
-                answerZone.style.borderColor = "#39b55a";
-                setTimeout(() => {
-                  answerZone.textContent = "Kéo thẻ vào đây";
-                  answerZone.style.borderColor = "#ccc";
-                  createDragQuestion();
-                }, 800);
-              } else {
-                answerZone.style.borderColor = "#cc4b4b";
-                setTimeout(() => (answerZone.style.borderColor = "#ccc"), 400);
-              }
-            });
+      // khởi động game
 
-            // Kích hoạt game từ menu
-            document.querySelector('[data-game="drag"]').onclick = () => {
-              document
-                .querySelectorAll(".practice-game")
-                .forEach((g) => (g.style.display = "none"));
-              document.getElementById("dragDropGame").style.display = "block";
-              createDragQuestion();
-            };
-
-            //Game 3
-            let lineScore = 0;
-
-            function createMatchLineGame() {
-              const pairs = [];
-              while (pairs.length < 6) {
-                const a = Math.floor(Math.random() * 9) + 1;
-                const b = Math.floor(Math.random() * 10) + 1;
-                const key = `${a}x${b}`;
-                if (!pairs.some((p) => p.key === key))
-                  pairs.push({ key: key, value: a * b });
-              }
-
-              const leftCol = document.getElementById("leftColumn");
-              const rightCol = document.getElementById("rightColumn");
-              leftCol.innerHTML = "";
-              rightCol.innerHTML = "";
-              const rightShuffled = [...pairs].sort(() => Math.random() - 0.5);
-
-              pairs.forEach((p) => {
-                const div = document.createElement("div");
-                div.className = "match-item";
-                div.textContent = p.key;
-                div.dataset.value = p.value;
-                div.addEventListener("click", () => selectLeft(div));
-                leftCol.appendChild(div);
-              });
-
-              rightShuffled.forEach((p) => {
-                const div = document.createElement("div");
-                div.className = "match-item";
-                div.textContent = p.value;
-                div.dataset.value = p.value;
-                div.addEventListener("click", () => selectRight(div));
-                rightCol.appendChild(div);
-              });
-
-              window.matchLeft = null;
-              window.matchRight = null;
-            }
-
-            function selectLeft(div) {
-              window.matchLeft = div;
-            }
-
-            function selectRight(div) {
-              window.matchRight = div;
-              if (window.matchLeft) {
-                if (window.matchLeft.dataset.value === div.dataset.value) {
-                  window.matchLeft.classList.add("correct");
-                  div.classList.add("correct");
-                  lineScore++;
-                  document.getElementById("lineScore").textContent = lineScore;
-                  window.matchLeft.style.pointerEvents = "none";
-                  div.style.pointerEvents = "none";
-                }
-                window.matchLeft = null;
-                window.matchRight = null;
-              }
-            }
-
-            // Kích hoạt game từ menu
-            document.querySelectorAll(".practice-menu button").forEach((btn) => {
-              btn.onclick = () => {
-                document
-                  .querySelectorAll(".practice-game")
-                  .forEach((g) => (g.style.display = "none"));
-                const gameId = btn.dataset.game;
-                document.getElementById(gameId + "Game").style.display = "block";
-
-                // Reset điểm khi chuyển game
-                if (gameId === "shoot") {
-                  shootScore = 0;
-                  document.getElementById("shootScore").textContent = 0;
-                  createShootQuestion();
-                }
-                if (gameId === "drag") {
-                  dragScore = 0;
-                  document.getElementById("dragScore").textContent = 0;
-                  createDragQuestion();
-                }
-                if (gameId === "memory") {
-                  lineScore = 0;
-                  document.getElementById("lineScore").textContent = 0;
-                  createMatchLineGame();
-                }
-                if (gameId === "odd") {
-                  oddScore = 0;
-                  document.getElementById("oddScore").textContent = 0;
-                  generateOddOneOut();
-                }
-              };
-            });
-
-            //Game 4
-            let oddScore = 0;
-
-            function generateOddOneOut() {
-              const optionsCount = Math.floor(Math.random() * 4) + 6; // 6-9 options
-              const correctIdx = Math.floor(Math.random() * optionsCount);
-              const oddOptions = [];
-
-              for (let i = 0; i < optionsCount; i++) {
-                let a = Math.floor(Math.random() * 9) + 1;
-                let b = Math.floor(Math.random() * 10) + 1;
-                let ans = a * b;
-                if (i === correctIdx) {
-                  // tạo sai số
-                  ans += Math.floor(Math.random() * 5) + 1;
-                  if (ans === a * b) ans += 1; // đảm bảo khác
-                  oddOptions.push({ text: `${a} × ${b} = ${ans}`, correct: false });
-                } else {
-                  oddOptions.push({ text: `${a} × ${b} = ${ans}`, correct: true });
-                }
-              }
-
-              const container = document.getElementById("oddOptions");
-              container.innerHTML = "";
-              oddOptions.forEach((opt) => {
-                const card = document.createElement("div");
-                card.className = "odd-card";
-                card.textContent = opt.text;
-                card.addEventListener("click", () => {
-                  if (opt.correct) {
-                    card.classList.add("wrong");
-                    alert("Chọn chưa đúng! Hãy tìm kẻ xâm nhập!");
-                  } else {
-                    card.classList.add("correct");
-                    oddScore++;
-                    document.getElementById("oddScore").textContent = oddScore;
-                    setTimeout(generateOddOneOut, 500); // chuyển bộ mới
-                  }
-                });
-                container.appendChild(card);
-              });
-            }
-
-            // khởi động game
-
-            // generateOddOneOut();
+      // generateOddOneOut();
     </script>
   </body>
 </html>

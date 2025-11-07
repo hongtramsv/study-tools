@@ -119,34 +119,43 @@
       }
       @keyframes popBalloon {
         0% {
-          transform: scale(1);
+          transform: scale(1) rotate(0deg);
           opacity: 1;
         }
-        40% {
-          transform: scale(1.6);
+        30% {
+          transform: scale(1.4) rotate(5deg);
           opacity: 1;
+        }
+        60% {
+          transform: scale(1.8) rotate(-5deg);
+          opacity: 0.8;
         }
         100% {
-          transform: scale(0.35);
+          transform: scale(0) rotate(15deg);
           opacity: 0;
         }
       }
       .candy-splash {
         position: absolute;
-        font-size: 20px;
+        font-size: 24px;
         pointer-events: none;
         transform-origin: center;
         opacity: 1;
+        z-index: 200;
       }
       @keyframes candyFly {
         0% {
           opacity: 1;
-          transform: translate(0, 0) scale(1);
+          transform: translate(0, 0) scale(1) rotate(0deg);
+        }
+        50% {
+          opacity: 1;
+          transform: translate(var(--dx-mid, 0), var(--dy-mid, 0)) scale(1.2) rotate(180deg);
         }
         100% {
           opacity: 0;
-          transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.45)
-            rotate(20deg);
+          transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.5)
+            rotate(360deg);
         }
       }
       .controls-row {
@@ -297,7 +306,10 @@
         }
 
         function nextQuestion() {
-          balloonArea.innerHTML = "";
+          // Chỉ xóa bong bóng, giữ lại kẹo đang bay
+          const balloons = balloonArea.querySelectorAll(".balloon");
+          balloons.forEach((balloon) => balloon.remove());
+          
           let a, b, key;
           do {
             a = rand(1, 9);
@@ -392,7 +404,10 @@
               // dừng float animation và nổ
               b.style.animation = "";
               explodeBalloon(b);
-              handleCorrect();
+              // Delay để kẹo có thời gian hiển thị trước khi chuyển câu hỏi
+              setTimeout(() => {
+                handleCorrect();
+              }, 500);
             } else {
               b.style.transform = "translateY(-6px) scale(1.06)";
               b.style.background = "#ffd7d7";
@@ -414,37 +429,64 @@
         }
 
         function explodeBalloon(balloonEl) {
-          try {
-            popSound.currentTime = 0;
-            popSound.play();
-          } catch (e) {}
+          // Phát âm thanh nổ (không chặn nếu lỗi)
+          popSound.currentTime = 0;
+          popSound.play().catch(() => {
+            // Bỏ qua lỗi nếu không phát được âm thanh
+          });
 
-          // Thêm class pop
+          // Thêm class pop để bong bóng nổ
           balloonEl.classList.add("pop");
 
-          const areaRect = balloonArea.getBoundingClientRect();
-          const rect = balloonEl.getBoundingClientRect();
-          const centerX = rect.left + rect.width / 2 - areaRect.left;
-          const centerY = rect.top + rect.height / 2 - areaRect.top;
+          // Sử dụng requestAnimationFrame để đảm bảo vị trí được tính chính xác
+          requestAnimationFrame(() => {
+            const areaRect = balloonArea.getBoundingClientRect();
+            const rect = balloonEl.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2 - areaRect.left;
+            const centerY = rect.top + rect.height / 2 - areaRect.top;
 
-          for (let i = 0; i < 8; i++) {
-            const c = document.createElement("div");
-            c.className = "candy-splash";
-            c.textContent = "🍬";
-            c.style.left = centerX + "px";
-            c.style.top = centerY + "px";
-            const dx = (Math.random() * 160 - 80).toFixed(0) + "px";
-            const dy = (-Math.random() * 160 - 20).toFixed(0) + "px";
-            c.style.setProperty("--dx", dx);
-            c.style.setProperty("--dy", dy);
-            c.style.animation =
-              "candyFly 0.85s cubic-bezier(.2,.8,.2,1) forwards";
-            balloonArea.appendChild(c);
+            // Mảng các loại kẹo khác nhau
+            const candies = ["🍬", "🍭", "🍫", "🍰", "🍪", "⭐", "💫", "✨"];
+            
+            // Tạo nhiều kẹo bay ra (tăng từ 8 lên 15)
+            const candyCount = 15;
+            for (let i = 0; i < candyCount; i++) {
+              const c = document.createElement("div");
+              c.className = "candy-splash";
+              // Chọn ngẫu nhiên một loại kẹo
+              c.textContent = randomFromSet(candies);
+              
+              // Đặt vị trí ban đầu tại tâm bong bóng
+              c.style.position = "absolute";
+              c.style.left = centerX + "px";
+              c.style.top = centerY + "px";
+              
+              // Tạo hướng bay ngẫu nhiên với góc phân bố đều (360 độ)
+              const angle = (i / candyCount) * Math.PI * 2 + Math.random() * 0.3;
+              const distance = 120 + Math.random() * 80; // Khoảng cách bay
+              const dx = (Math.cos(angle) * distance).toFixed(0) + "px";
+              const dy = (Math.sin(angle) * distance - 30).toFixed(0) + "px"; // Hơi bay lên trên
+              const dxMid = (Math.cos(angle) * distance * 0.6).toFixed(0) + "px";
+              const dyMid = (Math.sin(angle) * distance * 0.6 - 30).toFixed(0) + "px";
+              
+              c.style.setProperty("--dx", dx);
+              c.style.setProperty("--dy", dy);
+              c.style.setProperty("--dx-mid", dxMid);
+              c.style.setProperty("--dy-mid", dyMid);
+              
+              // Thời gian animation ngẫu nhiên để tự nhiên hơn
+              const duration = 0.8 + Math.random() * 0.4;
+              c.style.animation =
+                `candyFly ${duration}s cubic-bezier(.2,.8,.2,1) forwards`;
+              
+              balloonArea.appendChild(c);
 
-            setTimeout(() => {
-              if (c.parentNode) c.remove();
-            }, 1200);
-          }
+              // Xóa kẹo sau khi animation kết thúc
+              setTimeout(() => {
+                if (c.parentNode) c.remove();
+              }, duration * 1000 + 100);
+            }
+          });
 
           // Remove bong bóng sau khi pop animation kết thúc
           balloonEl.addEventListener("animationend", () => {

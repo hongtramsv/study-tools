@@ -1108,10 +1108,21 @@
       // --------------------------
       // Mode switching
       // --------------------------
+      const practiceSection = document.getElementById("practiceSection");
+      const modePractice = document.getElementById("modePractice");
+
+      function hidePracticeSection() {
+        // Ẩn practiceSection và tất cả các game bên trong
+        practiceSection.style.display = "none";
+        document.querySelectorAll(".practice-game").forEach((g) => {
+          g.style.display = "none";
+        });
+      }
+
       function showLearn() {
         learnSection.style.display = "block";
         tablesSection.style.display = "none";
-        practiceSection.style.display = "none";
+        hidePracticeSection();
 
         modeLearning.classList.remove("secondary");
         modeTables.classList.add("secondary");
@@ -1120,7 +1131,7 @@
       function showTables() {
         learnSection.style.display = "none";
         tablesSection.style.display = "block";
-        practiceSection.style.display = "none";
+        hidePracticeSection();
 
         modeTables.classList.remove("secondary");
         modeLearning.classList.add("secondary");
@@ -1130,9 +1141,6 @@
         updateTable(currentTable);
         createGame();
       }
-      
-      const practiceSection = document.getElementById("practiceSection");
-      const modePractice = document.getElementById("modePractice");
 
       function showPractice() {
         learnSection.style.display = "none";

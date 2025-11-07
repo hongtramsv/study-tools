@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Vui học phép nhân</title>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
       :root {
@@ -15,7 +18,6 @@
         --text: #3b3b3b;
         --shadow: 0 8px 20px rgba(38, 38, 38, 0.08);
         font-family: "Baloo 2", sans-serif;
-
       }
       html,
       body {
@@ -206,20 +208,19 @@
       }
 
       /* Mỗi dòng bảng nhân */
-     #multiplicationDisplay div {
-        font-size: 24px;   /* nhỏ lại vừa đủ cho bé nhìn */
+      #multiplicationDisplay div {
+        font-size: 24px; /* nhỏ lại vừa đủ cho bé nhìn */
         font-weight: 600;
         padding: 10px 14px;
         border-radius: 12px;
-        background: rgba(255,255,255,0.7);
-        transition: transform .2s, background .2s;
-        }
+        background: rgba(255, 255, 255, 0.7);
+        transition: transform 0.2s, background 0.2s;
+      }
 
-    #multiplicationDisplay div:hover {
+      #multiplicationDisplay div:hover {
         transform: scale(1.05);
-        background: rgba(255,255,255,0.95);
-        }
-
+        background: rgba(255, 255, 255, 0.95);
+      }
 
       #multiplicationDisplay div:active {
         transform: scale(1.12);
@@ -262,7 +263,7 @@
         user-select: none;
 
         /* Thay đổi hình dạng từ dọc → ngang */
-        height: 70px;           
+        height: 70px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -299,9 +300,15 @@
       }
 
       @keyframes blink {
-        0% { opacity: 1; }
-        50% { opacity: .3; }
-        100% { opacity: 1; }
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 1;
+        }
       }
 
       .sticker-earned {
@@ -310,9 +317,17 @@
       }
 
       @keyframes pop {
-        0% { transform: scale(0.3); opacity: 0; }
-        70% { transform: scale(1.4); opacity: 1; }
-        100% { transform: scale(1); }
+        0% {
+          transform: scale(0.3);
+          opacity: 0;
+        }
+        70% {
+          transform: scale(1.4);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
       }
 
       #tablesSection {
@@ -324,41 +339,256 @@
         transition: opacity 220ms ease, transform 220ms ease;
       }
 
-      body, button, input {
+      body,
+      button,
+      input {
         font-size: 18px;
-    }
+      }
 
-    /* --- Bảng cửu chương dạng thẻ đẹp --- */
-#multiplicationDisplay {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
+      /* --- Bảng cửu chương dạng thẻ đẹp --- */
+      #multiplicationDisplay {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
 
-#multiplicationDisplay div {
-  background: #fff7fb;
-  border: 2px solid #ffbad8;
-  border-radius: 14px;
-  padding: 14px 8px;
-  font-size: 22px;
-  font-weight: 700;
-  text-align: center;
-  transition: transform .2s, background .2s;
-}
+      #multiplicationDisplay div {
+        background: #fff7fb;
+        border: 2px solid #ffbad8;
+        border-radius: 14px;
+        padding: 14px 8px;
+        font-size: 22px;
+        font-weight: 700;
+        text-align: center;
+        transition: transform 0.2s, background 0.2s;
+      }
 
-#multiplicationDisplay div:hover {
-  transform: scale(1.08);
-  background: #ffe6f1;
-}
+      #multiplicationDisplay div:hover {
+        transform: scale(1.08);
+        background: #ffe6f1;
+      }
 
-/* --- Game vùng 4 cột đều & đẹp --- */
-#gameArea {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 20px;
-}
+      /* --- Game vùng 4 cột đều & đẹp --- */
+      #gameArea {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 20px;
+      }
+      /* --- Game 1 --- */
+     
+  /* Container */
+  #shootGame {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 8px 30px rgba(50,30,50,0.06);
+  }
 
+  /* Control panel (compact row) */
+  .control-panel {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .question-box {
+    background: linear-gradient(180deg,#fff,#fff0f6);
+    border-radius: 14px;
+    padding: 12px 20px;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--accent);
+    box-shadow: 0 6px 12px rgba(255,110,160,0.12);
+    min-width: 220px;
+    text-align: center;
+  }
+
+  .settings {
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+  .settings label { font-weight:700; margin-right:6px; color:var(--muted); }
+  select#ballSpeed { padding:8px 10px; border-radius:10px; border:1px solid #ffd6ea; background:#fff; font-weight:700; }
+
+  .reward-box {
+    background: linear-gradient(180deg,#fffef8,#fff3e0);
+    padding:8px 12px;
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    min-width:150px;
+    gap:6px;
+  }
+  .reward-row { display:flex; gap:8px; align-items:center; font-weight:700; color:var(--candy); }
+  .reward-count { font-size:20px; color:#d96e00; font-weight:900; margin-left:6px; }
+
+  .highscore { font-size:13px; color:#7a6b7a; }
+
+  /* Avatar select + cheering */
+  .avatar-wrap { display:flex; gap:10px; align-items:center; }
+  .avatar-options { display:flex; gap:8px; }
+  .avatar { font-size:30px; padding:6px; border-radius:8px; cursor:pointer; transition:transform .18s, box-shadow .18s; }
+  .avatar.selected { transform:scale(1.12); box-shadow:0 6px 12px rgba(0,0,0,0.08); }
+
+  .cheering-avatar {
+    font-size:48px;
+    position: absolute;
+    right: 22px;
+    top: 18px;
+    transform-origin: bottom center;
+    transition: transform .45s ease;
+    pointer-events:none;
+  }
+  .cheer { animation: cheerJump .6s ease-out; }
+  @keyframes cheerJump {
+    0% { transform: translateY(0); }
+    40% { transform: translateY(-18px) scale(1.05); }
+    100% { transform: translateY(0); }
+  }
+
+  /* Balloon area */
+  #balloonArea {
+    margin-top: 14px;
+    width: 100%;
+    height: 360px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.15));
+    border: 1px solid rgba(255,200,220,0.4);
+  }
+
+  /* Balloons (pastel round) */
+  .balloon {
+    position: absolute;
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:800;
+    color:#7a2a59;
+    cursor:pointer;
+    box-shadow: 0 10px 22px rgba(255,110,160,0.12);
+    user-select:none;
+    transform: translateY(0);
+    transition: transform .14s ease, box-shadow .14s ease;
+  }
+  .balloon:hover { transform: scale(1.12) translateY(-4px); box-shadow: 0 14px 28px rgba(255,110,160,0.18); }
+
+  /* float from bottom to top */
+  @keyframes floatUp {
+    from { transform: translateY(0); opacity:1; }
+    to   { transform: translateY(-520px); opacity:0; }
+  }
+
+  /* pop (longer, soft) */
+  .pop {
+    animation: popBalloon 0.65s ease-out forwards;
+  }
+  @keyframes popBalloon {
+    0% { transform: scale(1); opacity:1; }
+    40% { transform: scale(1.6); opacity:1; }
+    100% { transform: scale(0.35); opacity:0; }
+  }
+
+  /* candy splash pieces */
+  .candy-splash {
+    position:absolute;
+    font-size:20px;
+    pointer-events:none;
+    transform-origin:center;
+    opacity:1;
+  }
+  @keyframes candyFly {
+    0% { opacity:1; transform: translate(0,0) scale(1); }
+    100% { opacity:0; transform: translate(var(--dx,0), var(--dy,0)) scale(0.45) rotate(20deg); }
+  }
+
+  /* small helpers */
+  .controls-row { display:flex; gap:8px; align-items:center; }
+  .btn { background:var(--accent); color:white; padding:8px 12px; border-radius:10px; border:none; cursor:pointer; font-weight:700; }
+  .btn.secondary { background:#ffd166; color:#4b3621; }
+
+  /* level badge */
+  .level-badge { background:#fff0f0; padding:6px 10px; border-radius:10px; font-weight:800; color:#ff6a8b; }
+
+  /* responsiveness */
+  @media (max-width:720px){
+    .control-panel { flex-direction:column; align-items:stretch; gap:12px; }
+    .cheering-avatar { right: 12px; top: 10px; font-size:44px; }
+    .question-box { font-size:28px; min-width:auto; text-align:center; }
+  }
+      /* --- Game 2 --- */
+      .drag-card {
+        background: #ffe8f8;
+        border-radius: 14px;
+        padding: 14px 12px;
+        font-size: 20px;
+        font-weight: 700;
+        cursor: grab;
+        user-select: none;
+        transition: transform 0.2s;
+      }
+
+      .drag-card:hover {
+        transform: scale(1.1);
+      }
+
+      .drag-card.correct {
+        background: #bbffcd;
+        border: 2px solid #39b55a;
+        transform: scale(1.15);
+      }
+
+      /* --- Game 3 --- */
+      .match-item {
+        background: #fff0f5;
+        padding: 10px 14px;
+        border-radius: 12px;
+        margin: 8px 0;
+        font-size: 20px;
+        font-weight: 700;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .match-item.correct {
+        background: #bbffcd;
+        border: 2px solid #39b55a;
+      }
+
+      /* --- Game 4 --- */
+      .odd-card {
+        background: #fff4f0;
+        border: 2px solid #ff8c94;
+        border-radius: 12px;
+        padding: 14px 20px;
+        font-size: 22px;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+      }
+      .odd-card:hover {
+        transform: scale(1.05);
+        background: #ffe6e0;
+      }
+      .odd-card.correct {
+        background: #bbffcd;
+        border-color: #39b55a;
+      }
+      .odd-card.wrong {
+        background: #ffd1d1;
+        border-color: #ff4b4b;
+      }
     </style>
   </head>
 
@@ -368,93 +598,167 @@
         <div class="logo" aria-hidden>
           <span style="font-size: 60px">🦁</span>
         </div>
-        <div style="flex:1;">
+        <div style="flex: 1">
           <h1>Vui học phép nhân</h1>
           <p class="lead">
             Phép nhân là một cách tính gọn khi chúng ta cộng nhiều lần một số
             giống nhau.
           </p>
 
-          <div style="margin-top:12px; display:flex; gap:12px;">
+          <div style="margin-top: 12px; display: flex; gap: 12px">
             <button id="modeLearning" class="btn">Làm quen phép nhân</button>
-            <button id="modeTables" class="btn secondary">Học bảng cửu chương</button>
+            <button id="modeTables" class="btn secondary">
+              Học bảng cửu chương
+            </button>
+            <button id="modePractice" class="btn secondary">
+              Luyện tập tổng hợp
+            </button>
           </div>
         </div>
       </header>
 
       <!-- LEARN SECTION -->
-      <div id="learnSection" class="fade" style="margin-top:16px;">
+      <div id="learnSection" class="fade" style="margin-top: 16px">
         <section class="controls" aria-label="Điều khiển">
           <div class="card control-item">
-            <label for="groupsCount">Số nhóm: <span id="gVal" class="big">3</span></label>
+            <label for="groupsCount"
+              >Số nhóm: <span id="gVal" class="big">3</span></label
+            >
             <input id="groupsCount" type="range" min="1" max="8" value="3" />
           </div>
 
           <div class="card control-item">
-            <label for="itemsPerGroup">Số vật trong mỗi nhóm: <span id="iVal" class="big">4</span></label>
+            <label for="itemsPerGroup"
+              >Số vật trong mỗi nhóm:
+              <span id="iVal" class="big">4</span></label
+            >
             <input id="itemsPerGroup" type="range" min="1" max="8" value="4" />
           </div>
 
-          <div class="card control-item" style="padding: 10px 12px; justify-content: center">
+          <div
+            class="card control-item"
+            style="padding: 10px 12px; justify-content: center"
+          >
             <label style="opacity: 0.8">Sự vật:</label>
             <div style="display: flex; gap: 8px; align-items: center">
-              <button class="btn secondary" id="prevIcon" aria-label="trước">◀</button>
-              <div id="iconPreview" style="width:58px;height:58px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;">🍎</div>
-              <button class="btn secondary" id="nextIcon" aria-label="sau">▶</button>
+              <button class="btn secondary" id="prevIcon" aria-label="trước">
+                ◀
+              </button>
+              <div
+                id="iconPreview"
+                style="
+                  width: 58px;
+                  height: 58px;
+                  border-radius: 10px;
+                  background: #fff;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 28px;
+                "
+              >
+                🍎
+              </div>
+              <button class="btn secondary" id="nextIcon" aria-label="sau">
+                ▶
+              </button>
             </div>
           </div>
         </section>
 
-        <div class="visual" style="margin-top:12px;">
-          <div class="canvas card" id="canvas" style="flex:1;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="visual" style="margin-top: 12px">
+          <div class="canvas card" id="canvas" style="flex: 1">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
               <div>
-                <div style="font-weight:800; font-size:22px">Nhóm và vật</div>
+                <div style="font-weight: 800; font-size: 22px">Nhóm và vật</div>
               </div>
-              <div style="font-size:12px; color:#888">Chạm vào đồ để đếm</div>
+              <div style="font-size: 12px; color: #888">Chạm vào đồ để đếm</div>
             </div>
 
             <div class="groups" id="groupsArea" style="margin-top: 12px"></div>
 
-            <div style="margin-top:12px; display:flex; align-items:center; justify-content:space-between;">
+            <div
+              style="
+                margin-top: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+            >
               <div>
-                <div style="display:flex; align-items:center; gap:8px;">
+                <div style="display: flex; align-items: center; gap: 8px">
                   <div class="equation" id="equation">$1</div>
                   <button class="btn" id="speakBtn">🔊</button>
                 </div>
-                <div>Đọc: <span id="spoken" style="font-weight:700">Ba nhân bốn</span></div>
+                <div>
+                  Đọc:
+                  <span id="spoken" style="font-weight: 700">Ba nhân bốn</span>
+                </div>
               </div>
-              <div style="text-align:right;">
-                <div style="font-size:13px; color:#666">Tổng số</div>
+              <div style="text-align: right">
+                <div style="font-size: 13px; color: #666">Tổng số</div>
                 <div class="result" id="totalCount">12</div>
               </div>
             </div>
 
-            <hr style="margin:12px 0; border:none; border-top:1px dashed #eee" />
+            <hr
+              style="margin: 12px 0; border: none; border-top: 1px dashed #eee"
+            />
 
-            <div style="display:flex; gap:8px; align-items:center; justify-content:space-between;">
-              <div style="display:flex; gap:8px;">
+            <div
+              style="
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                justify-content: space-between;
+              "
+            >
+              <div style="display: flex; gap: 8px">
                 <button class="btn secondary" id="resetBtn">Đặt lại</button>
                 <button class="btn" id="shuffleBtn">Ví dụ khác</button>
               </div>
-              <div style="font-size:13px; color:#666">Kết quả hiện tại cho bé nhìn, nghe và đếm.</div>
+              <div style="font-size: 13px; color: #666">
+                Kết quả hiện tại cho bé nhìn, nghe và đếm.
+              </div>
             </div>
           </div>
 
           <aside class="right">
             <div class="card">
-              <div style="font-weight:800; font-size: 22px;"">Bài tập nhỏ</div>
+              <div style="font-weight: 800; font-size: 22px">Bài tập nhỏ</div>
               <div class="quiz" id="quizArea">
-                <div style="margin-top:8px">Số đề: <span id="quizStep">1</span>/5</div>
-                <div id="quizQuestion" style="margin-top:10px; font-size:22px; font-weight:700">Mấy nhóm? Mấy vật mỗi nhóm?</div>
+                <div style="margin-top: 8px">
+                  Số đề: <span id="quizStep">1</span>/5
+                </div>
+                <div
+                  id="quizQuestion"
+                  style="margin-top: 10px; font-size: 22px; font-weight: 700"
+                >
+                  Mấy nhóm? Mấy vật mỗi nhóm?
+                </div>
                 <button class="btn" id="speakQuizBtn">🔊</button>
 
-                <div style="margin-top:10px; display:flex; gap:8px;">
+                <div style="margin-top: 10px; display: flex; gap: 8px">
                   <button class="btn" id="answerA">A</button>
                   <button class="btn secondary" id="answerB">B</button>
                 </div>
-                <div id="quizFeedback" style="margin-top:8px; height:22px"></div>
-                <button class="btn secondary" id="retryQuizBtn" style="margin-top:10px; display:none;">🔄 Thực hành lại</button>
+                <div
+                  id="quizFeedback"
+                  style="margin-top: 8px; height: 22px"
+                ></div>
+                <button
+                  class="btn secondary"
+                  id="retryQuizBtn"
+                  style="margin-top: 10px; display: none"
+                >
+                  🔄 Thực hành lại
+                </button>
               </div>
             </div>
           </aside>
@@ -462,33 +766,224 @@
       </div>
 
       <!-- TABLES & GAME SECTION -->
-     
-      <div id="tablesSection" class="fade" style="margin-top:16px;">
+
+      <div id="tablesSection" class="fade" style="margin-top: 16px">
         <div class="visual">
-                    <div style="flex:1;">
-                    <div class="card" style="margin-top:12px;"">
-                <div style="font-size:22px;font-weight:800; margin-bottom:6px">📚 Chọn bảng nhân</div>
+          <div style="flex: 1">
+            <div class="card" style="margin-top: 12px">
+              <div
+                style="font-size: 22px; font-weight: 800; margin-bottom: 6px"
+              >
+                📚 Chọn bảng nhân
+              </div>
 
-                <div id="multiplicationButtons" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;"></div>
+              <div
+                id="multiplicationButtons"
+                style="
+                  display: flex;
+                  gap: 6px;
+                  flex-wrap: wrap;
+                  margin-bottom: 12px;
+                "
+              ></div>
 
-                <div id="multiplicationDisplay" style="padding:10px; background:#fffdf7; border-radius:10px;"></div>
+              <div
+                id="multiplicationDisplay"
+                style="padding: 10px; background: #fffdf7; border-radius: 10px"
+              ></div>
 
-                <button class="btn" id="readTableBtn" style="margin-top:12px; width:100%;">🔊 Đọc tất cả bảng</button>
-                    </div>
-                    </div>
-            <aside class="right" style="flex-shrink:0;">
-                <h2 style="margin-top: 16px; font-size: 22px;">🎮 Trò chơi: Lật thẻ tìm cặp đúng</h2>
-                <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
-                    <div id="timerDisplay" style="font-size:22px; font-weight:700; color:#ff5e5e;">⏱️ 30s</div>
-                    <div id="stickerDisplay" style="font-size:26px;">🎁 Sticker: <span id="stickerCount">0</span> ⭐</div>
-                </div>
-                <div id="gameArea"></div>
-                <button id="newGameBtn" class="btn secondary" style="margin-top:12px;">Chơi ván mới</button>
-
-                
-            </aside>
+              <button
+                class="btn"
+                id="readTableBtn"
+                style="margin-top: 12px; width: 100%"
+              >
+                🔊 Đọc tất cả bảng
+              </button>
+            </div>
+          </div>
+          <aside class="right" style="flex-shrink: 0">
+            <h2 style="margin-top: 16px; font-size: 22px">
+              🎮 Trò chơi: Lật thẻ tìm cặp đúng
+            </h2>
+            <div
+              style="
+                margin-top: 14px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <div
+                id="timerDisplay"
+                style="font-size: 22px; font-weight: 700; color: #ff5e5e"
+              >
+                ⏱️ 30s
+              </div>
+              <div id="stickerDisplay" style="font-size: 26px">
+                🎁 Sticker: <span id="stickerCount">0</span> ⭐
+              </div>
+            </div>
+            <div id="gameArea"></div>
+            <button
+              id="newGameBtn"
+              class="btn secondary"
+              style="margin-top: 12px"
+            >
+              Chơi ván mới
+            </button>
+          </aside>
         </div>
+      </div>
+      <!-- 4 GAME SECTION -->
+      <div id="practiceSection" style="display: none; margin-top: 16px">
+        <div class="card" style="padding: 16px; text-align: center">
+          <!-- Menu practice -->
+          <div class="practice-menu">
+            <button class="btn" data-game="shoot">🎯 Bắn bóng</button>
+            <button class="btn secondary" data-game="drag">🧩 Kéo – Thả</button>
+            <button class="btn secondary" data-game="memory">🧠 Lật nhớ</button>
+            <button class="btn secondary" data-game="odd">
+              🔍 Tìm kết quả sai
+            </button>
+          </div>
+        </div>
+        <!-- GAME: shootGame -->
+<div id="shootGame">
+
+  <!-- avatar cheering (absolute inside container) -->
+  <div id="cheeringAvatar" class="cheering-avatar" aria-hidden>🐶</div>
+
+  <!-- Control panel -->
+  <div class="control-panel">
+
+    <!-- big question -->
+    <div id="shootQuestion" class="question-box" aria-live="polite">5 × 7 = ?</div>
+
+    <!-- settings -->
+    <div class="settings">
+      <div class="controls-row">
+        <label for="ballSpeed">Tốc độ</label>
+        <select id="ballSpeed" aria-label="Tốc độ bóng">
+          <option value="4.6">Chậm</option>
+          <option value="3.2" selected>Vừa</option>
+          <option value="1.9">Nhanh</option>
+        </select>
+      </div>
+
+      <div class="controls-row">
+        <label>Level</label>
+        <div id="levelBadge" class="level-badge">1</div>
+      </div>
+
+      <div class="controls-row avatar-wrap">
+        <label>Avatar</label>
+        <div class="avatar-options" role="list">
+          <div class="avatar selected" data-avatar="🐶" role="listitem">🐶</div>
+          <div class="avatar" data-avatar="🐱" role="listitem">🐱</div>
+          <div class="avatar" data-avatar="🐰" role="listitem">🐰</div>
+          <div class="avatar" data-avatar="🦊" role="listitem">🦊</div>
+        </div>
+      </div>
+
     </div>
+
+    <!-- rewards -->
+    <div class="reward-box" aria-live="polite">
+      <div class="reward-row">🍬 Kẹo: <span id="shootReward" class="reward-count">0</span></div>
+      <div class="highscore">🏆 Cao nhất: <span id="shootHighScore">0</span></div>
+    </div>
+
+  </div>
+
+  <!-- balloonArea -->
+  <div id="balloonArea" role="application" aria-label="khu vực bong bóng"></div>
+
+  <!-- bottom controls -->
+  <div style="margin-top:12px; display:flex; gap:12px; justify-content:center;">
+    <button id="startBtn" class="btn">Bắt đầu</button>
+    <button id="stopBtn" class="btn secondary">Dừng</button>
+    <button id="resetHighBtn" class="btn secondary">Đặt lại kỷ lục</button>
+  </div>
+
+</div>
+        <div
+          id="dragDropGame"
+          class="practice-game"
+          style="display: none; text-align: center"
+        >
+          <h2>🧩 Kéo thả đáp án</h2>
+          <p id="dragQuestion" style="font-size: 24px; margin-bottom: 12px">
+            ?
+          </p>
+          <div
+            id="answerZone"
+            style="
+              min-height: 70px;
+              width: 180px;
+              margin: 0 auto 12px;
+              border: 2px dashed #ccc;
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 22px;
+            "
+          >
+            Kéo thẻ vào đây
+          </div>
+          <div
+            id="dragCards"
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              gap: 12px;
+            "
+          ></div>
+          <p>Điểm: <span id="dragScore">0</span></p>
+        </div>
+
+        <div
+          id="matchLineGame"
+          class="practice-game"
+          style="display: none; text-align: center"
+        >
+          <h2>🔗 Nối phép nhân với kết quả</h2>
+          <div
+            id="matchContainer"
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 60px;
+              margin-top: 20px;
+            "
+          >
+            <div id="leftColumn"></div>
+            <div id="rightColumn"></div>
+          </div>
+          <p>Điểm: <span id="lineScore">0</span></p>
+        </div>
+
+        <div
+          id="oddOneOutGame"
+          class="practice-game"
+          style="display: none; text-align: center"
+        >
+          <h2>🕵️‍♂️ Truy tìm kẻ xâm nhập</h2>
+          <p>Nhấn vào phép nhân sai!</p>
+          <div
+            id="oddOptions"
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 12px;
+              justify-content: center;
+              margin-top: 16px;
+            "
+          ></div>
+          <p>Điểm: <span id="oddScore">0</span></p>
+        </div>
+      </div>
 
       <footer>
         Gợi ý: bắt đầu bằng đồ thật (kẹo, bút). Sau bé hiểu, dùng ứng dụng này
@@ -562,6 +1057,25 @@
       }
       modeLearning.addEventListener("click", showLearn);
       modeTables.addEventListener("click", showTables);
+      //Game
+      const practiceSection = document.getElementById("practiceSection");
+      const modePractice = document.getElementById("modePractice");
+
+      modePractice.onclick = () => {
+        learnSection.style.display = "none";
+        tablesSection.style.display = "none";
+        practiceSection.style.display = "block";
+      };
+
+      document.querySelectorAll(".practice-menu button").forEach((btn) => {
+        btn.onclick = () => {
+          document
+            .querySelectorAll(".practice-game")
+            .forEach((g) => (g.style.display = "none"));
+          document.getElementById(btn.dataset.game + "Game").style.display =
+            "block";
+        };
+      });
 
       // --------------------------
       // Groups render (learn)
@@ -570,7 +1084,18 @@
         iconPreview.textContent = icons[iconIndex];
       }
       function toVietnamese(n) {
-        const map = ["không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"];
+        const map = [
+          "không",
+          "một",
+          "hai",
+          "ba",
+          "bốn",
+          "năm",
+          "sáu",
+          "bảy",
+          "tám",
+          "chín",
+        ];
         if (n < 10) return map[n] || n;
         return String(n);
       }
@@ -609,67 +1134,323 @@
         }
       }
       function animateCount(el) {
-        el.animate([{ transform: "scale(1)" }, { transform: "scale(1.15)" }, { transform: "scale(1)" }], { duration: 280 });
+        el.animate(
+          [
+            { transform: "scale(1)" },
+            { transform: "scale(1.15)" },
+            { transform: "scale(1)" },
+          ],
+          { duration: 280 }
+        );
         speak("1");
       }
 
       groupsCountEl.addEventListener("input", renderGroups);
       itemsPerGroupEl.addEventListener("input", renderGroups);
-      prevIcon.addEventListener("click", () => { iconIndex = (iconIndex - 1 + icons.length) % icons.length; updatePreview(); renderGroups(); });
-      nextIcon.addEventListener("click", () => { iconIndex = (iconIndex + 1) % icons.length; updatePreview(); renderGroups(); });
-      speakBtn.addEventListener("click", () => { const g = Number(groupsCountEl.value); const i = Number(itemsPerGroupEl.value); speak(toVietnamese(g) + " nhân " + toVietnamese(i)); });
-      resetBtn.addEventListener("click", () => { groupsCountEl.value = 3; itemsPerGroupEl.value = 4; iconIndex = 0; updatePreview(); renderGroups(); });
-      shuffleBtn.addEventListener("click", () => { groupsCountEl.value = Math.floor(Math.random() * 7) + 1; itemsPerGroupEl.value = Math.floor(Math.random() * 7) + 1; iconIndex = Math.floor(Math.random() * icons.length); updatePreview(); renderGroups(); });
+      prevIcon.addEventListener("click", () => {
+        iconIndex = (iconIndex - 1 + icons.length) % icons.length;
+        updatePreview();
+        renderGroups();
+      });
+      nextIcon.addEventListener("click", () => {
+        iconIndex = (iconIndex + 1) % icons.length;
+        updatePreview();
+        renderGroups();
+      });
+      speakBtn.addEventListener("click", () => {
+        const g = Number(groupsCountEl.value);
+        const i = Number(itemsPerGroupEl.value);
+        speak(toVietnamese(g) + " nhân " + toVietnamese(i));
+      });
+      resetBtn.addEventListener("click", () => {
+        groupsCountEl.value = 3;
+        itemsPerGroupEl.value = 4;
+        iconIndex = 0;
+        updatePreview();
+        renderGroups();
+      });
+      shuffleBtn.addEventListener("click", () => {
+        groupsCountEl.value = Math.floor(Math.random() * 7) + 1;
+        itemsPerGroupEl.value = Math.floor(Math.random() * 7) + 1;
+        iconIndex = Math.floor(Math.random() * icons.length);
+        updatePreview();
+        renderGroups();
+      });
 
       // --------------------------
       // Quiz (learn)
       // --------------------------
       const quizStories = [
-        { story: "Mai có 3 giỏ táo, mỗi giỏ đều có 4 quả. Cô ấy muốn đem tất cả táo đi chia cho bạn bè. Hỏi Mai có tất cả bao nhiêu quả táo?", g: 3, it: 4 },
-        { story: "Nam có 5 túi kẹo, mỗi túi chứa 2 chiếc. Cậu ấy muốn đếm xem mình có bao nhiêu chiếc kẹo.", g: 5, it: 2 },
-        { story: "Trong vườn, bà Lan trồng 4 hàng hoa, mỗi hàng có 3 cây 🌹. Hỏi tất cả có bao nhiêu cây hoa?", g: 4, it: 3 },
-        { story: "Cửa hàng có 6 hộp chuối, mỗi hộp 5 quả. Nhân viên cần đếm tổng số quả chuối trong cửa hàng.", g: 6, it: 5 },
-        { story: "Một chuồng có 3 con chó, mỗi con đang giữ 4 chiếc xương. Hỏi trong chuồng có tổng cộng bao nhiêu chiếc xương?", g: 3, it: 4 },
-        { story: "Bé Thỏ chuẩn bị bánh quy để tặng bạn. Bé có 3 đĩa bánh, mỗi đĩa có 6 chiếc. Bé Thỏ có tất cả bao nhiêu chiếc bánh?", g: 3, it: 6 },
-        { story: "Mèo Mimi thu gom bút màu. Mimi có 4 hộp bút, mỗi hộp có 5 cây. Mimi có tất cả bao nhiêu cây bút màu?", g: 4, it: 5 },
-        { story: "Gấu Bông đang xếp ly giấy cho buổi tiệc. Có 2 chồng ly, mỗi chồng có 8 cái. Tổng cộng có bao nhiêu cái ly?", g: 2, it: 8 },
-        { story: "Chim Sâu mang hoa về làm tổ. Mỗi lần mang được 3 bông, và nó mang 7 lần. Nó mang tổng cộng bao nhiêu bông hoa?", g: 7, it: 3 },
-        { story: "Lan tô tranh hoa hướng dương. Có 5 bông hoa, mỗi bông có 4 cánh. Lan cần tô bao nhiêu cánh hoa?", g: 5, it: 4 },
-        { story: "Bé Na có 6 gói dán sticker, mỗi gói có 5 hình ngôi sao. Bé Na có bao nhiêu hình ngôi sao?", g: 6, it: 5 },
-        { story: "Trong vườn có 4 cây táo, mỗi cây có 7 quả. Tất cả có bao nhiêu quả táo trên cây?", g: 4, it: 7 },
-        { story: "Bé Hổ đang xếp sách trên kệ. Có 3 ngăn kệ, mỗi ngăn đặt được 9 quyển sách. Bé Hổ đặt tổng cộng bao nhiêu quyển?", g: 3, it: 9 },
-        { story: "Mẹ mua 8 bó hoa cúc, mỗi bó có 3 bông. Mẹ mua tất cả bao nhiêu bông hoa cúc?", g: 8, it: 3 },
-        { story: "Bạn Thủy xếp 5 hàng ghế cho lớp học, mỗi hàng có 6 chiếc ghế. Tổng cộng có bao nhiêu chiếc ghế?", g: 5, it: 6 },
-        { story: "Bé Heo mang bánh mời bạn. Có 7 hộp bánh, mỗi hộp 4 cái. Bé Heo mang bao nhiêu cái bánh?", g: 7, it: 4 },
-        { story: "Thỏ Trắng đang buộc bóng bay. Mỗi bó có 8 quả bóng, có tất cả 2 bó. Hỏi có bao nhiêu quả bóng?", g: 2, it: 8 },
-        { story: "Gấu Con đang tô hoa giấy. Có 9 bông, mỗi bông 5 cánh. Gấu Con tô tất cả bao nhiêu cánh?", g: 9, it: 5 },
-        { story: "Cún Đốm phát phần thưởng. Có 4 túi quà, mỗi túi có 6 kẹo. Tổng cộng có bao nhiêu viên kẹo?", g: 4, it: 6 },
-        { story: "Bé Sóc trang trí cửa sổ. Có 3 dây treo, mỗi dây 10 lá trang trí. Có bao nhiêu lá trang trí tất cả?", g: 3, it: 10 },
-        { story: "Trong sân có 8 nhóm trò chơi, mỗi nhóm có 2 bạn tham gia. Có tất cả bao nhiêu bạn?", g: 8, it: 2 },
-        { story: "Mèo Nhí trồng hoa tulip. Có 6 chậu, mỗi chậu 7 hoa. Mèo Nhí trồng bao nhiêu hoa tulip?", g: 6, it: 7 },
-        { story: "Cô giáo phát nhãn vở. Có 5 chồng nhãn, mỗi chồng 9 tờ. Tổng cộng cô phát bao nhiêu tờ nhãn?", g: 5, it: 9 },
-        { story: "Bé Na đang gấp hạc giấy. Bé gấp 4 lần, mỗi lần 8 con hạc. Bé gấp bao nhiêu con hạc tất cả?", g: 4, it: 8 },
-        { story: "Thỏ Nhỏ treo đèn lồng. Có 7 dây đèn, mỗi dây có 6 chiếc đèn nhỏ. Thỏ Nhỏ treo bao nhiêu chiếc đèn lồng tất cả?", g: 7, it: 6 },
-        { story: "Bé Cừu chuẩn bị bánh trung thu. Có 4 hộp bánh, mỗi hộp có 8 chiếc. Bé Cừu có bao nhiêu chiếc bánh?", g: 4, it: 8 },
-        { story: "Trong lớp có 3 bàn trồng cây, mỗi bàn trồng 7 chậu. Cả lớp trồng bao nhiêu chậu cây?", g: 3, it: 7 },
-        { story: "Bé Nai có 5 xấp giấy màu, mỗi xấp có 6 tờ. Bé Nai có bao nhiêu tờ giấy màu?", g: 5, it: 6 },
-        { story: "Bác gấu làm bánh rán 🍩. Làm 2 khay, mỗi khay có 9 cái. Bác làm tất cả bao nhiêu cái bánh?", g: 2, it: 9 },
-        { story: "Sơn cất vở vào tủ. Có 7 ngăn tủ, mỗi ngăn để được 4 quyển vở. Sơn để tất cả bao nhiêu quyển vở?", g: 7, it: 4 },
-        { story: "Có 6 đoàn tàu đồ chơi 🚂, mỗi đoàn có 3 toa. Tất cả có bao nhiêu toa tàu?", g: 6, it: 3 },
-        { story: "Thỏ Hồng gấp giấy thành bông hoa. Bé gấp 8 lần, mỗi lần được 5 bông. Bé gấp bao nhiêu bông hoa?", g: 8, it: 5 },
-        { story: "Trong rừng có 5 nhóm sóc 🎒 đi nhặt hạt, mỗi nhóm có 3 bạn. Có bao nhiêu bạn sóc tất cả?", g: 5, it: 3 },
-        { story: "Gấu Con xếp gối ngủ. Có 9 giường, mỗi giường 2 chiếc gối. Có bao nhiêu chiếc gối?", g: 9, it: 2 },
-        { story: "Bé Thỏ vẽ mặt trời ☀️. Bé vẽ 4 bức tranh, mỗi bức có 7 mặt trời. Bé vẽ bao nhiêu mặt trời?", g: 4, it: 7 },
-        { story: "Cún Bông đang phân chia đồ chơi. Có 3 hộp xe hơi, mỗi hộp 10 chiếc. Cún có bao nhiêu xe hơi?", g: 3, it: 10 },
-        { story: "Nhà Ong có 8 cụm hoa trước cửa, mỗi cụm có 4 bông. Tổng cộng có bao nhiêu bông hoa?", g: 8, it: 4 },
-        { story: "Bạn Hạ treo thiệp chúc mừng. Có 2 dây treo, mỗi dây 10 thiệp 🎉. Có bao nhiêu thiệp tất cả?", g: 2, it: 10 },
-        { story: "Mèo Mướp đếm dép trước cửa. Có 5 cặp dép, mỗi cặp có 2 chiếc. Có bao nhiêu chiếc dép?", g: 5, it: 2 },
-        { story: "Bé Gà mang 6 rổ trứng, mỗi rổ có 5 quả. Bé Gà mang bao nhiêu quả trứng?", g: 6, it: 5 },
-        { story: "Trong hồ có 7 đàn cá 🐟, mỗi đàn có 3 con. Hồ có bao nhiêu con cá?", g: 7, it: 3 },
-        { story: "Lớp học có 4 hộp bút chì, mỗi hộp có 8 chiếc. Có bao nhiêu bút chì trong lớp?", g: 4, it: 8 },
-        { story: "Bạn Bi tô tranh hoa mai. Có 8 bông, mỗi bông 6 cánh. Bạn Bi tô bao nhiêu cánh hoa?", g: 8, it: 6 },
-        { story: "Bé Gấu đi mua sticker ⭐. Bé mua 9 tờ, mỗi tờ có 4 sticker. Bé có bao nhiêu sticker?", g: 9, it: 4 },
-        { story: "Thỏ Trắng trồng cà rốt 🥕. Có 6 luống, mỗi luống 7 cây. Tất cả có bao nhiêu cây cà rốt?", g: 6, it: 7 },
+        {
+          story:
+            "Mai có 3 giỏ táo, mỗi giỏ đều có 4 quả. Cô ấy muốn đem tất cả táo đi chia cho bạn bè. Hỏi Mai có tất cả bao nhiêu quả táo?",
+          g: 3,
+          it: 4,
+        },
+        {
+          story:
+            "Nam có 5 túi kẹo, mỗi túi chứa 2 chiếc. Cậu ấy muốn đếm xem mình có bao nhiêu chiếc kẹo.",
+          g: 5,
+          it: 2,
+        },
+        {
+          story:
+            "Trong vườn, bà Lan trồng 4 hàng hoa, mỗi hàng có 3 cây 🌹. Hỏi tất cả có bao nhiêu cây hoa?",
+          g: 4,
+          it: 3,
+        },
+        {
+          story:
+            "Cửa hàng có 6 hộp chuối, mỗi hộp 5 quả. Nhân viên cần đếm tổng số quả chuối trong cửa hàng.",
+          g: 6,
+          it: 5,
+        },
+        {
+          story:
+            "Một chuồng có 3 con chó, mỗi con đang giữ 4 chiếc xương. Hỏi trong chuồng có tổng cộng bao nhiêu chiếc xương?",
+          g: 3,
+          it: 4,
+        },
+        {
+          story:
+            "Bé Thỏ chuẩn bị bánh quy để tặng bạn. Bé có 3 đĩa bánh, mỗi đĩa có 6 chiếc. Bé Thỏ có tất cả bao nhiêu chiếc bánh?",
+          g: 3,
+          it: 6,
+        },
+        {
+          story:
+            "Mèo Mimi thu gom bút màu. Mimi có 4 hộp bút, mỗi hộp có 5 cây. Mimi có tất cả bao nhiêu cây bút màu?",
+          g: 4,
+          it: 5,
+        },
+        {
+          story:
+            "Gấu Bông đang xếp ly giấy cho buổi tiệc. Có 2 chồng ly, mỗi chồng có 8 cái. Tổng cộng có bao nhiêu cái ly?",
+          g: 2,
+          it: 8,
+        },
+        {
+          story:
+            "Chim Sâu mang hoa về làm tổ. Mỗi lần mang được 3 bông, và nó mang 7 lần. Nó mang tổng cộng bao nhiêu bông hoa?",
+          g: 7,
+          it: 3,
+        },
+        {
+          story:
+            "Lan tô tranh hoa hướng dương. Có 5 bông hoa, mỗi bông có 4 cánh. Lan cần tô bao nhiêu cánh hoa?",
+          g: 5,
+          it: 4,
+        },
+        {
+          story:
+            "Bé Na có 6 gói dán sticker, mỗi gói có 5 hình ngôi sao. Bé Na có bao nhiêu hình ngôi sao?",
+          g: 6,
+          it: 5,
+        },
+        {
+          story:
+            "Trong vườn có 4 cây táo, mỗi cây có 7 quả. Tất cả có bao nhiêu quả táo trên cây?",
+          g: 4,
+          it: 7,
+        },
+        {
+          story:
+            "Bé Hổ đang xếp sách trên kệ. Có 3 ngăn kệ, mỗi ngăn đặt được 9 quyển sách. Bé Hổ đặt tổng cộng bao nhiêu quyển?",
+          g: 3,
+          it: 9,
+        },
+        {
+          story:
+            "Mẹ mua 8 bó hoa cúc, mỗi bó có 3 bông. Mẹ mua tất cả bao nhiêu bông hoa cúc?",
+          g: 8,
+          it: 3,
+        },
+        {
+          story:
+            "Bạn Thủy xếp 5 hàng ghế cho lớp học, mỗi hàng có 6 chiếc ghế. Tổng cộng có bao nhiêu chiếc ghế?",
+          g: 5,
+          it: 6,
+        },
+        {
+          story:
+            "Bé Heo mang bánh mời bạn. Có 7 hộp bánh, mỗi hộp 4 cái. Bé Heo mang bao nhiêu cái bánh?",
+          g: 7,
+          it: 4,
+        },
+        {
+          story:
+            "Thỏ Trắng đang buộc bóng bay. Mỗi bó có 8 quả bóng, có tất cả 2 bó. Hỏi có bao nhiêu quả bóng?",
+          g: 2,
+          it: 8,
+        },
+        {
+          story:
+            "Gấu Con đang tô hoa giấy. Có 9 bông, mỗi bông 5 cánh. Gấu Con tô tất cả bao nhiêu cánh?",
+          g: 9,
+          it: 5,
+        },
+        {
+          story:
+            "Cún Đốm phát phần thưởng. Có 4 túi quà, mỗi túi có 6 kẹo. Tổng cộng có bao nhiêu viên kẹo?",
+          g: 4,
+          it: 6,
+        },
+        {
+          story:
+            "Bé Sóc trang trí cửa sổ. Có 3 dây treo, mỗi dây 10 lá trang trí. Có bao nhiêu lá trang trí tất cả?",
+          g: 3,
+          it: 10,
+        },
+        {
+          story:
+            "Trong sân có 8 nhóm trò chơi, mỗi nhóm có 2 bạn tham gia. Có tất cả bao nhiêu bạn?",
+          g: 8,
+          it: 2,
+        },
+        {
+          story:
+            "Mèo Nhí trồng hoa tulip. Có 6 chậu, mỗi chậu 7 hoa. Mèo Nhí trồng bao nhiêu hoa tulip?",
+          g: 6,
+          it: 7,
+        },
+        {
+          story:
+            "Cô giáo phát nhãn vở. Có 5 chồng nhãn, mỗi chồng 9 tờ. Tổng cộng cô phát bao nhiêu tờ nhãn?",
+          g: 5,
+          it: 9,
+        },
+        {
+          story:
+            "Bé Na đang gấp hạc giấy. Bé gấp 4 lần, mỗi lần 8 con hạc. Bé gấp bao nhiêu con hạc tất cả?",
+          g: 4,
+          it: 8,
+        },
+        {
+          story:
+            "Thỏ Nhỏ treo đèn lồng. Có 7 dây đèn, mỗi dây có 6 chiếc đèn nhỏ. Thỏ Nhỏ treo bao nhiêu chiếc đèn lồng tất cả?",
+          g: 7,
+          it: 6,
+        },
+        {
+          story:
+            "Bé Cừu chuẩn bị bánh trung thu. Có 4 hộp bánh, mỗi hộp có 8 chiếc. Bé Cừu có bao nhiêu chiếc bánh?",
+          g: 4,
+          it: 8,
+        },
+        {
+          story:
+            "Trong lớp có 3 bàn trồng cây, mỗi bàn trồng 7 chậu. Cả lớp trồng bao nhiêu chậu cây?",
+          g: 3,
+          it: 7,
+        },
+        {
+          story:
+            "Bé Nai có 5 xấp giấy màu, mỗi xấp có 6 tờ. Bé Nai có bao nhiêu tờ giấy màu?",
+          g: 5,
+          it: 6,
+        },
+        {
+          story:
+            "Bác gấu làm bánh rán 🍩. Làm 2 khay, mỗi khay có 9 cái. Bác làm tất cả bao nhiêu cái bánh?",
+          g: 2,
+          it: 9,
+        },
+        {
+          story:
+            "Sơn cất vở vào tủ. Có 7 ngăn tủ, mỗi ngăn để được 4 quyển vở. Sơn để tất cả bao nhiêu quyển vở?",
+          g: 7,
+          it: 4,
+        },
+        {
+          story:
+            "Có 6 đoàn tàu đồ chơi 🚂, mỗi đoàn có 3 toa. Tất cả có bao nhiêu toa tàu?",
+          g: 6,
+          it: 3,
+        },
+        {
+          story:
+            "Thỏ Hồng gấp giấy thành bông hoa. Bé gấp 8 lần, mỗi lần được 5 bông. Bé gấp bao nhiêu bông hoa?",
+          g: 8,
+          it: 5,
+        },
+        {
+          story:
+            "Trong rừng có 5 nhóm sóc 🎒 đi nhặt hạt, mỗi nhóm có 3 bạn. Có bao nhiêu bạn sóc tất cả?",
+          g: 5,
+          it: 3,
+        },
+        {
+          story:
+            "Gấu Con xếp gối ngủ. Có 9 giường, mỗi giường 2 chiếc gối. Có bao nhiêu chiếc gối?",
+          g: 9,
+          it: 2,
+        },
+        {
+          story:
+            "Bé Thỏ vẽ mặt trời ☀️. Bé vẽ 4 bức tranh, mỗi bức có 7 mặt trời. Bé vẽ bao nhiêu mặt trời?",
+          g: 4,
+          it: 7,
+        },
+        {
+          story:
+            "Cún Bông đang phân chia đồ chơi. Có 3 hộp xe hơi, mỗi hộp 10 chiếc. Cún có bao nhiêu xe hơi?",
+          g: 3,
+          it: 10,
+        },
+        {
+          story:
+            "Nhà Ong có 8 cụm hoa trước cửa, mỗi cụm có 4 bông. Tổng cộng có bao nhiêu bông hoa?",
+          g: 8,
+          it: 4,
+        },
+        {
+          story:
+            "Bạn Hạ treo thiệp chúc mừng. Có 2 dây treo, mỗi dây 10 thiệp 🎉. Có bao nhiêu thiệp tất cả?",
+          g: 2,
+          it: 10,
+        },
+        {
+          story:
+            "Mèo Mướp đếm dép trước cửa. Có 5 cặp dép, mỗi cặp có 2 chiếc. Có bao nhiêu chiếc dép?",
+          g: 5,
+          it: 2,
+        },
+        {
+          story:
+            "Bé Gà mang 6 rổ trứng, mỗi rổ có 5 quả. Bé Gà mang bao nhiêu quả trứng?",
+          g: 6,
+          it: 5,
+        },
+        {
+          story:
+            "Trong hồ có 7 đàn cá 🐟, mỗi đàn có 3 con. Hồ có bao nhiêu con cá?",
+          g: 7,
+          it: 3,
+        },
+        {
+          story:
+            "Lớp học có 4 hộp bút chì, mỗi hộp có 8 chiếc. Có bao nhiêu bút chì trong lớp?",
+          g: 4,
+          it: 8,
+        },
+        {
+          story:
+            "Bạn Bi tô tranh hoa mai. Có 8 bông, mỗi bông 6 cánh. Bạn Bi tô bao nhiêu cánh hoa?",
+          g: 8,
+          it: 6,
+        },
+        {
+          story:
+            "Bé Gấu đi mua sticker ⭐. Bé mua 9 tờ, mỗi tờ có 4 sticker. Bé có bao nhiêu sticker?",
+          g: 9,
+          it: 4,
+        },
+        {
+          story:
+            "Thỏ Trắng trồng cà rốt 🥕. Có 6 luống, mỗi luống 7 cây. Tất cả có bao nhiêu cây cà rốt?",
+          g: 6,
+          it: 7,
+        },
       ];
 
       let quizQ = [];
@@ -682,7 +1463,10 @@
         const used = new Set();
         while (quizQ.length < quizStories.length) {
           const idx = Math.floor(Math.random() * quizStories.length);
-          if (!used.has(idx)) { used.add(idx); quizQ.push(quizStories[idx]); }
+          if (!used.has(idx)) {
+            used.add(idx);
+            quizQ.push(quizStories[idx]);
+          }
         }
         currentQuiz = 0;
         showQuiz();
@@ -693,42 +1477,73 @@
         quizStep.textContent = currentQuiz + 1;
         quizQuestion.textContent = q.story;
         const correct = q.g * q.it;
-        const wrong = correct + (Math.random() < 0.5 ? -(Math.floor(Math.random() * 3) + 1) : (Math.floor(Math.random() * 3) + 1));
+        const wrong =
+          correct +
+          (Math.random() < 0.5
+            ? -(Math.floor(Math.random() * 3) + 1)
+            : Math.floor(Math.random() * 3) + 1);
         if (Math.random() < 0.5) {
-          answerA.textContent = correct; answerA.dataset.correct = "1";
-          answerB.textContent = wrong; answerB.dataset.correct = "";
+          answerA.textContent = correct;
+          answerA.dataset.correct = "1";
+          answerB.textContent = wrong;
+          answerB.dataset.correct = "";
         } else {
-          answerB.textContent = correct; answerB.dataset.correct = "1";
-          answerA.textContent = wrong; answerA.dataset.correct = "";
+          answerB.textContent = correct;
+          answerB.dataset.correct = "1";
+          answerA.textContent = wrong;
+          answerA.dataset.correct = "";
         }
         quizFeedback.textContent = "";
       }
-      [answerA, answerB].forEach((btn) => btn.addEventListener("click", () => {
-        if (btn.dataset.correct) { score++; quizFeedback.textContent = "Chính xác! 🎉"; quizFeedback.style.color = "green"; }
-        else { quizFeedback.textContent = "Chưa đúng, thử lần sau nhé 😊"; quizFeedback.style.color = "#cc4b4b"; }
-        setTimeout(() => {
-          currentQuiz++;
-          if (currentQuiz < quizQ.length) showQuiz();
-          else {
-            quizFeedback.style.color = "#ff6f00";
-            quizFeedback.textContent = `🎉 Bạn đã hoàn thành! Bạn trả lời đúng ${score}/${quizQ.length} câu.`;
-            retryQuizBtn.style.display = "inline-block";
+
+      [answerA, answerB].forEach((btn) =>
+        btn.addEventListener("click", () => {
+          if (btn.dataset.correct) {
+            score++;
+            quizFeedback.textContent = "Chính xác! 🎉";
+            quizFeedback.style.color = "green";
+          } else {
+            quizFeedback.textContent = "Chưa đúng, thử lần sau nhé 😊";
+            quizFeedback.style.color = "#cc4b4b";
           }
-        }, 900);
-      }));
-      retryQuizBtn.addEventListener("click", () => { makeQuiz(); quizFeedback.textContent = ""; retryQuizBtn.style.display = "none"; });
-      speakQuizBtn.addEventListener("click", () => { if (quizQ[currentQuiz]) speak(quizQ[currentQuiz].story); });
+          setTimeout(() => {
+            currentQuiz++;
+            if (currentQuiz < quizQ.length) showQuiz();
+            else {
+              quizFeedback.style.color = "#ff6f00";
+              quizFeedback.textContent = `🎉 Bạn đã hoàn thành! Bạn trả lời đúng ${score}/${quizQ.length} câu.`;
+              retryQuizBtn.style.display = "inline-block";
+            }
+          }, 900);
+        })
+      );
+      retryQuizBtn.addEventListener("click", () => {
+        makeQuiz();
+        quizFeedback.textContent = "";
+        retryQuizBtn.style.display = "none";
+      });
+      speakQuizBtn.addEventListener("click", () => {
+        if (quizQ[currentQuiz]) speak(quizQ[currentQuiz].story);
+      });
 
       // --------------------------
       // Multiplication table (1..12) + theme
       // --------------------------
-      const multiplicationButtons = document.getElementById("multiplicationButtons");
-      const multiplicationDisplay = document.getElementById("multiplicationDisplay");
+      const multiplicationButtons = document.getElementById(
+        "multiplicationButtons"
+      );
+      const multiplicationDisplay = document.getElementById(
+        "multiplicationDisplay"
+      );
       const readTableBtn = document.getElementById("readTableBtn");
       let currentTable = 1;
       let multiplicationInited = false;
 
-      function multiplicationButtonsHasChildren(){ return multiplicationButtons && multiplicationButtons.children.length > 0; }
+      function multiplicationButtonsHasChildren() {
+        return (
+          multiplicationButtons && multiplicationButtons.children.length > 0
+        );
+      }
 
       function initMultiplicationButtons() {
         if (multiplicationInited) return;
@@ -746,64 +1561,49 @@
         }
       }
 
-      /*function updateTable(n) {
-        if (n) currentTable = n;
-        multiplicationDisplay.innerHTML = "";
-        const maxRow = 12;
-        for (let i = 1; i <= maxRow; i++) {
-          const line = document.createElement("div");
-          line.textContent = `${currentTable} × ${i} = ${currentTable * i}`;
-          line.tabIndex = 0;
-          line.addEventListener("click", () => speak(`${currentTable} nhân ${i} bằng ${currentTable * i}`));
-          multiplicationDisplay.appendChild(line);
-        }
-        updateTableTheme();
-      }*/
-
       function updateTable() {
         multiplicationDisplay.innerHTML = "";
         for (let i = 1; i <= 10; i++) {
-            const line = document.createElement("div");
-            line.textContent = `${currentTable} × ${i} = ${currentTable * i}`;
-            line.addEventListener("click", () => {
+          let line = document.createElement("div");
+          line.textContent = `${currentTable} × ${i} = ${currentTable * i}`;
+          line.addEventListener("click", () => {
             speak(`${currentTable} nhân ${i} bằng ${currentTable * i}`);
-            });
-            multiplicationDisplay.appendChild(line);
+          });
+          multiplicationDisplay.appendChild(line);
         }
         updateTableTheme();
-        }
+      }
 
-      /*function updateTableTheme() {
-        const pastelColors = [
-          "#ffe6f2", "#fff0da", "#e7ffda", "#daf3ff",
-          "#f4daff", "#ffedd8", "#d8fff1", "#f9d8ff",
-          "#ffe4da", "#e8f7ff", "#fff0f0", "#f3ffe8"
-        ];
-        const display = multiplicationDisplay;
-        display.style.background = pastelColors[(currentTable - 1) % pastelColors.length];
-        display.style.padding = "16px";
-        display.style.borderRadius = "16px";
-      }*/
       function updateTableTheme() {
         const pastelColors = [
-            "#ffeff5", "#fff3d9", "#e7ffe5", "#dff5ff",
-            "#f4e4ff", "#ffe9d6", "#d6fffa", "#ffe3fb", "#ffe9e9"
+          "#ffeff5",
+          "#fff3d9",
+          "#e7ffe5",
+          "#dff5ff",
+          "#f4e4ff",
+          "#ffe9d6",
+          "#d6fffa",
+          "#ffe3fb",
+          "#ffe9e9",
         ];
         multiplicationDisplay.style.background = pastelColors[currentTable - 1];
         multiplicationDisplay.style.border = "3px solid #ffc6db";
         multiplicationDisplay.style.borderRadius = "18px";
         multiplicationDisplay.style.padding = "18px";
         multiplicationDisplay.style.transition = "0.3s";
-        }
+      }
 
       function highlightActive(activeBtn) {
-        document.querySelectorAll("#multiplicationButtons button").forEach((b) => b.classList.remove("active"));
+        document
+          .querySelectorAll("#multiplicationButtons button")
+          .forEach((b) => b.classList.remove("active"));
         if (activeBtn) activeBtn.classList.add("active");
       }
 
       readTableBtn.addEventListener("click", () => {
         let text = "";
-        for (let i = 1; i <= 10; i++) text += `${currentTable} nhân ${i} bằng ${currentTable * i}. `;
+        for (let i = 1; i <= 10; i++)
+          text += `${currentTable} nhân ${i} bằng ${currentTable * i}. `;
         speak(text);
       });
 
@@ -822,7 +1622,11 @@
         const pairsCount = 6;
         for (let i = 1; i <= pairsCount; i++) {
           const result = currentTable * i;
-          cards.push({ text: `${currentTable} × ${i}`, value: result, type: "exp" });
+          cards.push({
+            text: `${currentTable} × ${i}`,
+            value: result,
+            type: "exp",
+          });
           cards.push({ text: String(result), value: result, type: "ans" });
         }
         // shuffle
@@ -853,7 +1657,10 @@
               firstCard = card;
             } else {
               lockBoard = true;
-              if (firstCard.dataset.value === card.dataset.value && firstCard.dataset.type !== card.dataset.type) {
+              if (
+                firstCard.dataset.value === card.dataset.value &&
+                firstCard.dataset.type !== card.dataset.type
+              ) {
                 // matched
                 firstCard.classList.add("matched");
                 card.classList.add("matched");
@@ -869,13 +1676,20 @@
                   card.style.background = "";
                 }, 400);
               }
-              setTimeout(() => { firstCard = null; lockBoard = false; checkWin(); }, 500);
+              setTimeout(() => {
+                firstCard = null;
+                lockBoard = false;
+                checkWin();
+              }, 500);
             }
           });
         });
       }
 
-      newGameBtn.addEventListener("click", () => { createGame(); startTimer(); });
+      newGameBtn.addEventListener("click", () => {
+        createGame();
+        startTimer();
+      });
 
       // --------------------------
       // Timer + stickers
@@ -901,7 +1715,8 @@
       function updateTimerDisplay() {
         const t = document.getElementById("timerDisplay");
         t.textContent = `⏱️ ${timeLeft}s`;
-        if (timeLeft <= 10) t.classList.add("blink"); else t.classList.remove("blink");
+        if (timeLeft <= 10) t.classList.add("blink");
+        else t.classList.remove("blink");
       }
       function checkWin() {
         const unmatched = document.querySelectorAll(".game-card:not(.matched)");
@@ -945,13 +1760,498 @@
 
       // when user switches to tables, initialize buttons if necessary
       initMultiplicationButtons();
-      highlightActive(document.querySelectorAll("#multiplicationButtons button")[0]);
+      highlightActive(
+        document.querySelectorAll("#multiplicationButtons button")[0]
+      );
       updateTable(1);
       createGame();
 
       // accessibility
-      document.addEventListener("keydown", (e) => { if (e.key === " ") { e.preventDefault(); speakBtn.click(); } });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === " ") {
+          e.preventDefault();
+          speakBtn.click();
+        }
+      });
 
+     
+/* ---------------------------
+  Mini-game: Bắn Bóng Kết Quả
+  - balloons fly bottom -> top
+  - candy reward, pop sound, avatar cheer, levels, highscore
+---------------------------- */
+
+(() => {
+  // Audio (public short sound)
+  const popSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-pop-106.mp3");
+  popSound.volume = 0.55;
+
+  const balloonArea = document.getElementById("balloonArea");
+  const questionEl = document.getElementById("shootQuestion");
+  const shootRewardEl = document.getElementById("shootReward");
+  const shootHighEl = document.getElementById("shootHighScore");
+  const ballSpeedSelect = document.getElementById("ballSpeed");
+  const levelBadge = document.getElementById("levelBadge");
+  const cheeringAvatar = document.getElementById("cheeringAvatar");
+
+  let shootScore = 0;
+  let shootHighScore = Number(localStorage.getItem("shootHighScore")) || 0;
+  shootHighEl.textContent = shootHighScore;
+
+  let shootCorrectAnswer = null;
+  let spawnIntervalId = null;
+  let active = false;
+  let currentLevel = 1;
+  let baseFloatDuration = Number(ballSpeedSelect.value); // seconds
+  let balloonIds = 0;
+  let usedRecentQuestions = new Set();
+
+  // helpers
+  function rand(min, max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  function randFloat(min,max){ return Math.random()*(max-min)+min; }
+
+  // avatar selection
+  document.querySelectorAll('.avatar').forEach(el=>{
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.avatar').forEach(x=>x.classList.remove('selected'));
+      el.classList.add('selected');
+      cheeringAvatar.textContent = el.dataset.avatar;
+    });
+  });
+
+  // start/stop/reset
+  document.getElementById('startBtn').addEventListener('click', ()=> startShootGame());
+  document.getElementById('stopBtn').addEventListener('click', ()=> stopShootGame());
+  document.getElementById('resetHighBtn').addEventListener('click', ()=>{
+    localStorage.removeItem('shootHighScore');
+    shootHighScore = 0;
+    shootHighEl.textContent = 0;
+  });
+
+  // speed select change updates base duration and restarts spawn timing if active
+  ballSpeedSelect.addEventListener('change', ()=>{
+    baseFloatDuration = Number(ballSpeedSelect.value);
+    if(active){
+      restartSpawnInterval();
+    }
+  });
+
+  function startShootGame(){
+    // reset score & level
+    stopShootGame();
+    shootScore = 0;
+    currentLevel = 1;
+    levelBadge.textContent = currentLevel;
+    shootRewardEl.textContent = shootScore;
+    spawnInitialQuestion();
+    active = true;
+  }
+
+  function stopShootGame(){
+    active = false;
+    clearInterval(spawnIntervalId);
+    spawnIntervalId = null;
+    // remove balloons
+    balloonArea.innerHTML = "";
+    usedRecentQuestions.clear();
+  }
+
+  // spawn interval control
+  function restartSpawnInterval(){
+    clearInterval(spawnIntervalId);
+    const floatDur = Math.max(0.9, baseFloatDuration - (currentLevel-1)*0.35); // faster per level
+    const spawnMs = Math.max(450, Math.round(floatDur * 550));
+    spawnIntervalId = setInterval(()=>{
+      // occasionally spawn an extra balloon (random answer)
+      spawnBalloon(randomFromSet(currentAnswerPool || [shootCorrectAnswer]));
+    }, spawnMs);
+  }
+
+  // create question + initial balloons
+  let currentAnswerPool = null;
+  function spawnInitialQuestion(){
+    clearInterval(spawnIntervalId);
+    balloonArea.innerHTML = "";
+    // pick a new unique question (avoid immediate repeats)
+    let a,b, key;
+    do {
+      a = rand(1,9);
+      b = rand(1,10);
+      key = `${a}x${b}`;
+    } while (usedRecentQuestions.has(key) && usedRecentQuestions.size < 80);
+    usedRecentQuestions.add(key);
+    if(usedRecentQuestions.size > 80) usedRecentQuestions.clear();
+
+    shootCorrectAnswer = a * b;
+    questionEl.textContent = `${a} × ${b} = ?`;
+
+    // create answers pool (includes correct + distractors)
+    const answers = new Set([shootCorrectAnswer]);
+    while (answers.size < 6){
+      answers.add(rand(1,90));
+    }
+    currentAnswerPool = [...answers];
+
+    // spawn 6 at once
+    currentAnswerPool.sort(()=>Math.random()-0.5).forEach(num => spawnBalloon(num));
+    // start spawn interval
+    restartSpawnInterval();
+  }
+
+  function randomFromSet(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
+  }
+
+  function spawnBalloon(num){
+    // create a balloon element that floats from bottom up
+    const id = ++balloonIds;
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    b.dataset.id = id;
+    b.textContent = String(num);
+
+    // pastel color variants
+    const palettes = [
+      ['#fff6fb','#ffd7f0','#ffd7f0'],
+      ['#fff9ec','#fff0d6','#fff2cc'],
+      ['#f0fff7','#d8fff0','#ccfff0'],
+      ['#fff7ff','#f7e9ff','#f9e0ff']
+    ];
+    const p = palettes[Math.floor(Math.random()*palettes.length)];
+    b.style.background = `radial-gradient(circle at 28% 28%, ${p[0]}, ${p[1]})`;
+    b.style.color = '#7a2a59';
+
+    // horizontal position (avoid overflow)
+    const leftPct = Math.random() * 80 + 3; // 3% .. 83%
+    b.style.left = leftPct + '%';
+
+    // animation duration depends on float speed and level
+    const floatDur = Math.max(0.9, baseFloatDuration - (currentLevel-1)*0.35); // seconds
+    b.style.animation = `floatUp ${floatDur}s linear forwards`;
+
+    // set initial bottom offset slightly random within area height
+    const startBottom = -60 - Math.random()*30; // start below area
+    b.style.bottom = startBottom + 'px';
+
+    // click handling
+    b.addEventListener('click', (ev) => {
+      if(!active) return;
+      const val = Number(b.textContent);
+      if(val === shootCorrectAnswer){
+        // correct
+        explodeBalloon(b);
+        handleCorrect();
+      } else {
+        // wrong: small shake + red tint
+        b.style.transform = 'translateY(-6px) scale(1.06)';
+        b.style.background = '#ffd7d7';
+        setTimeout(()=> {
+          try { b.style.transform = ''; } catch(e){}
+        }, 180);
+      }
+      ev.stopPropagation();
+    });
+
+    // remove balloon after animation end to avoid DOM leak
+    b.addEventListener('animationend', (ev) => {
+      // if finished floating, remove
+      if(b.parentNode) b.remove();
+    });
+
+    balloonArea.appendChild(b);
+
+    // safety remove after a bit longer than float duration
+    setTimeout(()=> { if(b.parentNode) b.remove(); }, Math.max(6000, (floatDur*1000)+900) );
+  }
+
+  // explode with candy pieces + sound + avatar cheer
+  function explodeBalloon(balloonEl){
+    // play sound
+    try {
+      popSound.currentTime = 0;
+      popSound.play();
+    } catch(e){ /* ignore play errors */ }
+
+    // add pop class (scale down)
+    balloonEl.classList.add('pop');
+
+    // create candy pieces
+    const pieces = 8;
+    for(let i=0;i<pieces;i++){
+      const c = document.createElement('div');
+      c.className = 'candy-splash';
+      c.textContent = '🍬';
+      // position at balloon center
+      const rect = balloonEl.getBoundingClientRect();
+      const areaRect = balloonArea.getBoundingClientRect();
+      const left = balloonEl.offsetLeft + 8; // approximate center
+      const top = balloonEl.offsetTop + 8;
+      c.style.left = left + 'px';
+      c.style.top = top + 'px';
+      // random vector
+      const dx = (Math.random()*160 - 80).toFixed(0) + 'px';
+      const dy = (-Math.random()*160 - 20).toFixed(0) + 'px';
+      c.style.setProperty('--dx', dx);
+      c.style.setProperty('--dy', dy);
+      c.style.animation = `candyFly 0.85s cubic-bezier(.2,.8,.2,1) forwards`;
+      balloonArea.appendChild(c);
+      // remove piece after animation
+      setTimeout(()=> { if(c.parentNode) c.remove(); }, 1000 + Math.random()*200);
+    }
+
+    // remove the popped balloon after animation
+    setTimeout(()=> { if(balloonEl.parentNode) balloonEl.remove(); }, 650);
+  }
+
+  // handle correct hit: increment score, update high score, level progression
+  function handleCorrect(){
+    if(!active) return;
+    shootScore++;
+    shootRewardEl.textContent = shootScore;
+    // update highscore
+    if(shootScore > shootHighScore){
+      shootHighScore = shootScore;
+      localStorage.setItem('shootHighScore', shootHighScore);
+      shootHighEl.textContent = shootHighScore;
+    }
+    // avatar cheer
+    cheeringAvatar.classList.add('cheer');
+    setTimeout(()=> cheeringAvatar.classList.remove('cheer'), 700);
+
+    // level up every 8 correct
+    if(shootScore % 8 === 0){
+      currentLevel++;
+      levelBadge.textContent = currentLevel;
+      // optional: small flash background
+      balloonArea.style.transition = 'background 0.6s';
+      const palettes = ['linear-gradient(180deg,#fff7fb,#fff0f6)', 'linear-gradient(180deg,#fffaf0,#fff7e6)', 'linear-gradient(180deg,#f0fff8,#eafff2)', 'linear-gradient(180deg,#f3f6ff,#eef7ff)'];
+      balloonArea.style.background = palettes[currentLevel % palettes.length];
+      // restart spawn speed
+      restartSpawnInterval();
+    }
+    // new question short delay so candy effect visible
+    setTimeout(()=> {
+      if(active) spawnInitialQuestion();
+    }, 320);
+  }
+
+  // initial placeholder
+  function initPlaceholder(){
+    questionEl.textContent = 'Chạm "Bắt đầu" để chơi';
+    balloonArea.innerHTML = '';
+  }
+  initPlaceholder();
+
+})();
+      //Game 2
+      let dragScore = 0;
+      let previousDrag = null;
+
+      function createDragQuestion() {
+        let a, b;
+        do {
+          a = Math.floor(Math.random() * 9) + 1;
+          b = Math.floor(Math.random() * 10) + 1;
+        } while (`${a}x${b}` === previousDrag);
+        previousDrag = `${a}x${b}`;
+        const correct = a * b;
+
+        document.getElementById("dragQuestion").textContent = `${a} × ${b} = ?`;
+        const cards = new Set([correct]);
+        while (cards.size < 6) cards.add(Math.floor(Math.random() * 81) + 1);
+
+        const cardContainer = document.getElementById("dragCards");
+        cardContainer.innerHTML = "";
+        Array.from(cards)
+          .sort(() => Math.random() - 0.5)
+          .forEach((num) => {
+            const card = document.createElement("div");
+            card.className = "drag-card";
+            card.textContent = num;
+            card.draggable = true;
+
+            card.addEventListener("dragstart", (e) => {
+              e.dataTransfer.setData("text/plain", num);
+            });
+
+            cardContainer.appendChild(card);
+          });
+      }
+
+      // Đưa thẻ vào ô
+      const answerZone = document.getElementById("answerZone");
+      answerZone.addEventListener("dragover", (e) => e.preventDefault());
+      answerZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const val = Number(e.dataTransfer.getData("text/plain"));
+        const correct =
+          Number(previousDrag.split("×")[0]) *
+          Number(previousDrag.split("×")[1]);
+        if (val === correct) {
+          dragScore++;
+          document.getElementById("dragScore").textContent = dragScore;
+          answerZone.textContent = `${correct} ✔`;
+          answerZone.style.borderColor = "#39b55a";
+          setTimeout(() => {
+            answerZone.textContent = "Kéo thẻ vào đây";
+            answerZone.style.borderColor = "#ccc";
+            createDragQuestion();
+          }, 800);
+        } else {
+          answerZone.style.borderColor = "#cc4b4b";
+          setTimeout(() => (answerZone.style.borderColor = "#ccc"), 400);
+        }
+      });
+
+      // Kích hoạt game từ menu
+      document.querySelector('[data-game="drag"]').onclick = () => {
+        document
+          .querySelectorAll(".practice-game")
+          .forEach((g) => (g.style.display = "none"));
+        document.getElementById("dragDropGame").style.display = "block";
+        createDragQuestion();
+      };
+
+      //Game 3
+      let lineScore = 0;
+
+      function createMatchLineGame() {
+        const pairs = [];
+        while (pairs.length < 6) {
+          const a = Math.floor(Math.random() * 9) + 1;
+          const b = Math.floor(Math.random() * 10) + 1;
+          const key = `${a}x${b}`;
+          if (!pairs.some((p) => p.key === key))
+            pairs.push({ key: key, value: a * b });
+        }
+
+        const leftCol = document.getElementById("leftColumn");
+        const rightCol = document.getElementById("rightColumn");
+        leftCol.innerHTML = "";
+        rightCol.innerHTML = "";
+        const rightShuffled = [...pairs].sort(() => Math.random() - 0.5);
+
+        pairs.forEach((p) => {
+          const div = document.createElement("div");
+          div.className = "match-item";
+          div.textContent = p.key;
+          div.dataset.value = p.value;
+          div.addEventListener("click", () => selectLeft(div));
+          leftCol.appendChild(div);
+        });
+
+        rightShuffled.forEach((p) => {
+          const div = document.createElement("div");
+          div.className = "match-item";
+          div.textContent = p.value;
+          div.dataset.value = p.value;
+          div.addEventListener("click", () => selectRight(div));
+          rightCol.appendChild(div);
+        });
+
+        window.matchLeft = null;
+        window.matchRight = null;
+      }
+
+      function selectLeft(div) {
+        window.matchLeft = div;
+      }
+
+      function selectRight(div) {
+        window.matchRight = div;
+        if (window.matchLeft) {
+          if (window.matchLeft.dataset.value === div.dataset.value) {
+            window.matchLeft.classList.add("correct");
+            div.classList.add("correct");
+            lineScore++;
+            document.getElementById("lineScore").textContent = lineScore;
+            window.matchLeft.style.pointerEvents = "none";
+            div.style.pointerEvents = "none";
+          }
+          window.matchLeft = null;
+          window.matchRight = null;
+        }
+      }
+
+      // Kích hoạt game từ menu
+      document.querySelectorAll(".practice-menu button").forEach((btn) => {
+        btn.onclick = () => {
+          document
+            .querySelectorAll(".practice-game")
+            .forEach((g) => (g.style.display = "none"));
+          const gameId = btn.dataset.game;
+          document.getElementById(gameId + "Game").style.display = "block";
+
+          // Reset điểm khi chuyển game
+          if (gameId === "shoot") {
+            shootScore = 0;
+            document.getElementById("shootScore").textContent = 0;
+            createShootQuestion();
+          }
+          if (gameId === "drag") {
+            dragScore = 0;
+            document.getElementById("dragScore").textContent = 0;
+            createDragQuestion();
+          }
+          if (gameId === "memory") {
+            lineScore = 0;
+            document.getElementById("lineScore").textContent = 0;
+            createMatchLineGame();
+          }
+          if (gameId === "odd") {
+            oddScore = 0;
+            document.getElementById("oddScore").textContent = 0;
+            generateOddOneOut();
+          }
+        };
+      });
+
+      //Game 4
+      let oddScore = 0;
+
+      function generateOddOneOut() {
+        const optionsCount = Math.floor(Math.random() * 4) + 6; // 6-9 options
+        const correctIdx = Math.floor(Math.random() * optionsCount);
+        const oddOptions = [];
+
+        for (let i = 0; i < optionsCount; i++) {
+          let a = Math.floor(Math.random() * 9) + 1;
+          let b = Math.floor(Math.random() * 10) + 1;
+          let ans = a * b;
+          if (i === correctIdx) {
+            // tạo sai số
+            ans += Math.floor(Math.random() * 5) + 1;
+            if (ans === a * b) ans += 1; // đảm bảo khác
+            oddOptions.push({ text: `${a} × ${b} = ${ans}`, correct: false });
+          } else {
+            oddOptions.push({ text: `${a} × ${b} = ${ans}`, correct: true });
+          }
+        }
+
+        const container = document.getElementById("oddOptions");
+        container.innerHTML = "";
+        oddOptions.forEach((opt) => {
+          const card = document.createElement("div");
+          card.className = "odd-card";
+          card.textContent = opt.text;
+          card.addEventListener("click", () => {
+            if (opt.correct) {
+              card.classList.add("wrong");
+              alert("Chọn chưa đúng! Hãy tìm kẻ xâm nhập!");
+            } else {
+              card.classList.add("correct");
+              oddScore++;
+              document.getElementById("oddScore").textContent = oddScore;
+              setTimeout(generateOddOneOut, 500); // chuyển bộ mới
+            }
+          });
+          container.appendChild(card);
+        });
+      }
+
+      // khởi động game
+
+      // generateOddOneOut();
     </script>
   </body>
 </html>

@@ -931,7 +931,7 @@
           </div>
         </div>
         <!-- GAME: shootGame -->
-        <div id="shootGame">
+        <div id="shootGame" class="practice-game">
           <!-- Control panel -->
           <div class="control-panel">
             <div>
@@ -975,6 +975,25 @@
             <button id="resetHighBtn" class="btn secondary">
               Đặt lại kỷ lục
             </button>
+          </div>
+        </div>
+
+        <!-- GAME: dragGame (placeholder) -->
+        <div id="dragGame" class="practice-game" style="display: none; padding: 16px">
+          <div class="card" style="padding: 16px; text-align: center">🧩 Drag & Drop game is coming soon.</div>
+        </div>
+
+        <!-- GAME: memoryGame (placeholder) -->
+        <div id="memoryGame" class="practice-game" style="display: none; padding: 16px">
+          <div class="card" style="padding: 16px; text-align: center">🧠 Memory flip game is coming soon.</div>
+        </div>
+
+        <!-- GAME: oddGame (placeholder) -->
+        <div id="oddGame" class="practice-game" style="display: none; padding: 16px">
+          <div class="card" style="padding: 16px; text-align: center">
+            🔍 Odd one out game is coming soon.
+            <div style="margin-top: 12px">Score: <span id="oddScore">0</span></div>
+            <div id="oddOptions" style="margin-top: 12px"></div>
           </div>
         </div>
 
@@ -2424,7 +2443,8 @@
             .querySelectorAll(".practice-game")
             .forEach((g) => (g.style.display = "none"));
           const gameId = btn.dataset.game;
-          document.getElementById(gameId + "Game").style.display = "block";
+          const target = document.getElementById(gameId + "Game");
+          if (target) target.style.display = "block";
 
           // Reset điểm khi chuyển game
           if (gameId === "shoot") {

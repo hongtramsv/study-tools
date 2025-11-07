@@ -498,6 +498,8 @@
         user-select: none;
         transform: translateY(0);
         transition: transform 0.14s ease, box-shadow 0.14s ease;
+        z-index: 10;
+        pointer-events: auto;
       }
       .balloon:hover {
         transform: scale(1.12) translateY(-4px);
@@ -519,18 +521,24 @@
       /* pop (longer, soft) */
       .pop {
         animation: popBalloon 0.65s ease-out forwards;
+        transform-origin: center center;
+        z-index: 100;
       }
       @keyframes popBalloon {
         0% {
-          transform: scale(1);
+          transform: scale(1) rotate(0deg);
           opacity: 1;
         }
-        40% {
-          transform: scale(1.6);
+        30% {
+          transform: scale(1.4) rotate(5deg);
           opacity: 1;
+        }
+        60% {
+          transform: scale(1.8) rotate(-5deg);
+          opacity: 0.8;
         }
         100% {
-          transform: scale(0.35);
+          transform: scale(0) rotate(15deg);
           opacity: 0;
         }
       }
@@ -538,20 +546,25 @@
       /* candy splash pieces */
       .candy-splash {
         position: absolute;
-        font-size: 20px;
+        font-size: 24px;
         pointer-events: none;
         transform-origin: center;
         opacity: 1;
+        z-index: 200;
       }
       @keyframes candyFly {
         0% {
           opacity: 1;
-          transform: translate(0, 0) scale(1);
+          transform: translate(0, 0) scale(1) rotate(0deg);
+        }
+        50% {
+          opacity: 1;
+          transform: translate(var(--dx-mid, 0), var(--dy-mid, 0)) scale(1.2) rotate(180deg);
         }
         100% {
           opacity: 0;
-          transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.45)
-            rotate(20deg);
+          transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.5)
+            rotate(360deg);
         }
       }
 
@@ -1886,42 +1899,35 @@
           Number(localStorage.getItem("shootHighScore")) || 0;
         shootHighEl.textContent = shootHighScore;
 
-        let shootCorrectAnswer = null;
-        let spawnIntervalId = null;
-        let active = false;
-        let currentLevel = 1;
-        let balloonIds = 0;
-        let usedRecentQuestions = new Set();
-        let baseDuration = parseInt(
-          document.querySelector(".speed-btn.active").dataset.speed
-        );
+        let shootCorrectAnswer = null,
+          spawnIntervalId = null,
+          active = false,
+          currentLevel = 1,
+          balloonIds = 0;
+        let usedRecentQuestions = new Set(),
+          baseDuration = parseInt(
+            document.querySelector(".speed-btn.active").dataset.speed
+          );
+        let currentAnswerPool = [],
+          correctBalloonSpawned = false;
 
-        const buttons = document.querySelectorAll(".speed-btn");
-        buttons.forEach((button) => {
-          button.addEventListener("click", () => {
-            buttons.forEach((btn) => btn.classList.remove("active"));
-            button.classList.add("active");
-            baseDuration = parseInt(button.getAttribute("data-speed"));
+        document.querySelectorAll(".speed-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll(".speed-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            baseDuration = parseInt(btn.dataset.speed);
             if (active) restartSpawnInterval();
           });
         });
 
-        function rand(min, max) {
-          return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-        function randFloat(min, max) {
-          return Math.random() * (max - min) + min;
-        }
-        function randomFromSet(arr) {
-          return arr[Math.floor(Math.random() * arr.length)];
-        }
-
         document
           .getElementById("startBtn")
-          .addEventListener("click", () => startShootGame());
+          .addEventListener("click", startShootGame);
         document
           .getElementById("stopBtn")
-          .addEventListener("click", () => stopShootGame());
+          .addEventListener("click", stopShootGame);
         document
           .getElementById("resetHighBtn")
           .addEventListener("click", () => {
@@ -1930,8 +1936,12 @@
             shootHighEl.textContent = 0;
           });
 
-        let currentAnswerPool = [];
-        let correctBalloonSpawned = false; // cờ kiểm soát bong bóng đúng
+        function rand(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        function randomFromSet(arr) {
+          return arr[Math.floor(Math.random() * arr.length)];
+        }
 
         function startShootGame() {
           stopShootGame();
@@ -1952,9 +1962,10 @@
         }
 
         function nextQuestion() {
-          balloonArea.innerHTML = "";
-
-          // tạo câu hỏi mới
+          // Chỉ xóa bong bóng, giữ lại kẹo đang bay
+          const balloons = balloonArea.querySelectorAll(".balloon");
+          balloons.forEach((balloon) => balloon.remove());
+          
           let a, b, key;
           do {
             a = rand(1, 9);
@@ -1966,86 +1977,119 @@
           );
           usedRecentQuestions.add(key);
           if (usedRecentQuestions.size > 80) usedRecentQuestions.clear();
-
           shootCorrectAnswer = a * b;
           questionEl.textContent = `${a} × ${b} = ?`;
 
-          // tạo pool gồm đáp án đúng + 5 đáp án sai
           const answers = new Set([shootCorrectAnswer]);
           while (answers.size < 6) answers.add(rand(1, 90));
           currentAnswerPool = [...answers].sort(() => Math.random() - 0.5);
 
-          // reset cờ
           correctBalloonSpawned = false;
-
-          // spawn 1-2 bong bóng ban đầu
-          for (let i = 0; i < 2; i++) spawnNextBalloon();
-
-          // bắt đầu spawn interval
+          spawnBalloonBatch();
           restartSpawnInterval();
         }
 
         function restartSpawnInterval() {
           clearInterval(spawnIntervalId);
           spawnIntervalId = setInterval(() => {
-            if (!active) return;
-
-            spawnBalloonBatch(); // spawn 1 lượt 3-5 bong bóng
-          }, Math.max(800, baseDuration)); // có thể tăng thời gian giữa các lượt
+            if (active) spawnBalloonBatch();
+          }, Math.max(800, baseDuration));
         }
 
-        // spawn một lượt 3-5 bong bóng, không chồng lấn nhau, luôn có 1 đáp án đúng
         function spawnBalloonBatch() {
           const batchSize = rand(3, 5);
-          const positions = []; // lưu left % đã dùng
+          const positions = [];
           const correctIndex = rand(0, batchSize - 1);
+          const minDistance = 18; // Tăng khoảng cách tối thiểu từ 12% lên 18%
 
+          // Lấy danh sách các bong bóng hiện có để kiểm tra collision
+          const existingBalloons = Array.from(balloonArea.querySelectorAll(".balloon"));
+          const areaWidth = balloonArea.offsetWidth || 900; // Fallback nếu chưa render
+          const balloonSize = 68; // Kích thước bong bóng
+          const minDistancePx = (areaWidth * minDistance) / 100; // Chuyển % sang px
+          
           for (let i = 0; i < batchSize; i++) {
-            let num;
-            if (i === correctIndex) num = shootCorrectAnswer;
-            else {
-              let candidate;
-              do {
-                candidate = randomFromSet(currentAnswerPool);
-              } while (candidate === shootCorrectAnswer);
-              num = candidate;
-            }
-
-            // random vị trí left không chồng lấn
-            let leftPct;
+            let num =
+              i === correctIndex
+                ? shootCorrectAnswer
+                : (() => {
+                    let c;
+                    do {
+                      c = randomFromSet(currentAnswerPool);
+                    } while (c === shootCorrectAnswer);
+                    return c;
+                  })();
+            
+            let leftPct, bottomOffset;
             let attempts = 0;
+            let foundValidPosition = false;
+            
+            // Tìm vị trí không đè lên các bong bóng khác
             do {
-              leftPct = rand(3, 83); // phần trăm
+              leftPct = rand(5, 85);
+              bottomOffset = rand(0, 30);
+              
+              // Tính toán vị trí pixel của bong bóng mới
+              const newLeftPx = (areaWidth * leftPct) / 100;
+              
+              // Kiểm tra với các vị trí trong batch hiện tại
+              const tooCloseToBatch = positions.some((p) => {
+                const existingLeftPx = (areaWidth * p) / 100;
+                return Math.abs(existingLeftPx - newLeftPx) < minDistancePx;
+              });
+              
+              // Kiểm tra collision với các bong bóng đang bay (kiểm tra vị trí hiện tại)
+              let hasCollision = false;
+              if (existingBalloons.length > 0 && balloonArea.offsetWidth > 0) {
+                const areaRect = balloonArea.getBoundingClientRect();
+                const newBottomPx = -60 - bottomOffset; // Vị trí bottom của bong bóng mới (âm)
+                
+                hasCollision = existingBalloons.some((balloon) => {
+                  const rect = balloon.getBoundingClientRect();
+                  
+                  // Tính vị trí tương đối trong balloonArea
+                  const balloonLeftPx = rect.left - areaRect.left + rect.width / 2;
+                  const newBalloonCenterPx = newLeftPx;
+                  
+                  // Vị trí bottom hiện tại của bong bóng đang bay (tính từ bottom của area)
+                  const balloonBottomPx = areaRect.bottom - rect.bottom;
+                  const newBalloonBottomPx = areaRect.height + newBottomPx;
+                  
+                  // Khoảng cách ngang và dọc giữa các tâm bong bóng
+                  const distanceX = Math.abs(balloonLeftPx - newBalloonCenterPx);
+                  const distanceY = Math.abs(balloonBottomPx - newBalloonBottomPx);
+                  
+                  // Kiểm tra overlap: nếu gần nhau cả ngang và dọc thì có collision
+                  // Chỉ kiểm tra collision nếu bong bóng đang ở gần vị trí bottom mới (trong vùng 150px)
+                  if (distanceY < 150) {
+                    return distanceX < (balloonSize + 15); // Padding để đảm bảo không chạm
+                  }
+                  
+                  return false;
+                });
+              }
+              
+              if (!tooCloseToBatch && !hasCollision) {
+                foundValidPosition = true;
+              }
+              
               attempts++;
-              // kiểm tra khoảng cách với các positions đã dùng
-            } while (
-              positions.some((p) => Math.abs(p - leftPct) < 12) &&
-              attempts < 20
-            );
-            positions.push(leftPct);
-
-            spawnBalloon(num, leftPct);
+            } while (!foundValidPosition && attempts < 100);
+            
+            if (foundValidPosition) {
+              positions.push(leftPct);
+              spawnBalloon(num, leftPct, bottomOffset);
+              if (num === shootCorrectAnswer) correctBalloonSpawned = true;
+            }
           }
         }
 
-        function spawnNextBalloon() {
-          let numToSpawn;
-          if (!correctBalloonSpawned) {
-            numToSpawn = shootCorrectAnswer;
-            correctBalloonSpawned = true;
-          } else {
-            numToSpawn = randomFromSet(currentAnswerPool);
-          }
-          spawnBalloon(numToSpawn);
-        }
-
-        // sửa spawnBalloon để nhận leftPct tùy chọn
-        function spawnBalloon(num, leftPct = null) {
+        function spawnBalloon(num, leftPct = null, bottomOffset = null) {
           const id = ++balloonIds;
           const b = document.createElement("div");
           b.className = "balloon";
           b.dataset.id = id;
-          b.textContent = String(num);
+          b.textContent = num;
 
           const palettes = [
             ["#fff6fb", "#ffd7f0"],
@@ -2053,27 +2097,41 @@
             ["#f0fff7", "#d8fff0"],
             ["#fff7ff", "#f7e9ff"],
           ];
-          const p = palettes[Math.floor(Math.random() * palettes.length)];
+          const p = palettes[rand(0, palettes.length - 1)];
           b.style.background = `radial-gradient(circle at 28% 28%, ${p[0]}, ${p[1]})`;
           b.style.color = "#7a2a59";
-
-          // nếu leftPct được truyền thì dùng, nếu không thì random
-          if (leftPct === null) leftPct = rand(3, 83);
+          
+          // Đặt vị trí ngang
+          if (leftPct === null) leftPct = rand(5, 85);
           b.style.left = leftPct + "%";
+          
+          // Đặt z-index tăng dần để bong bóng mới luôn ở trên
+          b.style.zIndex = (10 + id).toString();
 
           const floatDur = Math.max(
             0.9,
             baseDuration / 1000 - (currentLevel - 1) * 0.35
           );
           b.style.animation = `floatUp ${floatDur}s linear forwards`;
-          b.style.bottom = -60 - Math.random() * 30 + "px";
+          
+          // Sử dụng bottomOffset nếu được cung cấp, nếu không thì random
+          if (bottomOffset !== null) {
+            b.style.bottom = (-60 - bottomOffset) + "px";
+          } else {
+            b.style.bottom = -60 - Math.random() * 30 + "px";
+          }
 
           b.addEventListener("click", (ev) => {
             if (!active) return;
             const val = Number(b.textContent);
             if (val === shootCorrectAnswer) {
+              // dừng float animation và nổ
+              b.style.animation = "";
               explodeBalloon(b);
-              handleCorrect();
+              // Delay để kẹo có thời gian hiển thị trước khi chuyển câu hỏi
+              setTimeout(() => {
+                handleCorrect();
+              }, 500);
             } else {
               b.style.transform = "translateY(-6px) scale(1.06)";
               b.style.background = "#ffd7d7";
@@ -2082,52 +2140,82 @@
             ev.stopPropagation();
           });
 
+          // remove bong bóng khi bay hết nếu chưa bị click đúng
           b.addEventListener("animationend", () => {
-            if (b.parentNode) b.remove();
+            if (b.parentNode && !b.classList.contains("pop")) b.remove();
           });
+
           balloonArea.appendChild(b);
+
           setTimeout(() => {
-            if (b.parentNode) b.remove();
+            if (b.parentNode && !b.classList.contains("pop")) b.remove();
           }, Math.max(6000, floatDur * 1000 + 900));
         }
-        function explodeBalloon(balloonEl) {
-          try {
-            popSound.currentTime = 0;
-            popSound.play();
-          } catch (e) {}
 
+        function explodeBalloon(balloonEl) {
+          // Phát âm thanh nổ (không chặn nếu lỗi)
+          popSound.currentTime = 0;
+          popSound.play().catch(() => {
+            // Bỏ qua lỗi nếu không phát được âm thanh
+          });
+
+          // Thêm class pop để bong bóng nổ
           balloonEl.classList.add("pop");
 
-          const areaRect = balloonArea.getBoundingClientRect();
-          const balloonRect = balloonEl.getBoundingClientRect();
-          const centerX =
-            balloonRect.left + balloonRect.width / 2 - areaRect.left;
-          const centerY =
-            balloonRect.top + balloonRect.height / 2 - areaRect.top;
+          // Sử dụng requestAnimationFrame để đảm bảo vị trí được tính chính xác
+          requestAnimationFrame(() => {
+            const areaRect = balloonArea.getBoundingClientRect();
+            const rect = balloonEl.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2 - areaRect.left;
+            const centerY = rect.top + rect.height / 2 - areaRect.top;
 
-          for (let i = 0; i < 8; i++) {
-            const c = document.createElement("div");
-            c.className = "candy-splash";
-            c.textContent = "🍬";
-            c.style.left = centerX + "px";
-            c.style.top = centerY + "px";
-            const dx = (Math.random() * 160 - 80).toFixed(0) + "px";
-            const dy = (-Math.random() * 160 - 20).toFixed(0) + "px";
-            c.style.setProperty("--dx", dx);
-            c.style.setProperty("--dy", dy);
-            c.style.animation =
-              "candyFly 0.85s cubic-bezier(.2,.8,.2,1) forwards";
-            balloonArea.appendChild(c);
+            // Mảng các loại kẹo khác nhau
+            const candies = ["🍬", "🍭", "🍫", "🍰", "🍪", "⭐", "💫", "✨"];
+            
+            // Tạo nhiều kẹo bay ra (tăng từ 8 lên 15)
+            const candyCount = 15;
+            for (let i = 0; i < candyCount; i++) {
+              const c = document.createElement("div");
+              c.className = "candy-splash";
+              // Chọn ngẫu nhiên một loại kẹo
+              c.textContent = randomFromSet(candies);
+              
+              // Đặt vị trí ban đầu tại tâm bong bóng
+              c.style.position = "absolute";
+              c.style.left = centerX + "px";
+              c.style.top = centerY + "px";
+              
+              // Tạo hướng bay ngẫu nhiên với góc phân bố đều (360 độ)
+              const angle = (i / candyCount) * Math.PI * 2 + Math.random() * 0.3;
+              const distance = 120 + Math.random() * 80; // Khoảng cách bay
+              const dx = (Math.cos(angle) * distance).toFixed(0) + "px";
+              const dy = (Math.sin(angle) * distance - 30).toFixed(0) + "px"; // Hơi bay lên trên
+              const dxMid = (Math.cos(angle) * distance * 0.6).toFixed(0) + "px";
+              const dyMid = (Math.sin(angle) * distance * 0.6 - 30).toFixed(0) + "px";
+              
+              c.style.setProperty("--dx", dx);
+              c.style.setProperty("--dy", dy);
+              c.style.setProperty("--dx-mid", dxMid);
+              c.style.setProperty("--dy-mid", dyMid);
+              
+              // Thời gian animation ngẫu nhiên để tự nhiên hơn
+              const duration = 0.8 + Math.random() * 0.4;
+              c.style.animation =
+                `candyFly ${duration}s cubic-bezier(.2,.8,.2,1) forwards`;
+              
+              balloonArea.appendChild(c);
 
-            setTimeout(() => {
-              if (c.parentNode) c.remove();
-            }, 1000 + Math.random() * 200);
-          }
+              // Xóa kẹo sau khi animation kết thúc
+              setTimeout(() => {
+                if (c.parentNode) c.remove();
+              }, duration * 1000 + 100);
+            }
+          });
 
-          // Remove bong bóng sau animation
-          setTimeout(() => {
+          // Remove bong bóng sau khi pop animation kết thúc
+          balloonEl.addEventListener("animationend", () => {
             if (balloonEl.parentNode) balloonEl.remove();
-          }, 650);
+          });
         }
 
         function handleCorrect() {
@@ -2139,21 +2227,10 @@
             localStorage.setItem("shootHighScore", shootHighScore);
             shootHighEl.textContent = shootHighScore;
           }
-
           if (shootScore % 8 === 0) {
             currentLevel++;
             levelBadge.textContent = currentLevel;
-            const palettes = [
-              "linear-gradient(180deg,#fff7fb,#fff0f6)",
-              "linear-gradient(180deg,#fffaf0,#fff7e6)",
-              "linear-gradient(180deg,#f0fff8,#eafff2)",
-              "linear-gradient(180deg,#f3f6ff,#eef7ff)",
-            ];
-            balloonArea.style.background =
-              palettes[currentLevel % palettes.length];
           }
-
-          // chuyển sang câu hỏi mới
           nextQuestion();
         }
 

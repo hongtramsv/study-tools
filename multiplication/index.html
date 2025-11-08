@@ -376,9 +376,6 @@
         margin-top: 20px;
       }
 
-      .practice-menu .btn {
-        font-size: 16px;
-      }
       /* --- Game 1 --- */
 
       /* Container */
@@ -399,9 +396,20 @@
         justify-content: space-between;
         flex-wrap: wrap;
       }
+      .controls-group {
+        display: flex;
+        gap: 28px;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
       .control-label {
         margin-right: 10px;
         font-weight: bold;
+      }
+      .practice-menu .btn {
+        font-size: 16px;
+        margin-top: 12px;
       }
 
       .speed-btn {
@@ -430,7 +438,7 @@
         min-width: 220px;
         text-align: center;
       }
-  /* Balloon area */
+      /* Balloon area */
       #balloonArea {
         margin-top: 14px;
         width: 100%;
@@ -538,7 +546,8 @@
         }
         50% {
           opacity: 1;
-          transform: translate(var(--dx-mid, 0), var(--dy-mid, 0)) scale(1.2) rotate(180deg);
+          transform: translate(var(--dx-mid, 0), var(--dy-mid, 0)) scale(1.2)
+            rotate(180deg);
         }
         100% {
           opacity: 0;
@@ -547,7 +556,7 @@
         }
       }
 
-      /* small helpers */
+      /* small helpers*/
       .controls-row {
         display: flex;
         gap: 8px;
@@ -919,16 +928,15 @@
               <button class="speed-btn" data-speed="3000">Vừa</button>
               <button class="speed-btn" data-speed="1800">Nhanh</button>
             </div>
-
-            <div>💎 <span id="shootReward">0</span></div>
-            <div>🏆 <span id="shootHighScore">0</span></div>
-
-            <div class="controls-row">
-              <label>Level</label>
-              <div id="levelBadge" class="level-badge">1</div>
+            <div class="controls-group">
+              <div>💎 <span id="shootReward">0</span></div>
+              <div>🏆 <span id="shootHighScore">0</span></div>
+              <div class="controls-row">
+                <label>Level</label>
+                <div id="levelBadge" class="level-badge">1</div>
+              </div>
             </div>
           </div>
-
           <div id="shootQuestion" class="question-box" aria-live="polite">
             5 × 7 = ?
           </div>
@@ -958,20 +966,38 @@
         </div>
 
         <!-- GAME: dragGame (placeholder) -->
-        <div id="dragGame" class="practice-game" style="display: none; padding: 16px">
-          <div class="card" style="padding: 16px; text-align: center">🧩 Drag & Drop game is coming soon.</div>
+        <div
+          id="dragGame"
+          class="practice-game"
+          style="display: none; padding: 16px"
+        >
+          <div class="card" style="padding: 16px; text-align: center">
+            🧩 Drag & Drop game is coming soon.
+          </div>
         </div>
 
         <!-- GAME: memoryGame (placeholder) -->
-        <div id="memoryGame" class="practice-game" style="display: none; padding: 16px">
-          <div class="card" style="padding: 16px; text-align: center">🧠 Memory flip game is coming soon.</div>
+        <div
+          id="memoryGame"
+          class="practice-game"
+          style="display: none; padding: 16px"
+        >
+          <div class="card" style="padding: 16px; text-align: center">
+            🧠 Memory flip game is coming soon.
+          </div>
         </div>
 
         <!-- GAME: oddGame (placeholder) -->
-        <div id="oddGame" class="practice-game" style="display: none; padding: 16px">
+        <div
+          id="oddGame"
+          class="practice-game"
+          style="display: none; padding: 16px"
+        >
           <div class="card" style="padding: 16px; text-align: center">
             🔍 Odd one out game is coming soon.
-            <div style="margin-top: 12px">Score: <span id="oddScore">0</span></div>
+            <div style="margin-top: 12px">
+              Score: <span id="oddScore">0</span>
+            </div>
             <div id="oddOptions" style="margin-top: 12px"></div>
           </div>
         </div>
@@ -1151,10 +1177,14 @@
         modeLearning.classList.add("secondary");
         modeTables.classList.add("secondary");
 
-        document.querySelectorAll(".practice-menu button").forEach((btn, index) => {
-          if (index == 0) { btn.click(); }
-        });
-      };
+        document
+          .querySelectorAll(".practice-menu button")
+          .forEach((btn, index) => {
+            if (index == 0) {
+              btn.click();
+            }
+          });
+      }
 
       modeLearning.addEventListener("click", showLearn);
       modeTables.addEventListener("click", showTables);
@@ -1957,7 +1987,7 @@
           // Chỉ xóa bong bóng, giữ lại kẹo đang bay
           const balloons = balloonArea.querySelectorAll(".balloon");
           balloons.forEach((balloon) => balloon.remove());
-          
+
           let a, b, key;
           do {
             a = rand(1, 9);
@@ -1995,63 +2025,70 @@
           const minDistance = 18; // Tăng khoảng cách tối thiểu từ 12% lên 18%
 
           // Lấy danh sách các bong bóng hiện có để kiểm tra collision
-          const existingBalloons = Array.from(balloonArea.querySelectorAll(".balloon"));
+          const existingBalloons = Array.from(
+            balloonArea.querySelectorAll(".balloon")
+          );
           const areaWidth = balloonArea.offsetWidth || 900; // Fallback nếu chưa render
           const balloonSize = 68; // Kích thước bong bóng
           const minDistancePx = (areaWidth * minDistance) / 100; // Chuyển % sang px
-          
+
           // Hàm helper để tìm vị trí hợp lệ
           function findValidPosition(isCorrectBalloon = false) {
             let leftPct, bottomOffset;
             let attempts = 0;
             const maxAttempts = isCorrectBalloon ? 200 : 100; // Bong bóng đúng có nhiều lần thử hơn
-            
+
             do {
               leftPct = rand(5, 85);
               bottomOffset = rand(0, 30);
-              
+
               // Tính toán vị trí pixel của bong bóng mới
               const newLeftPx = (areaWidth * leftPct) / 100;
-              
+
               // Kiểm tra với các vị trí trong batch hiện tại
               const tooCloseToBatch = positions.some((p) => {
                 const existingLeftPx = (areaWidth * p) / 100;
                 return Math.abs(existingLeftPx - newLeftPx) < minDistancePx;
               });
-              
+
               // Kiểm tra collision với các bong bóng đang bay
               let hasCollision = false;
               if (existingBalloons.length > 0 && balloonArea.offsetWidth > 0) {
                 const areaRect = balloonArea.getBoundingClientRect();
                 const newBottomPx = -60 - bottomOffset;
-                
+
                 hasCollision = existingBalloons.some((balloon) => {
                   const rect = balloon.getBoundingClientRect();
-                  const balloonLeftPx = rect.left - areaRect.left + rect.width / 2;
+                  const balloonLeftPx =
+                    rect.left - areaRect.left + rect.width / 2;
                   const newBalloonCenterPx = newLeftPx;
                   const balloonBottomPx = areaRect.bottom - rect.bottom;
                   const newBalloonBottomPx = areaRect.height + newBottomPx;
-                  const distanceX = Math.abs(balloonLeftPx - newBalloonCenterPx);
-                  const distanceY = Math.abs(balloonBottomPx - newBalloonBottomPx);
-                  
+                  const distanceX = Math.abs(
+                    balloonLeftPx - newBalloonCenterPx
+                  );
+                  const distanceY = Math.abs(
+                    balloonBottomPx - newBalloonBottomPx
+                  );
+
                   // Với bong bóng đúng, yêu cầu collision detection lỏng hơn một chút
                   const collisionPadding = isCorrectBalloon ? 10 : 15;
-                  
+
                   if (distanceY < 150) {
-                    return distanceX < (balloonSize + collisionPadding);
+                    return distanceX < balloonSize + collisionPadding;
                   }
-                  
+
                   return false;
                 });
               }
-              
+
               if (!tooCloseToBatch && !hasCollision) {
                 return { leftPct, bottomOffset, found: true };
               }
-              
+
               attempts++;
             } while (attempts < maxAttempts);
-            
+
             // Nếu là bong bóng đúng và không tìm được vị trí sau nhiều lần thử,
             // thử lại với yêu cầu collision detection lỏng hơn
             if (isCorrectBalloon && attempts >= maxAttempts) {
@@ -2060,51 +2097,63 @@
                 leftPct = rand(5, 85);
                 bottomOffset = rand(0, 30);
                 const newLeftPx = (areaWidth * leftPct) / 100;
-                
+
                 // Chỉ kiểm tra collision nghiêm ngặt với các bong bóng đang bay ở gần
                 let hasSevereCollision = false;
-                if (existingBalloons.length > 0 && balloonArea.offsetWidth > 0) {
+                if (
+                  existingBalloons.length > 0 &&
+                  balloonArea.offsetWidth > 0
+                ) {
                   const areaRect = balloonArea.getBoundingClientRect();
                   const newBottomPx = -60 - bottomOffset;
-                  
+
                   hasSevereCollision = existingBalloons.some((balloon) => {
                     const rect = balloon.getBoundingClientRect();
-                    const balloonLeftPx = rect.left - areaRect.left + rect.width / 2;
-                    const distanceX = Math.abs(balloonLeftPx - (areaWidth * leftPct) / 100);
+                    const balloonLeftPx =
+                      rect.left - areaRect.left + rect.width / 2;
+                    const distanceX = Math.abs(
+                      balloonLeftPx - (areaWidth * leftPct) / 100
+                    );
                     const balloonBottomPx = areaRect.bottom - rect.bottom;
                     const newBalloonBottomPx = areaRect.height + newBottomPx;
-                    const distanceY = Math.abs(balloonBottomPx - newBalloonBottomPx);
-                    
+                    const distanceY = Math.abs(
+                      balloonBottomPx - newBalloonBottomPx
+                    );
+
                     // Chỉ coi là collision nghiêm trọng nếu overlap rõ ràng
                     return distanceY < 50 && distanceX < balloonSize;
                   });
                 }
-                
+
                 if (!hasSevereCollision) {
                   return { leftPct, bottomOffset, found: true };
                 }
               }
             }
-            
+
             return { leftPct: null, bottomOffset: null, found: false };
           }
-          
+
           // BƯỚC 1: Spawn bong bóng đúng TRƯỚC (quan trọng nhất)
           const correctPosition = findValidPosition(true);
           if (correctPosition.found) {
             positions.push(correctPosition.leftPct);
-            spawnBalloon(shootCorrectAnswer, correctPosition.leftPct, correctPosition.bottomOffset);
+            spawnBalloon(
+              shootCorrectAnswer,
+              correctPosition.leftPct,
+              correctPosition.bottomOffset
+            );
             correctBalloonSpawned = true;
           } else {
             // Nếu không tìm được vị trí cho bong bóng đúng, không spawn batch này
             return;
           }
-          
+
           // BƯỚC 2: Spawn các bong bóng khác
           for (let i = 0; i < batchSize; i++) {
             // Bỏ qua bong bóng đúng vì đã spawn rồi
             if (i === correctIndex) continue;
-            
+
             // Chọn số sai
             let num;
             let candidate;
@@ -2112,7 +2161,7 @@
               candidate = randomFromSet(currentAnswerPool);
             } while (candidate === shootCorrectAnswer);
             num = candidate;
-            
+
             const position = findValidPosition(false);
             if (position.found) {
               positions.push(position.leftPct);
@@ -2138,11 +2187,11 @@
           const p = palettes[rand(0, palettes.length - 1)];
           b.style.background = `radial-gradient(circle at 28% 28%, ${p[0]}, ${p[1]})`;
           b.style.color = "#7a2a59";
-          
+
           // Đặt vị trí ngang
           if (leftPct === null) leftPct = rand(5, 85);
           b.style.left = leftPct + "%";
-          
+
           // Đặt z-index tăng dần để bong bóng mới luôn ở trên
           b.style.zIndex = (10 + id).toString();
 
@@ -2151,10 +2200,10 @@
             baseDuration / 1000 - (currentLevel - 1) * 0.35
           );
           b.style.animation = `floatUp ${floatDur}s linear forwards`;
-          
+
           // Sử dụng bottomOffset nếu được cung cấp, nếu không thì random
           if (bottomOffset !== null) {
-            b.style.bottom = (-60 - bottomOffset) + "px";
+            b.style.bottom = -60 - bottomOffset + "px";
           } else {
             b.style.bottom = -60 - Math.random() * 30 + "px";
           }
@@ -2209,7 +2258,7 @@
 
             // Mảng các loại kẹo khác nhau
             const candies = ["🍬", "🍭", "🍫", "🍰", "🍪", "⭐", "💫", "✨"];
-            
+
             // Tạo nhiều kẹo bay ra (tăng từ 8 lên 15)
             const candyCount = 15;
             for (let i = 0; i < candyCount; i++) {
@@ -2217,30 +2266,32 @@
               c.className = "candy-splash";
               // Chọn ngẫu nhiên một loại kẹo
               c.textContent = randomFromSet(candies);
-              
+
               // Đặt vị trí ban đầu tại tâm bong bóng
               c.style.position = "absolute";
               c.style.left = centerX + "px";
               c.style.top = centerY + "px";
-              
+
               // Tạo hướng bay ngẫu nhiên với góc phân bố đều (360 độ)
-              const angle = (i / candyCount) * Math.PI * 2 + Math.random() * 0.3;
+              const angle =
+                (i / candyCount) * Math.PI * 2 + Math.random() * 0.3;
               const distance = 120 + Math.random() * 80; // Khoảng cách bay
               const dx = (Math.cos(angle) * distance).toFixed(0) + "px";
               const dy = (Math.sin(angle) * distance - 30).toFixed(0) + "px"; // Hơi bay lên trên
-              const dxMid = (Math.cos(angle) * distance * 0.6).toFixed(0) + "px";
-              const dyMid = (Math.sin(angle) * distance * 0.6 - 30).toFixed(0) + "px";
-              
+              const dxMid =
+                (Math.cos(angle) * distance * 0.6).toFixed(0) + "px";
+              const dyMid =
+                (Math.sin(angle) * distance * 0.6 - 30).toFixed(0) + "px";
+
               c.style.setProperty("--dx", dx);
               c.style.setProperty("--dy", dy);
               c.style.setProperty("--dx-mid", dxMid);
               c.style.setProperty("--dy-mid", dyMid);
-              
+
               // Thời gian animation ngẫu nhiên để tự nhiên hơn
               const duration = 0.8 + Math.random() * 0.4;
-              c.style.animation =
-                `candyFly ${duration}s cubic-bezier(.2,.8,.2,1) forwards`;
-              
+              c.style.animation = `candyFly ${duration}s cubic-bezier(.2,.8,.2,1) forwards`;
+
               balloonArea.appendChild(c);
 
               // Xóa kẹo sau khi animation kết thúc
@@ -2417,7 +2468,7 @@
             b.classList.add("secondary");
           });
           btn.classList.remove("secondary");
-          
+
           document
             .querySelectorAll(".practice-game")
             .forEach((g) => (g.style.display = "none"));
